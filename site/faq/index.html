@@ -9,6 +9,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png">
 <link rel="apple-touch-icon" href="/assets/favicon-180.png">
+<meta name="theme-color" content="#faf6ec">
 <meta property="og:image" content="https://www.iowaondemand.com/assets/logo.png">
 <meta property="og:title" content="FAQ | Iowa On Demand">
 <meta property="og:description" content="Answers to common questions about Iowa On Demand's print-on-demand school apparel program: turnaround times, ordering, custom designs, and more.">
@@ -18,138 +19,156 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#101010;
-  --ink-2:#1a1a1a;
-  --chalk:#ffffff;
+  --paper:#faf6ec;
+  --card:#ffffff;
+  --ink:#181a1f;
   --gold:#fcb426;
-  --gold-2:#ffc94d;
+  --gold-dark:#c9860a;
   --teal:#008ea9;
-  --line:#33333340;
-  --gray:#a8a8a8;
+  --teal-dark:#00697d;
+  --line:#e6dfcd;
+  --gray:#666a71;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
-  margin:0;background:var(--ink);color:var(--chalk);
-  font-family:'Inter',system-ui,sans-serif;line-height:1.55;
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:'Inter',system-ui,sans-serif;line-height:1.55;font-size:16px;
   -webkit-font-smoothing:antialiased;
 }
 h1,h2,h3,.display{
   font-family:'Oswald',system-ui,sans-serif;
   text-transform:uppercase;letter-spacing:.02em;font-weight:600;
-  margin:0 0 .4em;color:var(--chalk);
+  margin:0 0 .4em;color:var(--ink);
 }
-h1{font-size:clamp(2.4rem,6vw,4.2rem);line-height:1.02;font-weight:700}
-h2{font-size:clamp(1.5rem,3.2vw,2.2rem);letter-spacing:.03em}
-h3{font-size:1.15rem}
-p{margin:0 0 1em;color:#d8d6cd}
-a{color:var(--gold-2)}
+h1{font-size:clamp(2rem,8vw,4.2rem);line-height:1.04;font-weight:700}
+h2{font-size:clamp(1.4rem,5vw,2.2rem);letter-spacing:.03em}
+h3{font-size:1.08rem}
+p{margin:0 0 1em;color:#3a3d44}
+a{color:var(--teal-dark)}
 .mono{font-family:'IBM Plex Mono',monospace}
-.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 18px}
 .eyebrow{
-  font-family:'IBM Plex Mono',monospace;font-size:.78rem;letter-spacing:.18em;
-  text-transform:uppercase;color:var(--gold-2);margin:0 0 .8em;display:block;
+  font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--teal-dark);margin:0 0 .8em;display:block;
 }
-a:focus-visible,button:focus-visible{outline:3px solid var(--gold-2);outline-offset:2px}
+a:focus-visible,button:focus-visible{outline:3px solid var(--teal-dark);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 /* header */
-header.site{position:sticky;top:0;z-index:50;background:rgba(18,20,28,.92);
+header.site{position:sticky;top:0;z-index:50;background:rgba(250,246,236,.94);
   backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
-.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
-.wordmark{display:flex;align-items:center;gap:12px;text-decoration:none}
-.badge{width:44px;height:44px;flex:none}
-.wordmark-text{font-family:'Oswald',sans-serif;font-weight:700;letter-spacing:.05em;
-  color:var(--chalk);font-size:1.05rem;line-height:1.05;text-transform:uppercase}
-.wordmark-text span{display:block;font-size:.62rem;color:var(--gold-2);letter-spacing:.16em;
+.nav{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:12px 0}
+.wordmark{display:flex;align-items:center;gap:10px;text-decoration:none}
+.badge{width:40px;height:40px;flex:none}
+.wordmark-text{font-family:'Oswald',sans-serif;font-weight:700;letter-spacing:.04em;
+  color:var(--ink);font-size:.98rem;line-height:1.05;text-transform:uppercase}
+.wordmark-text span{display:block;font-size:.6rem;color:var(--teal-dark);letter-spacing:.14em;
   font-family:'IBM Plex Mono',monospace;font-weight:500}
-nav.links{display:flex;gap:26px;align-items:center}
-nav.links a{color:var(--chalk);text-decoration:none;font-family:'Oswald',sans-serif;
-  text-transform:uppercase;font-size:.85rem;letter-spacing:.08em}
-nav.links a:hover{color:var(--gold-2)}
+nav.links{display:flex;flex-wrap:wrap;gap:14px 20px;align-items:center;width:100%;
+  justify-content:center;order:3}
+nav.links a{color:var(--ink);text-decoration:none;font-family:'Oswald',sans-serif;
+  text-transform:uppercase;font-size:.85rem;letter-spacing:.06em}
+nav.links a:hover{color:var(--teal-dark)}
 .btn{display:inline-block;background:var(--gold);color:var(--ink);font-family:'Oswald',sans-serif;
-  text-transform:uppercase;letter-spacing:.06em;font-weight:600;padding:11px 22px;
-  text-decoration:none;font-size:.85rem;border:2px solid var(--gold)}
-.btn:hover{background:var(--gold-2);border-color:var(--gold-2)}
-.btn.ghost{background:transparent;color:var(--chalk);border-color:var(--chalk)}
-.btn.ghost:hover{border-color:var(--gold-2);color:var(--gold-2)}
+  text-transform:uppercase;letter-spacing:.05em;font-weight:600;padding:11px 22px;
+  text-decoration:none;font-size:.85rem;border:2px solid var(--gold);border-radius:3px;
+  flex:1 1 100%;text-align:center}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn.ghost:hover{border-color:var(--teal-dark);color:var(--teal-dark)}
+.btn:hover{background:var(--gold-dark);border-color:var(--gold-dark)}
+@media (min-width:480px){.btn{flex:0 0 auto}}
+@media (min-width:760px){nav.links{width:auto;order:0;justify-content:flex-start}}
 
-/* ticker */
-.ticker-wrap{background:var(--teal);border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-  overflow:hidden;white-space:nowrap}
-.ticker{display:inline-block;padding:9px 0;animation:scroll 26s linear infinite}
-.ticker span{font-family:'IBM Plex Mono',monospace;font-size:.78rem;letter-spacing:.1em;
-  text-transform:uppercase;color:#eef3fa;margin-right:2.5em}
-@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+/* stat bar (static, not a marquee) */
+.stat-bar{background:var(--teal)}
+.stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:rgba(255,255,255,.28)}
+.stat-grid div{background:var(--teal);padding:12px 8px;text-align:center;color:#fff;
+  font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.07em;text-transform:uppercase}
+@media (min-width:700px){.stat-grid{grid-template-columns:repeat(4,1fr)}.stat-grid div{font-size:.74rem;padding:12px}}
 
 /* hero */
-.hero{padding:76px 0 60px;border-bottom:1px solid var(--line);
-  background:radial-gradient(ellipse at top right, #1c2130 0%, var(--ink) 62%)}
-.hero p.lead{font-size:1.18rem;max-width:640px}
-.hero .ctas{display:flex;gap:14px;margin-top:26px;flex-wrap:wrap}
+.hero{padding:40px 0 32px;border-bottom:1px solid var(--line);
+  background:radial-gradient(ellipse at top right, #fff2cf 0%, var(--paper) 62%)}
+.hero p.lead{font-size:1.05rem;max-width:640px}
+.hero .ctas{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
+.hero .ctas .btn{flex:1 1 100%}
+@media (min-width:480px){.hero .ctas .btn{flex:0 0 auto}}
+@media (min-width:700px){.hero{padding:68px 0 54px}.hero p.lead{font-size:1.18rem}}
 
 /* feature grid */
-.section{padding:60px 0}
-.section.alt{background:var(--ink-2)}
-.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:30px}
-@media (max-width:900px){.grid4{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:560px){.grid4{grid-template-columns:1fr}}
-.feature{border:1px solid var(--line);padding:22px 20px;background:var(--ink)}
-.feature .num{font-family:'IBM Plex Mono',monospace;color:var(--gold-2);font-size:.8rem;letter-spacing:.1em}
+.section{padding:40px 0}
+.section.alt{background:#f2ecdc}
+.grid4{display:grid;grid-template-columns:1fr;gap:14px;margin-top:24px}
+@media (min-width:640px){.grid4{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:980px){.grid4{grid-template-columns:repeat(4,1fr);gap:20px}}
+.feature{border:1px solid var(--line);border-radius:5px;padding:20px 18px;background:var(--card);
+  box-shadow:0 1px 2px rgba(20,20,10,.04)}
+.feature .num{font-family:'IBM Plex Mono',monospace;color:var(--gold-dark);font-size:.78rem;letter-spacing:.1em}
 .feature h3{margin-top:.5em}
-.feature p{margin:0;font-size:.94rem;color:var(--gray)}
+.feature p{margin:0;font-size:.92rem;color:var(--gray)}
+@media (min-width:700px){.section{padding:56px 0}}
 
 /* roster grid */
-.roster{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px}
-@media (max-width:820px){.roster{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:520px){.roster{grid-template-columns:1fr}}
-.jersey{border:1px solid var(--line);background:var(--ink-2);padding:20px;display:flex;
-  flex-direction:column;gap:10px;position:relative}
-.jersey .no{font-family:'Oswald',sans-serif;font-size:2.1rem;font-weight:700;color:var(--gold);
-  line-height:1}
-.jersey h3{margin:0;font-size:1.05rem}
-.jersey .mascot{color:var(--gray);font-family:'IBM Plex Mono',monospace;font-size:.75rem;
-  text-transform:uppercase;letter-spacing:.08em}
-.jersey .status{margin-top:auto;padding-top:8px}
-.jersey a.store{color:var(--gold-2);text-decoration:none;font-family:'Oswald',sans-serif;
-  text-transform:uppercase;font-size:.82rem;letter-spacing:.05em;border-top:1px solid var(--line);
-  padding-top:10px;display:block}
-.jersey a.store:hover{color:var(--chalk)}
-.jersey .soon{color:var(--gray);font-family:'IBM Plex Mono',monospace;font-size:.72rem;
-  text-transform:uppercase;letter-spacing:.08em;border-top:1px solid var(--line);padding-top:10px;
-  display:block}
+.roster{display:grid;grid-template-columns:1fr;gap:14px;margin-top:24px}
+@media (min-width:560px){.roster{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:900px){.roster{grid-template-columns:repeat(3,1fr);gap:18px}}
+.jersey{border:1px solid var(--line);background:var(--card);padding:18px;display:flex;
+  flex-direction:column;gap:8px;position:relative;border-radius:6px;box-shadow:0 1px 3px rgba(20,20,10,.05)}
+.jersey .no{font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--gray);letter-spacing:.1em}
+.logo-wrap{width:56px;height:56px;display:flex;align-items:center;justify-content:center;margin:2px 0 4px}
+.logo-wrap img{max-width:100%;max-height:100%;object-fit:contain}
+.logo-wrap.placeholder{background:var(--paper);border:1px dashed var(--line);border-radius:50%;
+  color:var(--gray);font-weight:700;font-size:1.3rem;font-family:'Oswald',sans-serif}
+.jersey h3{margin:0;font-size:1.02rem}
+.jersey .mascot{color:var(--gray);font-family:'IBM Plex Mono',monospace;font-size:.72rem;
+  text-transform:uppercase;letter-spacing:.07em}
+.jersey a.store{color:var(--teal-dark);text-decoration:none;font-family:'Oswald',sans-serif;
+  text-transform:uppercase;font-size:.8rem;letter-spacing:.04em;border-top:1px solid var(--line);
+  padding-top:10px;margin-top:auto;display:block}
+.jersey a.store:hover{color:var(--gold-dark)}
+.jersey .soon{color:var(--gray);font-family:'IBM Plex Mono',monospace;font-size:.7rem;
+  text-transform:uppercase;letter-spacing:.07em;border-top:1px solid var(--line);padding-top:10px;
+  margin-top:auto;display:block}
 
 /* faq */
-.faq-item{border-bottom:1px solid var(--line);padding:20px 0}
-.faq-item h3{margin:0 0 8px;font-size:1.05rem;font-family:'Inter',sans-serif;
-  text-transform:none;letter-spacing:0;font-weight:700;color:var(--gold-2)}
-.faq-item p{margin:0;color:#d8d6cd}
+.faq-item{border-bottom:1px solid var(--line);padding:18px 0}
+.faq-item h3{margin:0 0 8px;font-size:1.02rem;font-family:'Inter',sans-serif;
+  text-transform:none;letter-spacing:0;font-weight:700;color:var(--teal-dark)}
+.faq-item p{margin:0;color:#3a3d44}
 
 /* cta band */
 .cta-band{border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-  background:linear-gradient(120deg,#1b2233,#171a24);padding:52px 0;text-align:left}
-.cta-band .wrap{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+  background:linear-gradient(120deg,#fff3d6,#fbf6e6);padding:34px 0}
+.cta-band .wrap{display:flex;flex-direction:column;gap:16px}
 .cta-band h2{margin:0 0 6px}
 .cta-band p{margin:0;color:var(--gray);max-width:520px}
+.cta-band .btn{flex:1 1 100%}
+@media (min-width:480px){.cta-band .btn{flex:0 0 auto}}
+@media (min-width:700px){.cta-band{padding:48px 0}.cta-band .wrap{flex-direction:row;justify-content:space-between;align-items:center}}
 
 /* footer */
-footer{border-top:1px solid var(--line);padding:40px 0 30px;background:var(--ink-2)}
-footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px}
-footer .cols{display:flex;gap:52px;flex-wrap:wrap}
-footer h4{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--gray);margin:0 0 12px}
-footer a{display:block;color:var(--chalk);text-decoration:none;font-size:.9rem;margin-bottom:8px}
-footer a:hover{color:var(--gold-2)}
-.social{display:flex;gap:14px;margin-top:14px}
-.social a{width:34px;height:34px;border:1px solid var(--line);display:flex;align-items:center;
-  justify-content:center}
-.fineprint{margin-top:28px;padding-top:20px;border-top:1px solid var(--line);
-  font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--gray)}
+footer{border-top:1px solid var(--line);padding:34px 0 24px;background:#f2ecdc}
+footer .wrap{display:flex;flex-direction:column;gap:26px}
+footer .cols{display:flex;flex-direction:column;gap:22px}
+footer h4{font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--gray);margin:0 0 10px}
+footer a{display:block;color:var(--ink);text-decoration:none;font-size:.9rem;margin-bottom:8px}
+footer a:hover{color:var(--teal-dark)}
+.social{display:flex;gap:12px;margin-top:12px}
+.social a{width:32px;height:32px;border:1px solid var(--line);display:flex;align-items:center;
+  justify-content:center;border-radius:50%;color:var(--ink)}
+.fineprint{margin-top:22px;padding-top:18px;border-top:1px solid var(--line);
+  font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--gray)}
+@media (min-width:700px){footer .wrap{flex-direction:row;justify-content:space-between}
+  footer .cols{flex-direction:row;gap:48px}}
 
 /* contact */
-.contact-card{border:1px solid var(--line);background:var(--ink-2);padding:34px;max-width:560px}
-.contact-card ul{margin:0 0 22px;padding-left:20px;color:#d8d6cd}
+.contact-card{border:1px solid var(--line);background:var(--card);padding:22px;max-width:560px;
+  border-radius:6px;box-shadow:0 1px 3px rgba(20,20,10,.05)}
+.contact-card ul{margin:0 0 20px;padding-left:20px;color:#3a3d44}
 .contact-card li{margin-bottom:8px}
+@media (min-width:700px){.contact-card{padding:34px}}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "Iowa On Demand", "url": "https://www.iowaondemand.com/", "email": "info@iowaondemand.com", "parentOrganization": {"@type": "Organization", "name": "P&M Apparel", "url": "https://www.pmapparel.com/"}, "sameAs": ["https://www.facebook.com/profile.php?id=61568774887639", "https://www.instagram.com/iowaondemand/"], "areaServed": "Iowa", "description": "Print-on-demand spirit wear stores for Iowa schools, produced in Polk City, Iowa."}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.iowaondemand.com/"}, {"@type": "ListItem", "position": 2, "name": "FAQ", "item": "https://www.iowaondemand.com/faq/"}]}</script>
@@ -159,7 +178,7 @@ footer a:hover{color:var(--gold-2)}
 <header class="site">
   <div class="wrap nav">
     <a class="wordmark" href="/">
-      <img class="badge" src="/assets/logo.png" alt="Iowa On Demand logo" width="44" height="44" loading="eager">
+      <img class="badge" src="/assets/logo.png" alt="Iowa On Demand logo" width="40" height="40" loading="eager">
       <span class="wordmark-text">Iowa On Demand<span>a division of P&amp;M Apparel</span></span>
     </a>
     <nav class="links">
@@ -171,17 +190,17 @@ footer a:hover{color:var(--gold-2)}
     </nav>
   </div>
 </header>
-<div class="ticker-wrap" aria-hidden="true">
-  <div class="ticker">
-    <span>12 SCHOOLS PARTNERED</span><span>3&ndash;5 DAY TURNAROUND</span><span>ZERO SETUP COST</span>
-    <span>PRINTED IN POLK CITY, IOWA</span>
-    <span>12 SCHOOLS PARTNERED</span><span>3&ndash;5 DAY TURNAROUND</span><span>ZERO SETUP COST</span>
-    <span>PRINTED IN POLK CITY, IOWA</span>
+<div class="stat-bar" aria-hidden="true">
+  <div class="stat-grid">
+    <div>12 Schools Partnered</div>
+    <div>3&ndash;5 Day Turnaround</div>
+    <div>Zero Setup Cost</div>
+    <div>Printed in Polk City, Iowa</div>
   </div>
 </div>
 <main>
 
-<section class="hero" style="padding-bottom:20px">
+<section class="hero" style="padding-bottom:16px">
   <div class="wrap">
     <span class="eyebrow">Frequently Asked</span>
     <h1>Questions, answered.</h1>
@@ -194,7 +213,7 @@ footer a:hover{color:var(--gold-2)}
 <div class="faq-item"><h3>What kind of apparel can we order?</h3><p>T-shirts, hoodies, sweatpants, hats, and more. If you need something specific, tell us and we'll help source it.</p></div>
 <div class="faq-item"><h3>How long does an order take?</h3><p>Most orders finish in 3 to 5 business days. Everything is produced locally in Polk City, which keeps turnaround short.</p></div>
 <div class="faq-item"><h3>Can students and parents order directly?</h3><p>Yes. Every partnered school gets its own online store, open 24/7, no coordinator required to collect sizes or money.</p></div>
-<div class="faq-item"><h3>Do you work with anyone besides schools?</h3><p>Iowa On Demand is focused on schools. If you need custom apparel for a business, organization, or event, our parent company <a href="https://www.pmapparel.com/">P&amp;M Apparel</a> can do it all.</p></div>
+<div class="faq-item"><h3>Do you work with anyone besides schools?</h3><p>Iowa On Demand is focused on schools. If you need custom apparel for a business, organization, or event, our parent company <a href="https://www.pmapparel.com/" target="_blank" rel="noopener noreferrer">P&amp;M Apparel</a> can do it all.</p></div>
 <div class="faq-item"><h3>Can we get custom designs for our school?</h3><p>Yes. Our art team can build designs from scratch or refine something you already have in mind.</p></div>
 <div class="faq-item"><h3>What happens if something's wrong with an order?</h3><p>Reach out and we'll fix it. We stand behind what we print.</p></div>
 <div class="faq-item"><h3>Is there a minimum order size?</h3><p>No. Print-on-demand means a single shirt is a normal order, not a special case.</p></div>
@@ -217,13 +236,13 @@ footer a:hover{color:var(--gold-2)}
   <div class="wrap">
     <div>
       <a class="wordmark" href="/" style="margin-bottom:14px">
-        <img class="badge" src="/assets/logo.png" alt="Iowa On Demand logo" width="44" height="44" loading="eager">
+        <img class="badge" src="/assets/logo.png" alt="Iowa On Demand logo" width="40" height="40" loading="eager">
         <span class="wordmark-text">Iowa On Demand</span>
       </a>
-      <p style="max-width:280px;color:var(--gray);font-size:.9rem">Print-on-demand spirit wear for Iowa schools. A division of <a href="https://www.pmapparel.com/">P&amp;M Apparel</a>, Polk City, Iowa.</p>
+      <p style="max-width:280px;color:var(--gray);font-size:.9rem">Print-on-demand spirit wear for Iowa schools. A division of <a href="https://www.pmapparel.com/" target="_blank" rel="noopener noreferrer">P&amp;M Apparel</a>, Polk City, Iowa.</p>
       <div class="social">
-        <a href="https://www.facebook.com/profile.php?id=61568774887639" aria-label="Facebook">f</a>
-        <a href="https://www.instagram.com/iowaondemand/" aria-label="Instagram">ig</a>
+        <a href="https://www.facebook.com/profile.php?id=61568774887639" target="_blank" rel="noopener noreferrer">f</a>
+        <a href="https://www.instagram.com/iowaondemand/" target="_blank" rel="noopener noreferrer">ig</a>
       </div>
     </div>
     <div class="cols">
@@ -237,8 +256,8 @@ footer a:hover{color:var(--gold-2)}
       <div>
         <h4>Get in touch</h4>
         <a href="mailto:info@iowaondemand.com">info@iowaondemand.com</a>
-        <a href="https://form.jotform.com/243246726056054">Add your school</a>
-        <a href="https://www.pmapparel.com/">pmapparel.com</a>
+        <a href="https://form.jotform.com/243246726056054" target="_blank" rel="noopener noreferrer">Add your school</a>
+        <a href="https://www.pmapparel.com/" target="_blank" rel="noopener noreferrer">pmapparel.com</a>
       </div>
     </div>
   </div>

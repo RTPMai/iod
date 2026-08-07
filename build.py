@@ -21,20 +21,32 @@ TODAY = datetime.date.today().isoformat()
 UPDATED_HUMAN = datetime.date.today().strftime("%B %-d, %Y")
 
 # Twelve partnered schools. chipply=None means the store link isn't live yet.
-# OWNER: fill in chipply URLs for the six new schools as they go live, then re-run.
+# logo=None means we don't have real mascot art yet -- shows an initial badge.
+# OWNER: fill in chipply URLs + logo paths for the six new schools as they go
+# live (drop the file in assets/schools/ and re-run).
 SCHOOLS = [
-    {"name": "North Polk",               "mascot": "Comets",  "chipply": "https://pmapparel.chipply.com/npiod/"},
-    {"name": "Woodward-Granger",         "mascot": "Hawks",   "chipply": "https://pmapparel.chipply.com/iodwg/"},
-    {"name": "Ankeny Christian Academy", "mascot": "Eagles",  "chipply": "https://pmapparel.chipply.com/iodaca"},
-    {"name": "Ankeny Centennial",        "mascot": "Jaguars", "chipply": "https://pmapparel.chipply.com/centiod/?action=viewall"},
-    {"name": "Ankeny",                   "mascot": "Hawks",   "chipply": "https://pmapparel.chipply.com/ioda/?action=viewall"},
-    {"name": "Saydel",                   "mascot": "Eagles",  "chipply": "https://pmapparel.chipply.com/siod/?action=viewall"},
-    {"name": "Ballard",                  "mascot": "Bombers", "chipply": None},
-    {"name": "Bondurant-Farrar",         "mascot": "Bluejays","chipply": None},
-    {"name": "Perry",                    "mascot": "Bluejays","chipply": None},
-    {"name": "Roosevelt",                "mascot": "Roughriders","chipply": None},
-    {"name": "Dallas Center-Grimes",     "mascot": "Mustangs","chipply": None},
-    {"name": "Johnston",                 "mascot": "Dragons", "chipply": None},
+    {"name": "North Polk",               "mascot": "Comets",  "chipply": "https://pmapparel.chipply.com/npiod/",
+     "logo": "/assets/schools/northpolk.png"},
+    {"name": "Woodward-Granger",         "mascot": "Hawks",   "chipply": "https://pmapparel.chipply.com/iodwg/",
+     "logo": "/assets/schools/woodward-granger.png"},
+    {"name": "Ankeny Christian Academy", "mascot": "Eagles",  "chipply": "https://pmapparel.chipply.com/iodaca",
+     "logo": "/assets/schools/ankeny-christian-academy.png"},
+    {"name": "Ankeny Centennial",        "mascot": "Jaguars", "chipply": "https://pmapparel.chipply.com/centiod/?action=viewall",
+     "logo": "/assets/schools/ankeny-centennial.png"},
+    {"name": "Ankeny",                   "mascot": "Hawks",   "chipply": "https://pmapparel.chipply.com/ioda/?action=viewall",
+     "logo": "/assets/schools/ankeny.png"},
+    {"name": "Saydel",                   "mascot": "Eagles",  "chipply": "https://pmapparel.chipply.com/siod/?action=viewall",
+     "logo": "/assets/schools/saydel.png"},
+    {"name": "Ballard",                  "mascot": "Bombers",     "chipply": None,
+     "logo": "/assets/schools/ballard.png"},
+    {"name": "Bondurant-Farrar",         "mascot": "Bluejays",    "chipply": None,
+     "logo": "/assets/schools/bondurant-farrar.png"},
+    {"name": "Perry",                    "mascot": "Bluejays",    "chipply": None, "logo": None},
+    {"name": "Roosevelt",                "mascot": "Roughriders", "chipply": None, "logo": None},
+    {"name": "Dallas Center-Grimes",     "mascot": "Mustangs",    "chipply": None,
+     "logo": "/assets/schools/dallas-center-grimes.png"},
+    {"name": "Johnston",                 "mascot": "Dragons",     "chipply": None,
+     "logo": "/assets/schools/johnston.png"},
 ]
 
 FAQS = [
@@ -47,7 +59,7 @@ FAQS = [
     ("Can students and parents order directly?",
      "Yes. Every partnered school gets its own online store, open 24/7, no coordinator required to collect sizes or money."),
     ("Do you work with anyone besides schools?",
-     f'Iowa On Demand is focused on schools. If you need custom apparel for a business, organization, or event, our parent company <a href="{PM_URL}">P&amp;M Apparel</a> can do it all.'),
+     f'Iowa On Demand is focused on schools. If you need custom apparel for a business, organization, or event, our parent company <a href="{PM_URL}" target="_blank" rel="noopener noreferrer">P&amp;M Apparel</a> can do it all.'),
     ("Can we get custom designs for our school?",
      "Yes. Our art team can build designs from scratch or refine something you already have in mind."),
     ("What happens if something's wrong with an order?",
@@ -61,148 +73,176 @@ FAQS = [
 ]
 
 # ---------------------------------------------------------------------------
+# LINK HELPER -- external destinations open in a new tab
+# ---------------------------------------------------------------------------
+def ext(url, text, cls=""):
+    cls_attr = f' class="{cls}"' if cls else ""
+    return f'<a href="{url}" target="_blank" rel="noopener noreferrer"{cls_attr}>{text}</a>'
+
+# ---------------------------------------------------------------------------
 # DESIGN SYSTEM (distinct from pmapparel.com / flyovercon.ink)
-# Varsity / scoreboard aesthetic, built around the real Iowa On Demand mark:
-# gold #fcb426 and teal #008ea9, pulled directly from the logo file. Display
-# face Oswald (condensed, athletic), body Inter, roster numbers in IBM Plex Mono.
+# Bright varsity look built around the real Iowa On Demand mark: gold
+# #fcb426 and teal #008ea9, pulled directly from the logo file. Paper-white
+# background, dark ink text. Mobile-first: base rules target small screens,
+# min-width media queries layer on the wider layout.
+# Display face Oswald (condensed, athletic), body Inter, roster numbers and
+# labels in IBM Plex Mono.
 # ---------------------------------------------------------------------------
 CSS = """
 :root{
-  --ink:#101010;
-  --ink-2:#1a1a1a;
-  --chalk:#ffffff;
+  --paper:#faf6ec;
+  --card:#ffffff;
+  --ink:#181a1f;
   --gold:#fcb426;
-  --gold-2:#ffc94d;
+  --gold-dark:#c9860a;
   --teal:#008ea9;
-  --line:#33333340;
-  --gray:#a8a8a8;
+  --teal-dark:#00697d;
+  --line:#e6dfcd;
+  --gray:#666a71;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
-  margin:0;background:var(--ink);color:var(--chalk);
-  font-family:'Inter',system-ui,sans-serif;line-height:1.55;
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:'Inter',system-ui,sans-serif;line-height:1.55;font-size:16px;
   -webkit-font-smoothing:antialiased;
 }
 h1,h2,h3,.display{
   font-family:'Oswald',system-ui,sans-serif;
   text-transform:uppercase;letter-spacing:.02em;font-weight:600;
-  margin:0 0 .4em;color:var(--chalk);
+  margin:0 0 .4em;color:var(--ink);
 }
-h1{font-size:clamp(2.4rem,6vw,4.2rem);line-height:1.02;font-weight:700}
-h2{font-size:clamp(1.5rem,3.2vw,2.2rem);letter-spacing:.03em}
-h3{font-size:1.15rem}
-p{margin:0 0 1em;color:#d8d6cd}
-a{color:var(--gold-2)}
+h1{font-size:clamp(2rem,8vw,4.2rem);line-height:1.04;font-weight:700}
+h2{font-size:clamp(1.4rem,5vw,2.2rem);letter-spacing:.03em}
+h3{font-size:1.08rem}
+p{margin:0 0 1em;color:#3a3d44}
+a{color:var(--teal-dark)}
 .mono{font-family:'IBM Plex Mono',monospace}
-.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 18px}
 .eyebrow{
-  font-family:'IBM Plex Mono',monospace;font-size:.78rem;letter-spacing:.18em;
-  text-transform:uppercase;color:var(--gold-2);margin:0 0 .8em;display:block;
+  font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--teal-dark);margin:0 0 .8em;display:block;
 }
-a:focus-visible,button:focus-visible{outline:3px solid var(--gold-2);outline-offset:2px}
+a:focus-visible,button:focus-visible{outline:3px solid var(--teal-dark);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 /* header */
-header.site{position:sticky;top:0;z-index:50;background:rgba(18,20,28,.92);
+header.site{position:sticky;top:0;z-index:50;background:rgba(250,246,236,.94);
   backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
-.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
-.wordmark{display:flex;align-items:center;gap:12px;text-decoration:none}
-.badge{width:44px;height:44px;flex:none}
-.wordmark-text{font-family:'Oswald',sans-serif;font-weight:700;letter-spacing:.05em;
-  color:var(--chalk);font-size:1.05rem;line-height:1.05;text-transform:uppercase}
-.wordmark-text span{display:block;font-size:.62rem;color:var(--gold-2);letter-spacing:.16em;
+.nav{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:12px 0}
+.wordmark{display:flex;align-items:center;gap:10px;text-decoration:none}
+.badge{width:40px;height:40px;flex:none}
+.wordmark-text{font-family:'Oswald',sans-serif;font-weight:700;letter-spacing:.04em;
+  color:var(--ink);font-size:.98rem;line-height:1.05;text-transform:uppercase}
+.wordmark-text span{display:block;font-size:.6rem;color:var(--teal-dark);letter-spacing:.14em;
   font-family:'IBM Plex Mono',monospace;font-weight:500}
-nav.links{display:flex;gap:26px;align-items:center}
-nav.links a{color:var(--chalk);text-decoration:none;font-family:'Oswald',sans-serif;
-  text-transform:uppercase;font-size:.85rem;letter-spacing:.08em}
-nav.links a:hover{color:var(--gold-2)}
+nav.links{display:flex;flex-wrap:wrap;gap:14px 20px;align-items:center;width:100%;
+  justify-content:center;order:3}
+nav.links a{color:var(--ink);text-decoration:none;font-family:'Oswald',sans-serif;
+  text-transform:uppercase;font-size:.85rem;letter-spacing:.06em}
+nav.links a:hover{color:var(--teal-dark)}
 .btn{display:inline-block;background:var(--gold);color:var(--ink);font-family:'Oswald',sans-serif;
-  text-transform:uppercase;letter-spacing:.06em;font-weight:600;padding:11px 22px;
-  text-decoration:none;font-size:.85rem;border:2px solid var(--gold)}
-.btn:hover{background:var(--gold-2);border-color:var(--gold-2)}
-.btn.ghost{background:transparent;color:var(--chalk);border-color:var(--chalk)}
-.btn.ghost:hover{border-color:var(--gold-2);color:var(--gold-2)}
+  text-transform:uppercase;letter-spacing:.05em;font-weight:600;padding:11px 22px;
+  text-decoration:none;font-size:.85rem;border:2px solid var(--gold);border-radius:3px;
+  flex:1 1 100%;text-align:center}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn.ghost:hover{border-color:var(--teal-dark);color:var(--teal-dark)}
+.btn:hover{background:var(--gold-dark);border-color:var(--gold-dark)}
+@media (min-width:480px){.btn{flex:0 0 auto}}
+@media (min-width:760px){nav.links{width:auto;order:0;justify-content:flex-start}}
 
-/* ticker */
-.ticker-wrap{background:var(--teal);border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-  overflow:hidden;white-space:nowrap}
-.ticker{display:inline-block;padding:9px 0;animation:scroll 26s linear infinite}
-.ticker span{font-family:'IBM Plex Mono',monospace;font-size:.78rem;letter-spacing:.1em;
-  text-transform:uppercase;color:#eef3fa;margin-right:2.5em}
-@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+/* stat bar (static, not a marquee) */
+.stat-bar{background:var(--teal)}
+.stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:rgba(255,255,255,.28)}
+.stat-grid div{background:var(--teal);padding:12px 8px;text-align:center;color:#fff;
+  font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.07em;text-transform:uppercase}
+@media (min-width:700px){.stat-grid{grid-template-columns:repeat(4,1fr)}.stat-grid div{font-size:.74rem;padding:12px}}
 
 /* hero */
-.hero{padding:76px 0 60px;border-bottom:1px solid var(--line);
-  background:radial-gradient(ellipse at top right, #1c2130 0%, var(--ink) 62%)}
-.hero p.lead{font-size:1.18rem;max-width:640px}
-.hero .ctas{display:flex;gap:14px;margin-top:26px;flex-wrap:wrap}
+.hero{padding:40px 0 32px;border-bottom:1px solid var(--line);
+  background:radial-gradient(ellipse at top right, #fff2cf 0%, var(--paper) 62%)}
+.hero p.lead{font-size:1.05rem;max-width:640px}
+.hero .ctas{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
+.hero .ctas .btn{flex:1 1 100%}
+@media (min-width:480px){.hero .ctas .btn{flex:0 0 auto}}
+@media (min-width:700px){.hero{padding:68px 0 54px}.hero p.lead{font-size:1.18rem}}
 
 /* feature grid */
-.section{padding:60px 0}
-.section.alt{background:var(--ink-2)}
-.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:30px}
-@media (max-width:900px){.grid4{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:560px){.grid4{grid-template-columns:1fr}}
-.feature{border:1px solid var(--line);padding:22px 20px;background:var(--ink)}
-.feature .num{font-family:'IBM Plex Mono',monospace;color:var(--gold-2);font-size:.8rem;letter-spacing:.1em}
+.section{padding:40px 0}
+.section.alt{background:#f2ecdc}
+.grid4{display:grid;grid-template-columns:1fr;gap:14px;margin-top:24px}
+@media (min-width:640px){.grid4{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:980px){.grid4{grid-template-columns:repeat(4,1fr);gap:20px}}
+.feature{border:1px solid var(--line);border-radius:5px;padding:20px 18px;background:var(--card);
+  box-shadow:0 1px 2px rgba(20,20,10,.04)}
+.feature .num{font-family:'IBM Plex Mono',monospace;color:var(--gold-dark);font-size:.78rem;letter-spacing:.1em}
 .feature h3{margin-top:.5em}
-.feature p{margin:0;font-size:.94rem;color:var(--gray)}
+.feature p{margin:0;font-size:.92rem;color:var(--gray)}
+@media (min-width:700px){.section{padding:56px 0}}
 
 /* roster grid */
-.roster{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px}
-@media (max-width:820px){.roster{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:520px){.roster{grid-template-columns:1fr}}
-.jersey{border:1px solid var(--line);background:var(--ink-2);padding:20px;display:flex;
-  flex-direction:column;gap:10px;position:relative}
-.jersey .no{font-family:'Oswald',sans-serif;font-size:2.1rem;font-weight:700;color:var(--gold);
-  line-height:1}
-.jersey h3{margin:0;font-size:1.05rem}
-.jersey .mascot{color:var(--gray);font-family:'IBM Plex Mono',monospace;font-size:.75rem;
-  text-transform:uppercase;letter-spacing:.08em}
-.jersey .status{margin-top:auto;padding-top:8px}
-.jersey a.store{color:var(--gold-2);text-decoration:none;font-family:'Oswald',sans-serif;
-  text-transform:uppercase;font-size:.82rem;letter-spacing:.05em;border-top:1px solid var(--line);
-  padding-top:10px;display:block}
-.jersey a.store:hover{color:var(--chalk)}
-.jersey .soon{color:var(--gray);font-family:'IBM Plex Mono',monospace;font-size:.72rem;
-  text-transform:uppercase;letter-spacing:.08em;border-top:1px solid var(--line);padding-top:10px;
-  display:block}
+.roster{display:grid;grid-template-columns:1fr;gap:14px;margin-top:24px}
+@media (min-width:560px){.roster{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:900px){.roster{grid-template-columns:repeat(3,1fr);gap:18px}}
+.jersey{border:1px solid var(--line);background:var(--card);padding:18px;display:flex;
+  flex-direction:column;gap:8px;position:relative;border-radius:6px;box-shadow:0 1px 3px rgba(20,20,10,.05)}
+.jersey .no{font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--gray);letter-spacing:.1em}
+.logo-wrap{width:56px;height:56px;display:flex;align-items:center;justify-content:center;margin:2px 0 4px}
+.logo-wrap img{max-width:100%;max-height:100%;object-fit:contain}
+.logo-wrap.placeholder{background:var(--paper);border:1px dashed var(--line);border-radius:50%;
+  color:var(--gray);font-weight:700;font-size:1.3rem;font-family:'Oswald',sans-serif}
+.jersey h3{margin:0;font-size:1.02rem}
+.jersey .mascot{color:var(--gray);font-family:'IBM Plex Mono',monospace;font-size:.72rem;
+  text-transform:uppercase;letter-spacing:.07em}
+.jersey a.store{color:var(--teal-dark);text-decoration:none;font-family:'Oswald',sans-serif;
+  text-transform:uppercase;font-size:.8rem;letter-spacing:.04em;border-top:1px solid var(--line);
+  padding-top:10px;margin-top:auto;display:block}
+.jersey a.store:hover{color:var(--gold-dark)}
+.jersey .soon{color:var(--gray);font-family:'IBM Plex Mono',monospace;font-size:.7rem;
+  text-transform:uppercase;letter-spacing:.07em;border-top:1px solid var(--line);padding-top:10px;
+  margin-top:auto;display:block}
 
 /* faq */
-.faq-item{border-bottom:1px solid var(--line);padding:20px 0}
-.faq-item h3{margin:0 0 8px;font-size:1.05rem;font-family:'Inter',sans-serif;
-  text-transform:none;letter-spacing:0;font-weight:700;color:var(--gold-2)}
-.faq-item p{margin:0;color:#d8d6cd}
+.faq-item{border-bottom:1px solid var(--line);padding:18px 0}
+.faq-item h3{margin:0 0 8px;font-size:1.02rem;font-family:'Inter',sans-serif;
+  text-transform:none;letter-spacing:0;font-weight:700;color:var(--teal-dark)}
+.faq-item p{margin:0;color:#3a3d44}
 
 /* cta band */
 .cta-band{border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-  background:linear-gradient(120deg,#1b2233,#171a24);padding:52px 0;text-align:left}
-.cta-band .wrap{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+  background:linear-gradient(120deg,#fff3d6,#fbf6e6);padding:34px 0}
+.cta-band .wrap{display:flex;flex-direction:column;gap:16px}
 .cta-band h2{margin:0 0 6px}
 .cta-band p{margin:0;color:var(--gray);max-width:520px}
+.cta-band .btn{flex:1 1 100%}
+@media (min-width:480px){.cta-band .btn{flex:0 0 auto}}
+@media (min-width:700px){.cta-band{padding:48px 0}.cta-band .wrap{flex-direction:row;justify-content:space-between;align-items:center}}
 
 /* footer */
-footer{border-top:1px solid var(--line);padding:40px 0 30px;background:var(--ink-2)}
-footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px}
-footer .cols{display:flex;gap:52px;flex-wrap:wrap}
-footer h4{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--gray);margin:0 0 12px}
-footer a{display:block;color:var(--chalk);text-decoration:none;font-size:.9rem;margin-bottom:8px}
-footer a:hover{color:var(--gold-2)}
-.social{display:flex;gap:14px;margin-top:14px}
-.social a{width:34px;height:34px;border:1px solid var(--line);display:flex;align-items:center;
-  justify-content:center}
-.fineprint{margin-top:28px;padding-top:20px;border-top:1px solid var(--line);
-  font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--gray)}
+footer{border-top:1px solid var(--line);padding:34px 0 24px;background:#f2ecdc}
+footer .wrap{display:flex;flex-direction:column;gap:26px}
+footer .cols{display:flex;flex-direction:column;gap:22px}
+footer h4{font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--gray);margin:0 0 10px}
+footer a{display:block;color:var(--ink);text-decoration:none;font-size:.9rem;margin-bottom:8px}
+footer a:hover{color:var(--teal-dark)}
+.social{display:flex;gap:12px;margin-top:12px}
+.social a{width:32px;height:32px;border:1px solid var(--line);display:flex;align-items:center;
+  justify-content:center;border-radius:50%;color:var(--ink)}
+.fineprint{margin-top:22px;padding-top:18px;border-top:1px solid var(--line);
+  font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--gray)}
+@media (min-width:700px){footer .wrap{flex-direction:row;justify-content:space-between}
+  footer .cols{flex-direction:row;gap:48px}}
 
 /* contact */
-.contact-card{border:1px solid var(--line);background:var(--ink-2);padding:34px;max-width:560px}
-.contact-card ul{margin:0 0 22px;padding-left:20px;color:#d8d6cd}
+.contact-card{border:1px solid var(--line);background:var(--card);padding:22px;max-width:560px;
+  border-radius:6px;box-shadow:0 1px 3px rgba(20,20,10,.05)}
+.contact-card ul{margin:0 0 20px;padding-left:20px;color:#3a3d44}
 .contact-card li{margin-bottom:8px}
+@media (min-width:700px){.contact-card{padding:34px}}
 """
 
-BADGE_IMG = '<img class="badge" src="/assets/logo.png" alt="Iowa On Demand logo" width="44" height="44" loading="eager">'
+BADGE_IMG = '<img class="badge" src="/assets/logo.png" alt="Iowa On Demand logo" width="40" height="40" loading="eager">'
 
 FONT_LINKS = (
     '<link rel="preconnect" href="https://fonts.googleapis.com">'
@@ -257,6 +297,7 @@ def page(path, label, meta_title, meta_desc, body_html, extra_schema=None):
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png">
 <link rel="apple-touch-icon" href="/assets/favicon-180.png">
+<meta name="theme-color" content="#faf6ec">
 <meta property="og:image" content="{BASE}/assets/logo.png">
 <meta property="og:title" content="{meta_title}">
 <meta property="og:description" content="{meta_desc}">
@@ -280,12 +321,12 @@ def page(path, label, meta_title, meta_desc, body_html, extra_schema=None):
     </nav>
   </div>
 </header>
-<div class="ticker-wrap" aria-hidden="true">
-  <div class="ticker">
-    <span>12 SCHOOLS PARTNERED</span><span>3&ndash;5 DAY TURNAROUND</span><span>ZERO SETUP COST</span>
-    <span>PRINTED IN POLK CITY, IOWA</span>
-    <span>12 SCHOOLS PARTNERED</span><span>3&ndash;5 DAY TURNAROUND</span><span>ZERO SETUP COST</span>
-    <span>PRINTED IN POLK CITY, IOWA</span>
+<div class="stat-bar" aria-hidden="true">
+  <div class="stat-grid">
+    <div>12 Schools Partnered</div>
+    <div>3&ndash;5 Day Turnaround</div>
+    <div>Zero Setup Cost</div>
+    <div>Printed in Polk City, Iowa</div>
   </div>
 </div>
 <main>
@@ -298,10 +339,10 @@ def page(path, label, meta_title, meta_desc, body_html, extra_schema=None):
         {BADGE_IMG}
         <span class="wordmark-text">Iowa On Demand</span>
       </a>
-      <p style="max-width:280px;color:var(--gray);font-size:.9rem">Print-on-demand spirit wear for Iowa schools. A division of <a href="{PM_URL}">P&amp;M Apparel</a>, Polk City, Iowa.</p>
+      <p style="max-width:280px;color:var(--gray);font-size:.9rem">Print-on-demand spirit wear for Iowa schools. A division of {ext(PM_URL, "P&amp;M Apparel")}, Polk City, Iowa.</p>
       <div class="social">
-        <a href="{FB_URL}" aria-label="Facebook">f</a>
-        <a href="{IG_URL}" aria-label="Instagram">ig</a>
+        {ext(FB_URL, "f", cls="")}
+        {ext(IG_URL, "ig", cls="")}
       </div>
     </div>
     <div class="cols">
@@ -315,8 +356,8 @@ def page(path, label, meta_title, meta_desc, body_html, extra_schema=None):
       <div>
         <h4>Get in touch</h4>
         <a href="mailto:{EMAIL}">{EMAIL}</a>
-        <a href="{JOTFORM_URL}">Add your school</a>
-        <a href="{PM_URL}">pmapparel.com</a>
+        {ext(JOTFORM_URL, "Add your school")}
+        {ext(PM_URL, "pmapparel.com")}
       </div>
     </div>
   </div>
@@ -324,6 +365,22 @@ def page(path, label, meta_title, meta_desc, body_html, extra_schema=None):
 </footer>
 </body>
 </html>"""
+
+
+# ---------------------------------------------------------------------------
+# SHARED: roster / jersey card
+# ---------------------------------------------------------------------------
+def jersey_card(i, s):
+    if s.get("logo"):
+        visual = f'<div class="logo-wrap"><img src="{s["logo"]}" alt="{s["name"]} {s["mascot"]} logo" loading="lazy"></div>'
+    else:
+        visual = f'<div class="logo-wrap placeholder" aria-hidden="true">{s["name"][0]}</div>'
+    if s["chipply"]:
+        action = ext(s["chipply"], "Shop the store &rarr;", cls="store")
+    else:
+        action = '<span class="soon">Store opening soon</span>'
+    return f'''<div class="jersey"><span class="no">{i:02d}</span>{visual}<h3>{s["name"]}</h3>
+    <span class="mascot">{s["mascot"]}</span>{action}</div>'''
 
 
 # ---------------------------------------------------------------------------
@@ -342,10 +399,7 @@ def home_body():
     )
     live_schools = [s for s in SCHOOLS if s["chipply"]][:6]
     preview_html = "\n".join(
-        f'''<div class="jersey"><span class="no">{i:02d}</span><h3>{s["name"]}</h3>
-        <span class="mascot">{s["mascot"]}</span>
-        <a class="store" href="{s["chipply"]}">Shop the store &rarr;</a></div>'''
-        for i, s in enumerate(live_schools, 1)
+        jersey_card(i, s) for i, s in enumerate(live_schools, 1)
     )
     return f"""
 <section class="hero">
@@ -387,25 +441,15 @@ def home_body():
       <h2>Don't see your school?</h2>
       <p>Adding a school is quick and there's no cost to get set up. Tell us about your school and we'll take it from there.</p>
     </div>
-    <a class="btn" href="{JOTFORM_URL}">Add Your School</a>
+    {ext(JOTFORM_URL, "Add Your School", cls="btn")}
   </div>
 </section>
 """
 
 def schools_body():
-    cards = []
-    for i, s in enumerate(SCHOOLS, 1):
-        if s["chipply"]:
-            action = f'<a class="store" href="{s["chipply"]}">Shop the store &rarr;</a>'
-        else:
-            action = '<span class="soon">Store opening soon</span>'
-        cards.append(
-            f'''<div class="jersey"><span class="no">{i:02d}</span><h3>{s["name"]}</h3>
-            <span class="mascot">{s["mascot"]}</span>{action}</div>'''
-        )
-    cards_html = "\n".join(cards)
+    cards_html = "\n".join(jersey_card(i, s) for i, s in enumerate(SCHOOLS, 1))
     return f"""
-<section class="hero" style="padding-bottom:36px">
+<section class="hero" style="padding-bottom:24px">
   <div class="wrap">
     <span class="eyebrow">Our Partnered Schools</span>
     <h1>Shop your school.</h1>
@@ -425,7 +469,7 @@ def schools_body():
       <h2>Not seeing your school?</h2>
       <p>We'd love to bring Iowa On Demand to your community. Reach out and let's start the conversation, there's no cost to get set up.</p>
     </div>
-    <a class="btn" href="{JOTFORM_URL}">Add Your School</a>
+    {ext(JOTFORM_URL, "Add Your School", cls="btn")}
   </div>
 </section>
 """
@@ -435,7 +479,7 @@ def faq_body():
         f'<div class="faq-item"><h3>{q}</h3><p>{a}</p></div>' for q, a in FAQS
     )
     return f"""
-<section class="hero" style="padding-bottom:20px">
+<section class="hero" style="padding-bottom:16px">
   <div class="wrap">
     <span class="eyebrow">Frequently Asked</span>
     <h1>Questions, answered.</h1>
@@ -470,14 +514,14 @@ def contact_body():
 <section class="section" style="padding-top:0">
   <div class="wrap">
     <div class="contact-card">
-      <h3 style="text-transform:none;font-family:'Inter',sans-serif;font-size:1.2rem;color:var(--chalk)">Why reach out?</h3>
+      <h3 style="text-transform:none;font-family:'Inter',sans-serif;font-size:1.15rem;color:var(--ink)">Why reach out?</h3>
       <ul>
         <li>Partner with us for your school's custom apparel.</li>
         <li>Set up a dedicated online store for students, parents, and staff.</li>
         <li>Ask about our process, products, or anything else.</li>
       </ul>
       <p style="color:var(--gray);font-size:.92rem">We're here to help your school shine with custom, on-demand gear made in Iowa.</p>
-      <a class="btn" href="{JOTFORM_URL}">Get In Touch</a>
+      {ext(JOTFORM_URL, "Get In Touch", cls="btn")}
       <p style="margin-top:18px;font-size:.9rem">Or email us directly at <a href="mailto:{EMAIL}">{EMAIL}</a></p>
     </div>
   </div>
@@ -538,7 +582,7 @@ def build():
         shutil.rmtree(root)
     os.makedirs(root)
 
-    # copy real brand assets (logo + favicons)
+    # copy real brand assets (logo + favicons + school mascots)
     src_assets = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets")
     dst_assets = os.path.join(root, "assets")
     if os.path.isdir(src_assets):
@@ -628,10 +672,8 @@ def verify(root):
             if bad in html:
                 errors.append(f"{path}: placeholder text '{bad}' found")
 
-        if "\u2014" in html or "\u2013 " in html.replace("3\u20135", ""):
-            # allow the turnaround-time en dash "3-5"; flag stray em dashes
-            if "\u2014" in html:
-                errors.append(f"{path}: em dash found")
+        if "\u2014" in html:
+            errors.append(f"{path}: em dash found")
 
         for href in re.findall(r'<a [^>]*href="(/[a-z0-9/_.-]*)"', html):
             if "." in href.rsplit("/", 1)[-1]:
@@ -639,6 +681,12 @@ def verify(root):
             clean = href if href.endswith("/") or href == "/" else href + "/"
             if clean not in PAGES and href not in ("/", ""):
                 errors.append(f"{path}: internal link to unknown page {href}")
+
+        # every external (target=_blank) link must carry rel=noopener for security
+        for m in re.finditer(r'<a\s+[^>]*href="(https?://[^"]+)"[^>]*>', html):
+            tag = m.group(0)
+            if 'target="_blank"' in tag and "noopener" not in tag:
+                errors.append(f"{path}: external link missing rel=noopener: {m.group(1)}")
 
     if errors:
         print("VERIFICATION FAILED:")
