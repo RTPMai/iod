@@ -526,8 +526,14 @@ def home_body():
     )
     live_schools = [s for s in SCHOOLS if s["chipply"]][:6]
     preview_html = "\n".join(jersey_card(s) for s in live_schools)
+    def community_href(c):
+        schools_here = SCHOOLS_BY_COMMUNITY[c]
+        if len(schools_here) == 1:
+            return f'/schools/{SCHOOL_SLUGS[schools_here[0]["name"]]}/'
+        return "/schools/"  # multiple schools serve this city -- send to the full roster
+
     chips_html = "\n".join(
-        f'<li><a href="/schools/">{c}</a></li>' for c in COMMUNITIES
+        f'<li><a href="{community_href(c)}">{c}</a></li>' for c in COMMUNITIES
     )
     return f"""
 <section class="hero">
