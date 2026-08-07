@@ -47,7 +47,7 @@ FAQS = [
     ("Can students and parents order directly?",
      "Yes. Every partnered school gets its own online store, open 24/7, no coordinator required to collect sizes or money."),
     ("Do you work with anyone besides schools?",
-     "Schools are our focus, but we also outfit businesses, organizations, and other groups that need custom apparel."),
+     f'Iowa On Demand is focused on schools. If you need custom apparel for a business, organization, or event, our parent company <a href="{PM_URL}">P&amp;M Apparel</a> can do it all.'),
     ("Can we get custom designs for our school?",
      "Yes. Our art team can build designs from scratch or refine something you already have in mind."),
     ("What happens if something's wrong with an order?",
@@ -62,20 +62,20 @@ FAQS = [
 
 # ---------------------------------------------------------------------------
 # DESIGN SYSTEM (distinct from pmapparel.com / flyovercon.ink)
-# Varsity / scoreboard aesthetic: dark field, chalk white, mustard gold,
-# denim blue. Display face Oswald (condensed, athletic), body Inter,
-# roster numbers in IBM Plex Mono.
+# Varsity / scoreboard aesthetic, built around the real Iowa On Demand mark:
+# gold #fcb426 and teal #008ea9, pulled directly from the logo file. Display
+# face Oswald (condensed, athletic), body Inter, roster numbers in IBM Plex Mono.
 # ---------------------------------------------------------------------------
 CSS = """
 :root{
-  --ink:#12141c;
-  --ink-2:#1b1e29;
-  --chalk:#f6f3ea;
-  --gold:#d9a220;
-  --gold-2:#f2c14e;
-  --denim:#3a6ea5;
-  --line:#33374333;
-  --gray:#9a9daa;
+  --ink:#101010;
+  --ink-2:#1a1a1a;
+  --chalk:#ffffff;
+  --gold:#fcb426;
+  --gold-2:#ffc94d;
+  --teal:#008ea9;
+  --line:#33333340;
+  --gray:#a8a8a8;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -125,7 +125,7 @@ nav.links a:hover{color:var(--gold-2)}
 .btn.ghost:hover{border-color:var(--gold-2);color:var(--gold-2)}
 
 /* ticker */
-.ticker-wrap{background:var(--denim);border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+.ticker-wrap{background:var(--teal);border-top:1px solid var(--line);border-bottom:1px solid var(--line);
   overflow:hidden;white-space:nowrap}
 .ticker{display:inline-block;padding:9px 0;animation:scroll 26s linear infinite}
 .ticker span{font-family:'IBM Plex Mono',monospace;font-size:.78rem;letter-spacing:.1em;
@@ -202,14 +202,7 @@ footer a:hover{color:var(--gold-2)}
 .contact-card li{margin-bottom:8px}
 """
 
-BADGE_SVG = """<svg class="badge" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Iowa On Demand badge">
-<circle cx="32" cy="32" r="30" fill="#12141c" stroke="#d9a220" stroke-width="3"/>
-<circle cx="32" cy="32" r="24" fill="none" stroke="#3a6ea5" stroke-width="1.5"/>
-<text x="32" y="29" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700"
-  font-size="11" fill="#f6f3ea" letter-spacing="1">IOWA</text>
-<text x="32" y="41" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600"
-  font-size="6.5" fill="#f2c14e" letter-spacing="1.5">ON DEMAND</text>
-</svg>"""
+BADGE_IMG = '<img class="badge" src="/assets/logo.png" alt="Iowa On Demand logo" width="44" height="44" loading="eager">'
 
 FONT_LINKS = (
     '<link rel="preconnect" href="https://fonts.googleapis.com">'
@@ -261,6 +254,10 @@ def page(path, label, meta_title, meta_desc, body_html, extra_schema=None):
 <title>{meta_title}</title>
 <meta name="description" content="{meta_desc}">
 <link rel="canonical" href="{canonical}">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png">
+<link rel="apple-touch-icon" href="/assets/favicon-180.png">
+<meta property="og:image" content="{BASE}/assets/logo.png">
 <meta property="og:title" content="{meta_title}">
 <meta property="og:description" content="{meta_desc}">
 <meta property="og:url" content="{canonical}">
@@ -274,7 +271,7 @@ def page(path, label, meta_title, meta_desc, body_html, extra_schema=None):
 <header class="site">
   <div class="wrap nav">
     <a class="wordmark" href="/">
-      {BADGE_SVG}
+      {BADGE_IMG}
       <span class="wordmark-text">Iowa On Demand<span>a division of P&amp;M Apparel</span></span>
     </a>
     <nav class="links">
@@ -298,7 +295,7 @@ def page(path, label, meta_title, meta_desc, body_html, extra_schema=None):
   <div class="wrap">
     <div>
       <a class="wordmark" href="/" style="margin-bottom:14px">
-        {BADGE_SVG}
+        {BADGE_IMG}
         <span class="wordmark-text">Iowa On Demand</span>
       </a>
       <p style="max-width:280px;color:var(--gray);font-size:.9rem">Print-on-demand spirit wear for Iowa schools. A division of <a href="{PM_URL}">P&amp;M Apparel</a>, Polk City, Iowa.</p>
@@ -487,13 +484,16 @@ def contact_body():
 </section>
 """
 
+def _strip_tags(s):
+    return re.sub(r"<[^>]+>", "", s)
+
 FAQ_SCHEMA = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
         {
             "@type": "Question", "name": q,
-            "acceptedAnswer": {"@type": "Answer", "text": a}
+            "acceptedAnswer": {"@type": "Answer", "text": _strip_tags(a)}
         } for q, a in FAQS
     ]
 }
@@ -537,6 +537,12 @@ def build():
     if os.path.exists(root):
         shutil.rmtree(root)
     os.makedirs(root)
+
+    # copy real brand assets (logo + favicons)
+    src_assets = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets")
+    dst_assets = os.path.join(root, "assets")
+    if os.path.isdir(src_assets):
+        shutil.copytree(src_assets, dst_assets)
 
     for path, p in PAGES.items():
         html = page(path, p["label"], p["title"], p["desc"], p["body"], p["schema"])
@@ -627,7 +633,9 @@ def verify(root):
             if "\u2014" in html:
                 errors.append(f"{path}: em dash found")
 
-        for href in re.findall(r'href="(/[a-z0-9/-]*)"', html):
+        for href in re.findall(r'<a [^>]*href="(/[a-z0-9/_.-]*)"', html):
+            if "." in href.rsplit("/", 1)[-1]:
+                continue  # asset link (favicon, image, etc.), not a page
             clean = href if href.endswith("/") or href == "/" else href + "/"
             if clean not in PAGES and href not in ("/", ""):
                 errors.append(f"{path}: internal link to unknown page {href}")
