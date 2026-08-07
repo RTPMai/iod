@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Iowa On Demand | Print-on-Demand Spirit Wear for Iowa Schools</title>
+<meta name="description" content="Iowa On Demand builds print-on-demand spirit wear stores for Iowa schools. No minimums, no setup cost, printed locally in Polk City, Iowa. A division of P&M Apparel.">
+<link rel="canonical" href="https://www.iowaondemand.com/">
+<meta property="og:title" content="Iowa On Demand | Print-on-Demand Spirit Wear for Iowa Schools">
+<meta property="og:description" content="Iowa On Demand builds print-on-demand spirit wear stores for Iowa schools. No minimums, no setup cost, printed locally in Polk City, Iowa. A division of P&M Apparel.">
+<meta property="og:url" content="https://www.iowaondemand.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Iowa On Demand">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#12141c;
+  --ink-2:#1b1e29;
+  --chalk:#f6f3ea;
+  --gold:#d9a220;
+  --gold-2:#f2c14e;
+  --denim:#3a6ea5;
+  --line:#33374333;
+  --gray:#9a9daa;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--ink);color:var(--chalk);
+  font-family:'Inter',system-ui,sans-serif;line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.display{
+  font-family:'Oswald',system-ui,sans-serif;
+  text-transform:uppercase;letter-spacing:.02em;font-weight:600;
+  margin:0 0 .4em;color:var(--chalk);
+}
+h1{font-size:clamp(2.4rem,6vw,4.2rem);line-height:1.02;font-weight:700}
+h2{font-size:clamp(1.5rem,3.2vw,2.2rem);letter-spacing:.03em}
+h3{font-size:1.15rem}
+p{margin:0 0 1em;color:#d8d6cd}
+a{color:var(--gold-2)}
+.mono{font-family:'IBM Plex Mono',monospace}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;font-size:.78rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--gold-2);margin:0 0 .8em;display:block;
+}
+a:focus-visible,button:focus-visible{outline:3px solid var(--gold-2);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* header */
+header.site{position:sticky;top:0;z-index:50;background:rgba(18,20,28,.92);
+  backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+.wordmark{display:flex;align-items:center;gap:12px;text-decoration:none}
+.badge{width:44px;height:44px;flex:none}
+.wordmark-text{font-family:'Oswald',sans-serif;font-weight:700;letter-spacing:.05em;
+  color:var(--chalk);font-size:1.05rem;line-height:1.05;text-transform:uppercase}
+.wordmark-text span{display:block;font-size:.62rem;color:var(--gold-2);letter-spacing:.16em;
+  font-family:'IBM Plex Mono',monospace;font-weight:500}
+nav.links{display:flex;gap:26px;align-items:center}
+nav.links a{color:var(--chalk);text-decoration:none;font-family:'Oswald',sans-serif;
+  text-transform:uppercase;font-size:.85rem;letter-spacing:.08em}
+nav.links a:hover{color:var(--gold-2)}
+.btn{display:inline-block;background:var(--gold);color:var(--ink);font-family:'Oswald',sans-serif;
+  text-transform:uppercase;letter-spacing:.06em;font-weight:600;padding:11px 22px;
+  text-decoration:none;font-size:.85rem;border:2px solid var(--gold)}
+.btn:hover{background:var(--gold-2);border-color:var(--gold-2)}
+.btn.ghost{background:transparent;color:var(--chalk);border-color:var(--chalk)}
+.btn.ghost:hover{border-color:var(--gold-2);color:var(--gold-2)}
+
+/* ticker */
+.ticker-wrap{background:var(--denim);border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  overflow:hidden;white-space:nowrap}
+.ticker{display:inline-block;padding:9px 0;animation:scroll 26s linear infinite}
+.ticker span{font-family:'IBM Plex Mono',monospace;font-size:.78rem;letter-spacing:.1em;
+  text-transform:uppercase;color:#eef3fa;margin-right:2.5em}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* hero */
+.hero{padding:76px 0 60px;border-bottom:1px solid var(--line);
+  background:radial-gradient(ellipse at top right, #1c2130 0%, var(--ink) 62%)}
+.hero p.lead{font-size:1.18rem;max-width:640px}
+.hero .ctas{display:flex;gap:14px;margin-top:26px;flex-wrap:wrap}
+
+/* feature grid */
+.section{padding:60px 0}
+.section.alt{background:var(--ink-2)}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:30px}
+@media (max-width:900px){.grid4{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.grid4{grid-template-columns:1fr}}
+.feature{border:1px solid var(--line);padding:22px 20px;background:var(--ink)}
+.feature .num{font-family:'IBM Plex Mono',monospace;color:var(--gold-2);font-size:.8rem;letter-spacing:.1em}
+.feature h3{margin-top:.5em}
+.feature p{margin:0;font-size:.94rem;color:var(--gray)}
+
+/* roster grid */
+.roster{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px}
+@media (max-width:820px){.roster{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.roster{grid-template-columns:1fr}}
+.jersey{border:1px solid var(--line);background:var(--ink-2);padding:20px;display:flex;
+  flex-direction:column;gap:10px;position:relative}
+.jersey .no{font-family:'Oswald',sans-serif;font-size:2.1rem;font-weight:700;color:var(--gold);
+  line-height:1}
+.jersey h3{margin:0;font-size:1.05rem}
+.jersey .mascot{color:var(--gray);font-family:'IBM Plex Mono',monospace;font-size:.75rem;
+  text-transform:uppercase;letter-spacing:.08em}
+.jersey .status{margin-top:auto;padding-top:8px}
+.jersey a.store{color:var(--gold-2);text-decoration:none;font-family:'Oswald',sans-serif;
+  text-transform:uppercase;font-size:.82rem;letter-spacing:.05em;border-top:1px solid var(--line);
+  padding-top:10px;display:block}
+.jersey a.store:hover{color:var(--chalk)}
+.jersey .soon{color:var(--gray);font-family:'IBM Plex Mono',monospace;font-size:.72rem;
+  text-transform:uppercase;letter-spacing:.08em;border-top:1px solid var(--line);padding-top:10px;
+  display:block}
+
+/* faq */
+.faq-item{border-bottom:1px solid var(--line);padding:20px 0}
+.faq-item h3{margin:0 0 8px;font-size:1.05rem;font-family:'Inter',sans-serif;
+  text-transform:none;letter-spacing:0;font-weight:700;color:var(--gold-2)}
+.faq-item p{margin:0;color:#d8d6cd}
+
+/* cta band */
+.cta-band{border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  background:linear-gradient(120deg,#1b2233,#171a24);padding:52px 0;text-align:left}
+.cta-band .wrap{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+.cta-band h2{margin:0 0 6px}
+.cta-band p{margin:0;color:var(--gray);max-width:520px}
+
+/* footer */
+footer{border-top:1px solid var(--line);padding:40px 0 30px;background:var(--ink-2)}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px}
+footer .cols{display:flex;gap:52px;flex-wrap:wrap}
+footer h4{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--gray);margin:0 0 12px}
+footer a{display:block;color:var(--chalk);text-decoration:none;font-size:.9rem;margin-bottom:8px}
+footer a:hover{color:var(--gold-2)}
+.social{display:flex;gap:14px;margin-top:14px}
+.social a{width:34px;height:34px;border:1px solid var(--line);display:flex;align-items:center;
+  justify-content:center}
+.fineprint{margin-top:28px;padding-top:20px;border-top:1px solid var(--line);
+  font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--gray)}
+
+/* contact */
+.contact-card{border:1px solid var(--line);background:var(--ink-2);padding:34px;max-width:560px}
+.contact-card ul{margin:0 0 22px;padding-left:20px;color:#d8d6cd}
+.contact-card li{margin-bottom:8px}
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "Iowa On Demand", "url": "https://www.iowaondemand.com/", "email": "info@iowaondemand.com", "parentOrganization": {"@type": "Organization", "name": "P&M Apparel", "url": "https://www.pmapparel.com/"}, "sameAs": ["https://www.facebook.com/profile.php?id=61568774887639", "https://www.instagram.com/iowaondemand/"], "areaServed": "Iowa", "description": "Print-on-demand spirit wear stores for Iowa schools, produced in Polk City, Iowa."}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.iowaondemand.com/"}]}</script>
+</head>
+<body>
+<header class="site">
+  <div class="wrap nav">
+    <a class="wordmark" href="/">
+      <svg class="badge" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Iowa On Demand badge">
+<circle cx="32" cy="32" r="30" fill="#12141c" stroke="#d9a220" stroke-width="3"/>
+<circle cx="32" cy="32" r="24" fill="none" stroke="#3a6ea5" stroke-width="1.5"/>
+<text x="32" y="29" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700"
+  font-size="11" fill="#f6f3ea" letter-spacing="1">IOWA</text>
+<text x="32" y="41" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600"
+  font-size="6.5" fill="#f2c14e" letter-spacing="1.5">ON DEMAND</text>
+</svg>
+      <span class="wordmark-text">Iowa On Demand<span>a division of P&amp;M Apparel</span></span>
+    </a>
+    <nav class="links">
+      <a href="/">Home</a>
+<a href="/schools/">Schools</a>
+<a href="/faq/">FAQ</a>
+<a href="/contact/">Contact</a>
+      <a class="btn" href="/schools/">Shop Your School</a>
+    </nav>
+  </div>
+</header>
+<div class="ticker-wrap" aria-hidden="true">
+  <div class="ticker">
+    <span>12 SCHOOLS PARTNERED</span><span>3&ndash;5 DAY TURNAROUND</span><span>ZERO SETUP COST</span>
+    <span>PRINTED IN POLK CITY, IOWA</span>
+    <span>12 SCHOOLS PARTNERED</span><span>3&ndash;5 DAY TURNAROUND</span><span>ZERO SETUP COST</span>
+    <span>PRINTED IN POLK CITY, IOWA</span>
+  </div>
+</div>
+<main>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">A Division of P&amp;M Apparel &middot; Polk City, Iowa</span>
+    <h1>Twelve schools.<br>One place to shop.</h1>
+    <p class="lead">Iowa On Demand builds a dedicated online store for your school's spirit wear. Students, parents, and staff order anytime. Every piece prints on demand, right here in Iowa.</p>
+    <div class="ctas">
+      <a class="btn" href="/schools/">Shop Your School</a>
+      <a class="btn ghost" href="/contact/">Bring It To My School</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <span class="eyebrow">What Sets Us Apart</span>
+    <h2>Local gear, ordered your way.</h2>
+    <div class="grid4">
+      <div class="feature"><span class="num">01</span><h3>Iowa-Based Production</h3><p>Every item is designed and printed right here in Iowa. Fast turnaround, and we understand what our schools need because we're part of the same communities.</p></div>
+<div class="feature"><span class="num">02</span><h3>On-Demand Convenience</h3><p>No long waits, no bulk minimums. Gear prints when it's ordered, so there's no overstock sitting in a closet.</p></div>
+<div class="feature"><span class="num">03</span><h3>Built for Schools</h3><p>Dedicated online stores for spirit wear, team gear, and fundraiser apparel. Set up once, order year-round.</p></div>
+<div class="feature"><span class="num">04</span><h3>Zero Setup Cost</h3><p>We build and manage the store at no cost to the school. Share the link and let students, parents, and staff order direct.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="wrap">
+    <span class="eyebrow">The Roster</span>
+    <h2>Shop a partnered school.</h2>
+    <div class="roster">
+      <div class="jersey"><span class="no">01</span><h3>North Polk</h3>
+        <span class="mascot">Comets</span>
+        <a class="store" href="https://pmapparel.chipply.com/npiod/">Shop the store &rarr;</a></div>
+<div class="jersey"><span class="no">02</span><h3>Woodward-Granger</h3>
+        <span class="mascot">Hawks</span>
+        <a class="store" href="https://pmapparel.chipply.com/iodwg/">Shop the store &rarr;</a></div>
+<div class="jersey"><span class="no">03</span><h3>Ankeny Christian Academy</h3>
+        <span class="mascot">Eagles</span>
+        <a class="store" href="https://pmapparel.chipply.com/iodaca">Shop the store &rarr;</a></div>
+<div class="jersey"><span class="no">04</span><h3>Ankeny Centennial</h3>
+        <span class="mascot">Jaguars</span>
+        <a class="store" href="https://pmapparel.chipply.com/centiod/?action=viewall">Shop the store &rarr;</a></div>
+<div class="jersey"><span class="no">05</span><h3>Ankeny</h3>
+        <span class="mascot">Hawks</span>
+        <a class="store" href="https://pmapparel.chipply.com/ioda/?action=viewall">Shop the store &rarr;</a></div>
+<div class="jersey"><span class="no">06</span><h3>Saydel</h3>
+        <span class="mascot">Eagles</span>
+        <a class="store" href="https://pmapparel.chipply.com/siod/?action=viewall">Shop the store &rarr;</a></div>
+    </div>
+    <p style="margin-top:26px"><a href="/schools/">See all 12 partnered schools &rarr;</a></p>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap">
+    <div>
+      <h2>Don't see your school?</h2>
+      <p>Adding a school is quick and there's no cost to get set up. Tell us about your school and we'll take it from there.</p>
+    </div>
+    <a class="btn" href="https://form.jotform.com/243246726056054">Add Your School</a>
+  </div>
+</section>
+
+</main>
+<footer>
+  <div class="wrap">
+    <div>
+      <a class="wordmark" href="/" style="margin-bottom:14px">
+        <svg class="badge" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Iowa On Demand badge">
+<circle cx="32" cy="32" r="30" fill="#12141c" stroke="#d9a220" stroke-width="3"/>
+<circle cx="32" cy="32" r="24" fill="none" stroke="#3a6ea5" stroke-width="1.5"/>
+<text x="32" y="29" text-anchor="middle" font-family="Oswald,sans-serif" font-weight="700"
+  font-size="11" fill="#f6f3ea" letter-spacing="1">IOWA</text>
+<text x="32" y="41" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="600"
+  font-size="6.5" fill="#f2c14e" letter-spacing="1.5">ON DEMAND</text>
+</svg>
+        <span class="wordmark-text">Iowa On Demand</span>
+      </a>
+      <p style="max-width:280px;color:var(--gray);font-size:.9rem">Print-on-demand spirit wear for Iowa schools. A division of <a href="https://www.pmapparel.com/">P&amp;M Apparel</a>, Polk City, Iowa.</p>
+      <div class="social">
+        <a href="https://www.facebook.com/profile.php?id=61568774887639" aria-label="Facebook">f</a>
+        <a href="https://www.instagram.com/iowaondemand/" aria-label="Instagram">ig</a>
+      </div>
+    </div>
+    <div class="cols">
+      <div>
+        <h4>Site</h4>
+        <a href="/">Home</a>
+        <a href="/schools/">Schools</a>
+        <a href="/faq/">FAQ</a>
+        <a href="/contact/">Contact</a>
+      </div>
+      <div>
+        <h4>Get in touch</h4>
+        <a href="mailto:info@iowaondemand.com">info@iowaondemand.com</a>
+        <a href="https://form.jotform.com/243246726056054">Add your school</a>
+        <a href="https://www.pmapparel.com/">pmapparel.com</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap fineprint">Updated August 7, 2026 &middot; &copy; 2026 Iowa On Demand, a division of P&amp;M Apparel</div>
+</footer>
+</body>
+</html>
