@@ -135,9 +135,18 @@ nav.links a:hover{color:var(--teal-dark)}
   margin-top:auto;display:block}
 
 /* communities */
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
-.chip{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:7px 14px;
-  font-family:'IBM Plex Mono',monospace;font-size:.76rem;color:var(--ink)}
+.map-card{border:1px solid var(--line);border-radius:8px;background:var(--card);padding:14px;
+  box-shadow:0 1px 3px rgba(20,20,10,.05)}
+.map-card svg{width:100%;height:auto;display:block}
+.community-list{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:22px;
+  list-style:none;padding:0}
+.community-list li{background:var(--card);border:1px solid var(--line);border-radius:20px;
+  padding:7px 14px;font-family:'IBM Plex Mono',monospace;font-size:.76rem;color:var(--ink);
+  text-align:center}
+@media (min-width:560px){.community-list{grid-template-columns:repeat(3,1fr)}}
+@media (min-width:900px){.community-list{grid-template-columns:repeat(4,1fr)}}
+.communities-grid{display:grid;grid-template-columns:1fr;gap:24px;margin-top:24px}
+@media (min-width:860px){.communities-grid{grid-template-columns:1.1fr 1fr;align-items:start}}
 
 /* faq */
 .faq-item{border-bottom:1px solid var(--line);padding:18px 0}
@@ -154,6 +163,10 @@ nav.links a:hover{color:var(--teal-dark)}
 .cta-band .btn{flex:1 1 100%}
 @media (min-width:480px){.cta-band .btn{flex:0 0 auto}}
 @media (min-width:700px){.cta-band{padding:48px 0}.cta-band .wrap{flex-direction:row;justify-content:space-between;align-items:center}}
+
+/* note strip -- slim cross-link banner, no heading, no background band */
+.note-strip{padding:22px 0;border-bottom:1px solid var(--line)}
+.note-strip p{margin:0;color:var(--gray);font-size:.92rem;max-width:760px}
 
 /* footer */
 footer{border-top:1px solid var(--line);padding:34px 0 24px;background:var(--surface)}
@@ -233,9 +246,9 @@ footer a:hover{color:var(--teal-dark)}
     <span class="mascot">Bombers</span><span class="city">Huxley, Cambridge & Slater, IA</span><span class="soon">Store opening soon</span></div>
 <div class="jersey"><span class="no">08</span><div class="logo-wrap"><img src="/assets/schools/bondurant-farrar.svg" alt="Bondurant-Farrar Bluejays logo" loading="lazy"></div><h3>Bondurant-Farrar</h3>
     <span class="mascot">Bluejays</span><span class="city">Bondurant, IA</span><span class="soon">Store opening soon</span></div>
-<div class="jersey"><span class="no">09</span><div class="logo-wrap placeholder" aria-hidden="true">P</div><h3>Perry</h3>
+<div class="jersey"><span class="no">09</span><div class="logo-wrap"><img src="/assets/schools/perry.svg" alt="Perry Bluejays logo" loading="lazy"></div><h3>Perry</h3>
     <span class="mascot">Bluejays</span><span class="city">Perry, IA</span><span class="soon">Store opening soon</span></div>
-<div class="jersey"><span class="no">10</span><div class="logo-wrap placeholder" aria-hidden="true">R</div><h3>Roosevelt</h3>
+<div class="jersey"><span class="no">10</span><div class="logo-wrap"><img src="/assets/schools/roosevelt.svg" alt="Roosevelt Roughriders logo" loading="lazy"></div><h3>Roosevelt</h3>
     <span class="mascot">Roughriders</span><span class="city">Des Moines, IA</span><span class="soon">Store opening soon</span></div>
 <div class="jersey"><span class="no">11</span><div class="logo-wrap"><img src="/assets/schools/dallas-center-grimes.svg" alt="Dallas Center-Grimes Mustangs logo" loading="lazy"></div><h3>Dallas Center-Grimes</h3>
     <span class="mascot">Mustangs</span><span class="city">Dallas Center & Grimes, IA</span><span class="soon">Store opening soon</span></div>

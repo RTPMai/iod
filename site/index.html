@@ -135,9 +135,18 @@ nav.links a:hover{color:var(--teal-dark)}
   margin-top:auto;display:block}
 
 /* communities */
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
-.chip{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:7px 14px;
-  font-family:'IBM Plex Mono',monospace;font-size:.76rem;color:var(--ink)}
+.map-card{border:1px solid var(--line);border-radius:8px;background:var(--card);padding:14px;
+  box-shadow:0 1px 3px rgba(20,20,10,.05)}
+.map-card svg{width:100%;height:auto;display:block}
+.community-list{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:22px;
+  list-style:none;padding:0}
+.community-list li{background:var(--card);border:1px solid var(--line);border-radius:20px;
+  padding:7px 14px;font-family:'IBM Plex Mono',monospace;font-size:.76rem;color:var(--ink);
+  text-align:center}
+@media (min-width:560px){.community-list{grid-template-columns:repeat(3,1fr)}}
+@media (min-width:900px){.community-list{grid-template-columns:repeat(4,1fr)}}
+.communities-grid{display:grid;grid-template-columns:1fr;gap:24px;margin-top:24px}
+@media (min-width:860px){.communities-grid{grid-template-columns:1.1fr 1fr;align-items:start}}
 
 /* faq */
 .faq-item{border-bottom:1px solid var(--line);padding:18px 0}
@@ -154,6 +163,10 @@ nav.links a:hover{color:var(--teal-dark)}
 .cta-band .btn{flex:1 1 100%}
 @media (min-width:480px){.cta-band .btn{flex:0 0 auto}}
 @media (min-width:700px){.cta-band{padding:48px 0}.cta-band .wrap{flex-direction:row;justify-content:space-between;align-items:center}}
+
+/* note strip -- slim cross-link banner, no heading, no background band */
+.note-strip{padding:22px 0;border-bottom:1px solid var(--line)}
+.note-strip p{margin:0;color:var(--gray);font-size:.92rem;max-width:760px}
 
 /* footer */
 footer{border-top:1px solid var(--line);padding:34px 0 24px;background:var(--surface)}
@@ -259,21 +272,62 @@ footer a:hover{color:var(--teal-dark)}
     <span class="eyebrow">Where We Show Up</span>
     <h2>Communities we serve.</h2>
     <p style="max-width:640px">Iowa On Demand partners with schools across the Des Moines metro and central Iowa. If your town's on this list, there's a good chance a store isn't far behind.</p>
-    <div class="chips">
-      <span class="chip">Ankeny</span>
-<span class="chip">Alleman</span>
-<span class="chip">Polk City</span>
-<span class="chip">Woodward</span>
-<span class="chip">Granger</span>
-<span class="chip">Des Moines</span>
-<span class="chip">Huxley</span>
-<span class="chip">Cambridge</span>
-<span class="chip">Slater</span>
-<span class="chip">Bondurant</span>
-<span class="chip">Perry</span>
-<span class="chip">Dallas Center</span>
-<span class="chip">Grimes</span>
-<span class="chip">Johnston</span>
+    <div class="communities-grid">
+      <div class="map-card">
+        <svg viewBox="0 0 640 440" xmlns="http://www.w3.org/2000/svg" role="img"
+    aria-label="Map of Iowa On Demand's service area across central Iowa, centered on Polk City">
+    <rect x="1" y="1" width="638" height="438" rx="10" fill="var(--card)" stroke="var(--line)"/>
+    <line x1="375.3" y1="208.6" x2="462.5" y2="245.4" stroke="var(--line)" stroke-width="1.5"/>
+<line x1="375.3" y1="208.6" x2="433.2" y2="149.8" stroke="var(--line)" stroke-width="1.5"/>
+<line x1="375.3" y1="208.6" x2="222.8" y2="109.8" stroke="var(--line)" stroke-width="1.5"/>
+<line x1="375.3" y1="208.6" x2="297.2" y2="227.2" stroke="var(--line)" stroke-width="1.5"/>
+<line x1="375.3" y1="208.6" x2="443.2" y2="380.0" stroke="var(--line)" stroke-width="1.5"/>
+<line x1="375.3" y1="208.6" x2="457.9" y2="92.2" stroke="var(--line)" stroke-width="1.5"/>
+<line x1="375.3" y1="208.6" x2="516.3" y2="60.0" stroke="var(--line)" stroke-width="1.5"/>
+<line x1="375.3" y1="208.6" x2="400.2" y2="108.3" stroke="var(--line)" stroke-width="1.5"/>
+<line x1="375.3" y1="208.6" x2="570.0" y2="271.0" stroke="var(--line)" stroke-width="1.5"/>
+<line x1="375.3" y1="208.6" x2="70.0" y2="141.4" stroke="var(--line)" stroke-width="1.5"/>
+<line x1="375.3" y1="208.6" x2="178.7" y2="289.3" stroke="var(--line)" stroke-width="1.5"/>
+<line x1="375.3" y1="208.6" x2="316.6" y2="289.3" stroke="var(--line)" stroke-width="1.5"/>
+<line x1="375.3" y1="208.6" x2="383.0" y2="296.0" stroke="var(--line)" stroke-width="1.5"/>
+    <circle cx="462.5" cy="245.4" r="6" fill="var(--teal)" stroke="#fff" stroke-width="1.5"/><text x="471.5" y="249.4" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink)" text-anchor="start">Ankeny</text>
+<circle cx="433.2" cy="149.8" r="6" fill="var(--teal)" stroke="#fff" stroke-width="1.5"/><text x="442.2" y="153.8" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink)" text-anchor="start">Alleman</text>
+<circle cx="222.8" cy="109.8" r="6" fill="var(--teal)" stroke="#fff" stroke-width="1.5"/><text x="231.8" y="113.8" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink)" text-anchor="start">Woodward</text>
+<circle cx="297.2" cy="227.2" r="6" fill="var(--teal)" stroke="#fff" stroke-width="1.5"/><text x="306.2" y="231.2" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink)" text-anchor="start">Granger</text>
+<circle cx="443.2" cy="380.0" r="6" fill="var(--teal)" stroke="#fff" stroke-width="1.5"/><text x="452.2" y="384.0" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink)" text-anchor="start">Des Moines</text>
+<circle cx="457.9" cy="92.2" r="6" fill="var(--teal)" stroke="#fff" stroke-width="1.5"/><text x="466.9" y="96.2" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink)" text-anchor="start">Huxley</text>
+<circle cx="516.3" cy="60.0" r="6" fill="var(--teal)" stroke="#fff" stroke-width="1.5"/><text x="525.3" y="64.0" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink)" text-anchor="start">Cambridge</text>
+<circle cx="400.2" cy="108.3" r="6" fill="var(--teal)" stroke="#fff" stroke-width="1.5"/><text x="409.2" y="112.3" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink)" text-anchor="start">Slater</text>
+<circle cx="570.0" cy="271.0" r="6" fill="var(--teal)" stroke="#fff" stroke-width="1.5"/><text x="561.0" y="275.0" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink)" text-anchor="end">Bondurant</text>
+<circle cx="70.0" cy="141.4" r="6" fill="var(--teal)" stroke="#fff" stroke-width="1.5"/><text x="79.0" y="145.4" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink)" text-anchor="start">Perry</text>
+<circle cx="178.7" cy="289.3" r="6" fill="var(--teal)" stroke="#fff" stroke-width="1.5"/><text x="187.7" y="293.3" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink)" text-anchor="start">Dallas Center</text>
+<circle cx="316.6" cy="289.3" r="6" fill="var(--teal)" stroke="#fff" stroke-width="1.5"/><text x="325.6" y="293.3" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink)" text-anchor="start">Grimes</text>
+<circle cx="383.0" cy="296.0" r="6" fill="var(--teal)" stroke="#fff" stroke-width="1.5"/><text x="392.0" y="300.0" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink)" text-anchor="start">Johnston</text>
+    <circle cx="375.3" cy="208.6" r="9" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.5"/>
+    <text x="375.3" y="192.6" font-family="Oswald, sans-serif" font-weight="700" font-size="13"
+      fill="var(--ink)" text-anchor="middle" text-transform="uppercase">P&amp;M Apparel HQ</text>
+    <text x="375.3" y="206.6" font-family="IBM Plex Mono, monospace" font-size="11"
+      fill="var(--teal-dark)" text-anchor="middle">Polk City</text>
+    <text x="20" y="28" font-family="IBM Plex Mono, monospace" font-size="11" letter-spacing="2"
+      fill="var(--gray)">N &#8593;</text>
+  </svg>
+      </div>
+      <ul class="community-list">
+        <li>Ankeny</li>
+<li>Alleman</li>
+<li>Polk City</li>
+<li>Woodward</li>
+<li>Granger</li>
+<li>Des Moines</li>
+<li>Huxley</li>
+<li>Cambridge</li>
+<li>Slater</li>
+<li>Bondurant</li>
+<li>Perry</li>
+<li>Dallas Center</li>
+<li>Grimes</li>
+<li>Johnston</li>
+      </ul>
     </div>
   </div>
 </section>
@@ -285,6 +339,12 @@ footer a:hover{color:var(--teal-dark)}
       <p>Adding a school is quick and there's no cost to get set up. Tell us about your school and we'll take it from there.</p>
     </div>
     <a href="https://form.jotform.com/243246726056054" target="_blank" rel="noopener noreferrer" class="btn">Add Your School</a>
+  </div>
+</section>
+
+<section class="note-strip">
+  <div class="wrap">
+    <p>Need more than school gear? Iowa On Demand handles print-on-demand apparel for schools. For custom <a href="https://www.pmapparel.com/" target="_blank" rel="noopener noreferrer">screen printing and embroidery</a>, promotional products, and event apparel for local businesses, our parent company <a href="https://www.pmapparel.com/" target="_blank" rel="noopener noreferrer">P&amp;M Apparel</a> has you covered.</p>
   </div>
 </section>
 
