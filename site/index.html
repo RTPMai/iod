@@ -135,18 +135,18 @@ nav.links a:hover{color:var(--teal-dark)}
   margin-top:auto;display:block}
 
 /* communities */
-.map-card{border:1px solid var(--line);border-radius:8px;background:var(--card);padding:14px;
+.map-card{border:1px solid var(--line);border-radius:8px;overflow:hidden;
   box-shadow:0 1px 3px rgba(20,20,10,.05)}
-.map-card svg{width:100%;height:auto;display:block}
-.community-list{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:22px;
-  list-style:none;padding:0}
-.community-list li{background:var(--card);border:1px solid var(--line);border-radius:20px;
-  padding:7px 14px;font-family:'IBM Plex Mono',monospace;font-size:.76rem;color:var(--ink);
-  text-align:center}
-@media (min-width:560px){.community-list{grid-template-columns:repeat(3,1fr)}}
-@media (min-width:900px){.community-list{grid-template-columns:repeat(4,1fr)}}
+.map-card iframe{width:100%;height:340px;border:0;display:block}
+.community-list{columns:2;column-gap:10px;margin:22px 0 0;padding:0;list-style:none}
+.community-list li{break-inside:avoid;margin-bottom:8px;background:var(--card);
+  border:1px solid var(--line);border-radius:20px;padding:7px 14px;text-align:center;
+  font-family:'IBM Plex Mono',monospace;font-size:.76rem;color:var(--ink)}
+@media (min-width:480px){.community-list{columns:3}}
+@media (min-width:860px){.community-list{columns:2}.map-card iframe{height:300px}}
+@media (min-width:1000px){.map-card iframe{height:380px}}
 .communities-grid{display:grid;grid-template-columns:1fr;gap:24px;margin-top:24px}
-@media (min-width:860px){.communities-grid{grid-template-columns:1.1fr 1fr;align-items:start}}
+@media (min-width:860px){.communities-grid{grid-template-columns:1.15fr 1fr;align-items:start}}
 
 /* faq */
 .faq-item{border-bottom:1px solid var(--line);padding:18px 0}
@@ -164,16 +164,9 @@ nav.links a:hover{color:var(--teal-dark)}
 @media (min-width:480px){.cta-band .btn{flex:0 0 auto}}
 @media (min-width:700px){.cta-band{padding:48px 0}.cta-band .wrap{flex-direction:row;justify-content:space-between;align-items:center}}
 
-/* note strip -- cross-link card, styled to match feature/contact cards */
-.note-strip{padding:0 0 40px}
-.note-card{border:1px solid var(--line);border-radius:6px;background:var(--card);
-  padding:20px;display:flex;flex-direction:column;gap:6px;box-shadow:0 1px 3px rgba(20,20,10,.05);
-  border-left:4px solid var(--teal)}
-.note-card p{margin:0;color:#3a3d44;font-size:.94rem}
-.note-card a{color:var(--teal-dark);text-decoration:none;font-weight:600;border-bottom:1px solid var(--teal);
-  padding-bottom:1px}
-.note-card a:hover{color:var(--gold-dark);border-color:var(--gold-dark)}
-@media (min-width:700px){.note-strip{padding:0 0 56px}.note-card{padding:26px 30px}}
+/* note strip -- reuses the cta-band pattern with a teal accent, so it
+   reads as the same component family as the "don't see your school" band */
+.cta-band.alt{background:var(--paper);border-top:3px solid var(--teal);border-bottom:1px solid var(--line)}
 
 /* footer */
 footer{border-top:1px solid var(--line);padding:34px 0 24px;background:var(--surface)}
@@ -281,53 +274,7 @@ footer a:hover{color:var(--teal-dark)}
     <p style="max-width:640px">Iowa On Demand partners with schools across the Des Moines metro and central Iowa. If your town's on this list, there's a good chance a store isn't far behind.</p>
     <div class="communities-grid">
       <div class="map-card">
-        <svg viewBox="0 0 880 460" xmlns="http://www.w3.org/2000/svg" role="img"
-    aria-label="Map of Iowa showing Iowa On Demand's service area clustered in central Iowa around Polk City">
-    <rect x="1" y="1" width="878" height="458" rx="10" fill="var(--card)" stroke="var(--line)"/>
-
-    <text x="30" y="42" font-family="IBM Plex Mono, monospace" font-size="11" letter-spacing="2"
-      fill="var(--gray)">IOWA</text>
-    <polygon points="30.0,56.0 212.4,56.0 231.9,101.1 234.0,145.8 215.8,178.5 206.6,195.3 58.2,188.7 54.9,157.9 35.5,102.2 30.0,56.0" fill="#eaf6f9" stroke="var(--teal)" stroke-width="1.5"/>
-    <rect x="112.1" y="125.3" width="26.6" height="19.7" fill="var(--gold)" fill-opacity="0.25"
-      stroke="var(--gold-dark)" stroke-width="1.2"/>
-
-    <line x1="138.7" y1="125.3" x2="280" y2="20" stroke="var(--gold-dark)" stroke-width="1" stroke-dasharray="3,3"/><line x1="138.7" y1="145.0" x2="280" y2="440" stroke="var(--gold-dark)" stroke-width="1" stroke-dasharray="3,3"/>
-
-    <text x="280" y="16" font-family="IBM Plex Mono, monospace" font-size="11" letter-spacing="1.5"
-      fill="var(--gray)">CENTRAL IOWA &mdash; ZOOMED</text>
-    <rect x="280" y="20" width="570" height="420" fill="none" stroke="var(--line)" stroke-width="1"/>
-    <line x1="628.0" y1="215.0" x2="727.5" y2="263.4" stroke="var(--line)" stroke-width="1.5"/>
-<line x1="628.0" y1="215.0" x2="694.1" y2="137.9" stroke="var(--line)" stroke-width="1.5"/>
-<line x1="628.0" y1="215.0" x2="454.2" y2="85.3" stroke="var(--line)" stroke-width="1.5"/>
-<line x1="628.0" y1="215.0" x2="539.0" y2="239.4" stroke="var(--line)" stroke-width="1.5"/>
-<line x1="628.0" y1="215.0" x2="705.5" y2="440.0" stroke="var(--line)" stroke-width="1.5"/>
-<line x1="628.0" y1="215.0" x2="722.2" y2="62.3" stroke="var(--line)" stroke-width="1.5"/>
-<line x1="628.0" y1="215.0" x2="788.7" y2="20.0" stroke="var(--line)" stroke-width="1.5"/>
-<line x1="628.0" y1="215.0" x2="656.5" y2="83.4" stroke="var(--line)" stroke-width="1.5"/>
-<line x1="628.0" y1="215.0" x2="850.0" y2="296.9" stroke="var(--line)" stroke-width="1.5"/>
-<line x1="628.0" y1="215.0" x2="280.0" y2="126.9" stroke="var(--line)" stroke-width="1.5"/>
-<line x1="628.0" y1="215.0" x2="403.9" y2="320.9" stroke="var(--line)" stroke-width="1.5"/>
-<line x1="628.0" y1="215.0" x2="561.1" y2="320.9" stroke="var(--line)" stroke-width="1.5"/>
-<line x1="628.0" y1="215.0" x2="636.9" y2="329.7" stroke="var(--line)" stroke-width="1.5"/>
-    <circle cx="727.5" cy="263.4" r="6" fill="var(--teal)" stroke="#fff" stroke-width="1.5"/><text x="736.5" y="267.4" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink)" text-anchor="start">Ankeny</text>
-<circle cx="694.1" cy="137.9" r="6" fill="var(--teal)" stroke="#fff" stroke-width="1.5"/><text x="703.1" y="141.9" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink)" text-anchor="start">Alleman</text>
-<circle cx="454.2" cy="85.3" r="6" fill="var(--teal)" stroke="#fff" stroke-width="1.5"/><text x="463.2" y="89.3" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink)" text-anchor="start">Woodward</text>
-<circle cx="539.0" cy="239.4" r="6" fill="var(--teal)" stroke="#fff" stroke-width="1.5"/><text x="548.0" y="243.4" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink)" text-anchor="start">Granger</text>
-<circle cx="705.5" cy="440.0" r="6" fill="var(--teal)" stroke="#fff" stroke-width="1.5"/><text x="714.5" y="444.0" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink)" text-anchor="start">Des Moines</text>
-<circle cx="722.2" cy="62.3" r="6" fill="var(--teal)" stroke="#fff" stroke-width="1.5"/><text x="731.2" y="66.3" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink)" text-anchor="start">Huxley</text>
-<circle cx="788.7" cy="20.0" r="6" fill="var(--teal)" stroke="#fff" stroke-width="1.5"/><text x="779.7" y="24.0" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink)" text-anchor="end">Cambridge</text>
-<circle cx="656.5" cy="83.4" r="6" fill="var(--teal)" stroke="#fff" stroke-width="1.5"/><text x="665.5" y="87.4" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink)" text-anchor="start">Slater</text>
-<circle cx="850.0" cy="296.9" r="6" fill="var(--teal)" stroke="#fff" stroke-width="1.5"/><text x="841.0" y="300.9" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink)" text-anchor="end">Bondurant</text>
-<circle cx="280.0" cy="126.9" r="6" fill="var(--teal)" stroke="#fff" stroke-width="1.5"/><text x="289.0" y="130.9" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink)" text-anchor="start">Perry</text>
-<circle cx="403.9" cy="320.9" r="6" fill="var(--teal)" stroke="#fff" stroke-width="1.5"/><text x="412.9" y="324.9" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink)" text-anchor="start">Dallas Center</text>
-<circle cx="561.1" cy="320.9" r="6" fill="var(--teal)" stroke="#fff" stroke-width="1.5"/><text x="570.1" y="324.9" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink)" text-anchor="start">Grimes</text>
-<circle cx="636.9" cy="329.7" r="6" fill="var(--teal)" stroke="#fff" stroke-width="1.5"/><text x="645.9" y="333.7" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink)" text-anchor="start">Johnston</text>
-    <circle cx="628.0" cy="215.0" r="9" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.5"/>
-    <text x="628.0" y="199.0" font-family="Oswald, sans-serif" font-weight="700" font-size="13"
-      fill="var(--ink)" text-anchor="middle" text-transform="uppercase">P&amp;M Apparel HQ</text>
-    <text x="628.0" y="213.0" font-family="IBM Plex Mono, monospace" font-size="11"
-      fill="var(--teal-dark)" text-anchor="middle">Polk City</text>
-  </svg>
+        <iframe src="https://maps.google.com/maps?q=Polk+City,+Iowa&z=9&output=embed" title="Map of Iowa On Demand's service area in central Iowa" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
       <ul class="community-list">
         <li>Ankeny</li>
@@ -359,12 +306,13 @@ footer a:hover{color:var(--teal-dark)}
   </div>
 </section>
 
-<section class="note-strip">
+<section class="cta-band alt">
   <div class="wrap">
-    <div class="note-card">
-      <span class="eyebrow" style="margin-bottom:0">Beyond Spirit Wear</span>
-      <p>Iowa On Demand handles print-on-demand apparel for schools. For custom <a href="https://www.pmapparel.com/" target="_blank" rel="noopener noreferrer">screen printing and embroidery</a>, promotional products, and event apparel for local businesses, our parent company <a href="https://www.pmapparel.com/" target="_blank" rel="noopener noreferrer">P&amp;M Apparel</a> has you covered.</p>
+    <div>
+      <h2>Need more than spirit wear?</h2>
+      <p>For custom screen printing, embroidery, promotional products, and event apparel for local businesses, our parent company <a href="https://www.pmapparel.com/" target="_blank" rel="noopener noreferrer">P&amp;M Apparel</a> has you covered.</p>
     </div>
+    <a href="https://www.pmapparel.com/" target="_blank" rel="noopener noreferrer" class="btn ghost">Visit P&amp;M Apparel</a>
   </div>
 </section>
 

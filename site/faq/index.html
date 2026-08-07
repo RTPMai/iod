@@ -135,18 +135,18 @@ nav.links a:hover{color:var(--teal-dark)}
   margin-top:auto;display:block}
 
 /* communities */
-.map-card{border:1px solid var(--line);border-radius:8px;background:var(--card);padding:14px;
+.map-card{border:1px solid var(--line);border-radius:8px;overflow:hidden;
   box-shadow:0 1px 3px rgba(20,20,10,.05)}
-.map-card svg{width:100%;height:auto;display:block}
-.community-list{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:22px;
-  list-style:none;padding:0}
-.community-list li{background:var(--card);border:1px solid var(--line);border-radius:20px;
-  padding:7px 14px;font-family:'IBM Plex Mono',monospace;font-size:.76rem;color:var(--ink);
-  text-align:center}
-@media (min-width:560px){.community-list{grid-template-columns:repeat(3,1fr)}}
-@media (min-width:900px){.community-list{grid-template-columns:repeat(4,1fr)}}
+.map-card iframe{width:100%;height:340px;border:0;display:block}
+.community-list{columns:2;column-gap:10px;margin:22px 0 0;padding:0;list-style:none}
+.community-list li{break-inside:avoid;margin-bottom:8px;background:var(--card);
+  border:1px solid var(--line);border-radius:20px;padding:7px 14px;text-align:center;
+  font-family:'IBM Plex Mono',monospace;font-size:.76rem;color:var(--ink)}
+@media (min-width:480px){.community-list{columns:3}}
+@media (min-width:860px){.community-list{columns:2}.map-card iframe{height:300px}}
+@media (min-width:1000px){.map-card iframe{height:380px}}
 .communities-grid{display:grid;grid-template-columns:1fr;gap:24px;margin-top:24px}
-@media (min-width:860px){.communities-grid{grid-template-columns:1.1fr 1fr;align-items:start}}
+@media (min-width:860px){.communities-grid{grid-template-columns:1.15fr 1fr;align-items:start}}
 
 /* faq */
 .faq-item{border-bottom:1px solid var(--line);padding:18px 0}
@@ -164,16 +164,9 @@ nav.links a:hover{color:var(--teal-dark)}
 @media (min-width:480px){.cta-band .btn{flex:0 0 auto}}
 @media (min-width:700px){.cta-band{padding:48px 0}.cta-band .wrap{flex-direction:row;justify-content:space-between;align-items:center}}
 
-/* note strip -- cross-link card, styled to match feature/contact cards */
-.note-strip{padding:0 0 40px}
-.note-card{border:1px solid var(--line);border-radius:6px;background:var(--card);
-  padding:20px;display:flex;flex-direction:column;gap:6px;box-shadow:0 1px 3px rgba(20,20,10,.05);
-  border-left:4px solid var(--teal)}
-.note-card p{margin:0;color:#3a3d44;font-size:.94rem}
-.note-card a{color:var(--teal-dark);text-decoration:none;font-weight:600;border-bottom:1px solid var(--teal);
-  padding-bottom:1px}
-.note-card a:hover{color:var(--gold-dark);border-color:var(--gold-dark)}
-@media (min-width:700px){.note-strip{padding:0 0 56px}.note-card{padding:26px 30px}}
+/* note strip -- reuses the cta-band pattern with a teal accent, so it
+   reads as the same component family as the "don't see your school" band */
+.cta-band.alt{background:var(--paper);border-top:3px solid var(--teal);border-bottom:1px solid var(--line)}
 
 /* footer */
 footer{border-top:1px solid var(--line);padding:34px 0 24px;background:var(--surface)}

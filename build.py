@@ -59,123 +59,11 @@ COMMUNITIES = [
     "Dallas Center", "Grimes", "Johnston",
 ]
 
-# Approximate lat/lon for each community, used only to plot relative
-# positions on the stylized coverage map below (not for literal navigation).
-COMMUNITY_COORDS = {
-    "Ankeny": (41.7317, -93.6001),
-    "Alleman": (41.8347, -93.6379),
-    "Polk City": (41.7714, -93.7127),
-    "Woodward": (41.8778, -93.9096),
-    "Granger": (41.7514, -93.8135),
-    "Des Moines": (41.5868, -93.6250),
-    "Huxley": (41.8967, -93.6060),
-    "Cambridge": (41.9314, -93.5307),
-    "Slater": (41.8794, -93.6805),
-    "Bondurant": (41.7042, -93.4613),
-    "Perry": (41.8437, -94.1069),
-    "Dallas Center": (41.6845, -93.9666),
-    "Grimes": (41.6845, -93.7885),
-    "Johnston": (41.6773, -93.7027),
-}
-HQ_COMMUNITY = "Polk City"  # P&M Apparel's home base -- gets the hub marker
-
-# Simplified Iowa state outline (lat, lon), traced clockwise from the NW
-# corner. Close enough to be recognizable as "Iowa" for a locator graphic;
-# not survey-accurate.
-IOWA_OUTLINE = [
-    (43.501, -96.601), (43.500, -91.217), (42.508, -90.639),
-    (41.524, -90.578), (40.804, -91.114), (40.435, -91.386),
-    (40.580, -95.767), (41.258, -95.865), (42.483, -96.438),
-    (43.501, -96.601),
-]
-IOWA_LAT_MIN, IOWA_LAT_MAX = 40.375, 43.501
-IOWA_LON_MIN, IOWA_LON_MAX = -96.601, -90.578
-
-def coverage_map_svg():
-    W, H = 880, 460
-
-    # -- locator panel: full Iowa outline, top-left --------------------
-    LX, LY, LW, LH = 30, 56, 204, 142
-
-    def project_locator(lat, lon):
-        x = LX + (lon - IOWA_LON_MIN) / (IOWA_LON_MAX - IOWA_LON_MIN) * LW
-        y = LY + (IOWA_LAT_MAX - lat) / (IOWA_LAT_MAX - IOWA_LAT_MIN) * LH
-        return round(x, 1), round(y, 1)
-
-    outline_pts = " ".join(f"{x},{y}" for x, y in (project_locator(lat, lon) for lat, lon in IOWA_OUTLINE))
-
-    # padded bounding box of the community cluster, used to draw the
-    # "zoomed area" rectangle on the locator
-    lons = [v[1] for v in COMMUNITY_COORDS.values()]
-    lats = [v[0] for v in COMMUNITY_COORDS.values()]
-    pad_lon, pad_lat = 0.07, 0.045
-    clon_min, clon_max = min(lons) - pad_lon, max(lons) + pad_lon
-    clat_min, clat_max = min(lats) - pad_lat, max(lats) + pad_lat
-    rx, ry = project_locator(clat_max, clon_min)
-    rx2, ry2 = project_locator(clat_min, clon_max)
-    rw, rh = round(rx2 - rx, 1), round(ry2 - ry, 1)
-
-    # -- detail panel: zoomed hub-and-spoke, right side -----------------
-    DX, DY, DW, DH = 280, 20, 570, 420
-    lon_min, lon_max = min(lons), max(lons)
-    lat_min, lat_max = min(lats), max(lats)
-
-    def project_detail(lat, lon):
-        x = DX + (lon - lon_min) / (lon_max - lon_min) * DW
-        y = DY + (lat_max - lat) / (lat_max - lat_min) * DH
-        return round(x, 1), round(y, 1)
-
-    pts = {name: project_detail(*coord) for name, coord in COMMUNITY_COORDS.items()}
-    hub = pts[HQ_COMMUNITY]
-
-    spokes = "\n".join(
-        f'<line x1="{hub[0]}" y1="{hub[1]}" x2="{x}" y2="{y}" stroke="var(--line)" stroke-width="1.5"/>'
-        for name, (x, y) in pts.items() if name != HQ_COMMUNITY
-    )
-    dots = []
-    for name, (x, y) in pts.items():
-        if name == HQ_COMMUNITY:
-            continue
-        label_anchor = "start" if x < DX + DW - 90 else "end"
-        dx = 9 if label_anchor == "start" else -9
-        dots.append(
-            f'<circle cx="{x}" cy="{y}" r="6" fill="var(--teal)" stroke="#fff" stroke-width="1.5"/>'
-            f'<text x="{x+dx}" y="{y+4}" font-family="IBM Plex Mono, monospace" font-size="12" '
-            f'fill="var(--ink)" text-anchor="{label_anchor}">{name}</text>'
-        )
-    dots_html = "\n".join(dots)
-
-    # connector lines from the locator's zoom-rectangle to the detail panel
-    connectors = (
-        f'<line x1="{round(rx+rw,1)}" y1="{ry}" x2="{DX}" y2="{DY}" stroke="var(--gold-dark)" '
-        f'stroke-width="1" stroke-dasharray="3,3"/>'
-        f'<line x1="{round(rx+rw,1)}" y1="{round(ry+rh,1)}" x2="{DX}" y2="{DY+DH}" stroke="var(--gold-dark)" '
-        f'stroke-width="1" stroke-dasharray="3,3"/>'
-    )
-
-    return f'''<svg viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg" role="img"
-    aria-label="Map of Iowa showing Iowa On Demand's service area clustered in central Iowa around Polk City">
-    <rect x="1" y="1" width="{W-2}" height="{H-2}" rx="10" fill="var(--card)" stroke="var(--line)"/>
-
-    <text x="{LX}" y="{LY-14}" font-family="IBM Plex Mono, monospace" font-size="11" letter-spacing="2"
-      fill="var(--gray)">IOWA</text>
-    <polygon points="{outline_pts}" fill="#eaf6f9" stroke="var(--teal)" stroke-width="1.5"/>
-    <rect x="{rx}" y="{ry}" width="{rw}" height="{rh}" fill="var(--gold)" fill-opacity="0.25"
-      stroke="var(--gold-dark)" stroke-width="1.2"/>
-
-    {connectors}
-
-    <text x="{DX}" y="{DY-4}" font-family="IBM Plex Mono, monospace" font-size="11" letter-spacing="1.5"
-      fill="var(--gray)">CENTRAL IOWA &mdash; ZOOMED</text>
-    <rect x="{DX}" y="{DY}" width="{DW}" height="{DH}" fill="none" stroke="var(--line)" stroke-width="1"/>
-    {spokes}
-    {dots_html}
-    <circle cx="{hub[0]}" cy="{hub[1]}" r="9" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.5"/>
-    <text x="{hub[0]}" y="{hub[1]-16}" font-family="Oswald, sans-serif" font-weight="700" font-size="13"
-      fill="var(--ink)" text-anchor="middle" text-transform="uppercase">P&amp;M Apparel HQ</text>
-    <text x="{hub[0]}" y="{hub[1]-2}" font-family="IBM Plex Mono, monospace" font-size="11"
-      fill="var(--teal-dark)" text-anchor="middle">Polk City</text>
-  </svg>'''
+# Real embedded map (Google's no-key iframe embed) -- shows actual roads,
+# highways, and place labels for the service area, centered on Polk City
+# (P&M Apparel's home base). Zoom 9 keeps Perry (west) and Cambridge (north)
+# in frame; the person can pan/zoom the embed itself for more detail.
+MAP_EMBED_SRC = "https://maps.google.com/maps?q=Polk+City,+Iowa&z=9&output=embed"
 
 FAQS = [
     ("How does Iowa On Demand work?",
@@ -337,18 +225,18 @@ nav.links a:hover{color:var(--teal-dark)}
   margin-top:auto;display:block}
 
 /* communities */
-.map-card{border:1px solid var(--line);border-radius:8px;background:var(--card);padding:14px;
+.map-card{border:1px solid var(--line);border-radius:8px;overflow:hidden;
   box-shadow:0 1px 3px rgba(20,20,10,.05)}
-.map-card svg{width:100%;height:auto;display:block}
-.community-list{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:22px;
-  list-style:none;padding:0}
-.community-list li{background:var(--card);border:1px solid var(--line);border-radius:20px;
-  padding:7px 14px;font-family:'IBM Plex Mono',monospace;font-size:.76rem;color:var(--ink);
-  text-align:center}
-@media (min-width:560px){.community-list{grid-template-columns:repeat(3,1fr)}}
-@media (min-width:900px){.community-list{grid-template-columns:repeat(4,1fr)}}
+.map-card iframe{width:100%;height:340px;border:0;display:block}
+.community-list{columns:2;column-gap:10px;margin:22px 0 0;padding:0;list-style:none}
+.community-list li{break-inside:avoid;margin-bottom:8px;background:var(--card);
+  border:1px solid var(--line);border-radius:20px;padding:7px 14px;text-align:center;
+  font-family:'IBM Plex Mono',monospace;font-size:.76rem;color:var(--ink)}
+@media (min-width:480px){.community-list{columns:3}}
+@media (min-width:860px){.community-list{columns:2}.map-card iframe{height:300px}}
+@media (min-width:1000px){.map-card iframe{height:380px}}
 .communities-grid{display:grid;grid-template-columns:1fr;gap:24px;margin-top:24px}
-@media (min-width:860px){.communities-grid{grid-template-columns:1.1fr 1fr;align-items:start}}
+@media (min-width:860px){.communities-grid{grid-template-columns:1.15fr 1fr;align-items:start}}
 
 /* faq */
 .faq-item{border-bottom:1px solid var(--line);padding:18px 0}
@@ -366,16 +254,9 @@ nav.links a:hover{color:var(--teal-dark)}
 @media (min-width:480px){.cta-band .btn{flex:0 0 auto}}
 @media (min-width:700px){.cta-band{padding:48px 0}.cta-band .wrap{flex-direction:row;justify-content:space-between;align-items:center}}
 
-/* note strip -- cross-link card, styled to match feature/contact cards */
-.note-strip{padding:0 0 40px}
-.note-card{border:1px solid var(--line);border-radius:6px;background:var(--card);
-  padding:20px;display:flex;flex-direction:column;gap:6px;box-shadow:0 1px 3px rgba(20,20,10,.05);
-  border-left:4px solid var(--teal)}
-.note-card p{margin:0;color:#3a3d44;font-size:.94rem}
-.note-card a{color:var(--teal-dark);text-decoration:none;font-weight:600;border-bottom:1px solid var(--teal);
-  padding-bottom:1px}
-.note-card a:hover{color:var(--gold-dark);border-color:var(--gold-dark)}
-@media (min-width:700px){.note-strip{padding:0 0 56px}.note-card{padding:26px 30px}}
+/* note strip -- reuses the cta-band pattern with a teal accent, so it
+   reads as the same component family as the "don't see your school" band */
+.cta-band.alt{background:var(--paper);border-top:3px solid var(--teal);border-bottom:1px solid var(--line)}
 
 /* footer */
 footer{border-top:1px solid var(--line);padding:34px 0 24px;background:var(--surface)}
@@ -602,7 +483,7 @@ def home_body():
     <p style="max-width:640px">Iowa On Demand partners with schools across the Des Moines metro and central Iowa. If your town's on this list, there's a good chance a store isn't far behind.</p>
     <div class="communities-grid">
       <div class="map-card">
-        {coverage_map_svg()}
+        <iframe src="{MAP_EMBED_SRC}" title="Map of Iowa On Demand's service area in central Iowa" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
       <ul class="community-list">
         {chips_html}
@@ -621,12 +502,13 @@ def home_body():
   </div>
 </section>
 
-<section class="note-strip">
+<section class="cta-band alt">
   <div class="wrap">
-    <div class="note-card">
-      <span class="eyebrow" style="margin-bottom:0">Beyond Spirit Wear</span>
-      <p>Iowa On Demand handles print-on-demand apparel for schools. For custom {ext(PM_URL, "screen printing and embroidery")}, promotional products, and event apparel for local businesses, our parent company {ext(PM_URL, "P&amp;M Apparel")} has you covered.</p>
+    <div>
+      <h2>Need more than spirit wear?</h2>
+      <p>For custom screen printing, embroidery, promotional products, and event apparel for local businesses, our parent company {ext(PM_URL, "P&amp;M Apparel")} has you covered.</p>
     </div>
+    {ext(PM_URL, "Visit P&amp;M Apparel", cls="btn ghost")}
   </div>
 </section>
 """
