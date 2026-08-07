@@ -164,9 +164,16 @@ nav.links a:hover{color:var(--teal-dark)}
 @media (min-width:480px){.cta-band .btn{flex:0 0 auto}}
 @media (min-width:700px){.cta-band{padding:48px 0}.cta-band .wrap{flex-direction:row;justify-content:space-between;align-items:center}}
 
-/* note strip -- slim cross-link banner, no heading, no background band */
-.note-strip{padding:22px 0;border-bottom:1px solid var(--line)}
-.note-strip p{margin:0;color:var(--gray);font-size:.92rem;max-width:760px}
+/* note strip -- cross-link card, styled to match feature/contact cards */
+.note-strip{padding:0 0 40px}
+.note-card{border:1px solid var(--line);border-radius:6px;background:var(--card);
+  padding:20px;display:flex;flex-direction:column;gap:6px;box-shadow:0 1px 3px rgba(20,20,10,.05);
+  border-left:4px solid var(--teal)}
+.note-card p{margin:0;color:#3a3d44;font-size:.94rem}
+.note-card a{color:var(--teal-dark);text-decoration:none;font-weight:600;border-bottom:1px solid var(--teal);
+  padding-bottom:1px}
+.note-card a:hover{color:var(--gold-dark);border-color:var(--gold-dark)}
+@media (min-width:700px){.note-strip{padding:0 0 56px}.note-card{padding:26px 30px}}
 
 /* footer */
 footer{border-top:1px solid var(--line);padding:34px 0 24px;background:var(--surface)}
