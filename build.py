@@ -256,13 +256,6 @@ nav.links a:hover{color:var(--teal-dark)}
 @media (min-width:480px){.community-list{columns:3}}
 @media (min-width:700px){.community-list{columns:4}}
 
-/* community anchor sections on the schools page */
-.community-section{padding-top:8px;margin-top:36px;scroll-margin-top:88px}
-.community-section:first-child{margin-top:0}
-.community-section h2{font-size:1.3rem;display:flex;align-items:baseline;gap:10px}
-.community-section h2 .count{font-family:'IBM Plex Mono',monospace;text-transform:none;
-  letter-spacing:0;font-size:.72rem;color:var(--gray);font-weight:500}
-
 /* faq */
 .faq-item{border-bottom:1px solid var(--line);padding:18px 0}
 .faq-item h3{margin:0 0 8px;font-size:1.02rem;font-family:'Inter',sans-serif;
@@ -466,7 +459,7 @@ def home_body():
     live_schools = [s for s in SCHOOLS if s["chipply"]][:6]
     preview_html = "\n".join(jersey_card(s) for s in live_schools)
     chips_html = "\n".join(
-        f'<li><a href="/schools/#{slugify(c)}">{c}</a></li>' for c in COMMUNITIES
+        f'<li><a href="/schools/">{c}</a></li>' for c in COMMUNITIES
     )
     return f"""
 <section class="hero">
@@ -535,37 +528,20 @@ def home_body():
 """
 
 def schools_body():
-    quicknav_html = "\n".join(
-        f'<li><a href="#{slugify(c)}">{c}</a></li>' for c in COMMUNITIES
-    )
-    sections = []
-    for c in COMMUNITIES:
-        schools_here = SCHOOLS_BY_COMMUNITY[c]
-        cards = "\n".join(jersey_card(s) for s in schools_here)
-        count = len(schools_here)
-        label = "school" if count == 1 else "schools"
-        sections.append(f'''
-<section class="community-section" id="{slugify(c)}">
-  <h2>{c}, IA <span class="count">{count} {label}</span></h2>
-  <div class="roster">
-    {cards}
-  </div>
-</section>''')
-    sections_html = "\n".join(sections)
+    cards_html = "\n".join(jersey_card(s) for s in SCHOOLS)
     return f"""
 <section class="hero" style="padding-bottom:24px">
   <div class="wrap">
     <span class="eyebrow">Our Partnered Schools</span>
     <h1>Shop your school.</h1>
-    <p class="lead">Twelve Iowa schools, twelve dedicated stores, serving families from Ankeny and Johnston to Grimes, Bondurant, Perry, and the Des Moines metro. Jump to your city, or browse everyone below.</p>
-    <ul class="community-list" style="margin-top:22px">
-      {quicknav_html}
-    </ul>
+    <p class="lead">Twelve Iowa schools, twelve dedicated stores, serving families from Ankeny and Johnston to Grimes, Bondurant, Perry, and the Des Moines metro. Pick yours below to shop spirit wear, team gear, and fundraiser apparel, printed on demand.</p>
   </div>
 </section>
 <section class="section">
   <div class="wrap">
-    {sections_html}
+    <div class="roster">
+      {cards_html}
+    </div>
   </div>
 </section>
 <section class="cta-band">
