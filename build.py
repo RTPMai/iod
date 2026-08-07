@@ -26,27 +26,37 @@ UPDATED_HUMAN = datetime.date.today().strftime("%B %-d, %Y")
 # live (drop the file in assets/schools/ and re-run).
 SCHOOLS = [
     {"name": "North Polk",               "mascot": "Comets",  "chipply": "https://pmapparel.chipply.com/npiod/",
-     "logo": "/assets/schools/northpolk.png"},
+     "logo": "/assets/schools/northpolk.png", "city": "Alleman & Polk City, IA"},
     {"name": "Woodward-Granger",         "mascot": "Hawks",   "chipply": "https://pmapparel.chipply.com/iodwg/",
-     "logo": "/assets/schools/woodward-granger.png"},
+     "logo": "/assets/schools/woodward-granger.png", "city": "Woodward & Granger, IA"},
     {"name": "Ankeny Christian Academy", "mascot": "Eagles",  "chipply": "https://pmapparel.chipply.com/iodaca",
-     "logo": "/assets/schools/ankeny-christian-academy.png"},
+     "logo": "/assets/schools/ankeny-christian-academy.png", "city": "Ankeny, IA"},
     {"name": "Ankeny Centennial",        "mascot": "Jaguars", "chipply": "https://pmapparel.chipply.com/centiod/?action=viewall",
-     "logo": "/assets/schools/ankeny-centennial.png"},
+     "logo": "/assets/schools/ankeny-centennial.png", "city": "Ankeny, IA"},
     {"name": "Ankeny",                   "mascot": "Hawks",   "chipply": "https://pmapparel.chipply.com/ioda/?action=viewall",
-     "logo": "/assets/schools/ankeny.png"},
+     "logo": "/assets/schools/ankeny.png", "city": "Ankeny, IA"},
     {"name": "Saydel",                   "mascot": "Eagles",  "chipply": "https://pmapparel.chipply.com/siod/?action=viewall",
-     "logo": "/assets/schools/saydel.png"},
+     "logo": "/assets/schools/saydel.png", "city": "Des Moines (Saylorville), IA"},
     {"name": "Ballard",                  "mascot": "Bombers",     "chipply": None,
-     "logo": "/assets/schools/ballard.png"},
+     "logo": "/assets/schools/ballard.svg", "city": "Huxley, Cambridge & Slater, IA"},
     {"name": "Bondurant-Farrar",         "mascot": "Bluejays",    "chipply": None,
-     "logo": "/assets/schools/bondurant-farrar.png"},
-    {"name": "Perry",                    "mascot": "Bluejays",    "chipply": None, "logo": None},
-    {"name": "Roosevelt",                "mascot": "Roughriders", "chipply": None, "logo": None},
+     "logo": "/assets/schools/bondurant-farrar.svg", "city": "Bondurant, IA"},
+    {"name": "Perry",                    "mascot": "Bluejays",    "chipply": None, "logo": None,
+     "city": "Perry, IA"},
+    {"name": "Roosevelt",                "mascot": "Roughriders", "chipply": None, "logo": None,
+     "city": "Des Moines, IA"},
     {"name": "Dallas Center-Grimes",     "mascot": "Mustangs",    "chipply": None,
-     "logo": "/assets/schools/dallas-center-grimes.png"},
+     "logo": "/assets/schools/dallas-center-grimes.svg", "city": "Dallas Center & Grimes, IA"},
     {"name": "Johnston",                 "mascot": "Dragons",     "chipply": None,
-     "logo": "/assets/schools/johnston.png"},
+     "logo": "/assets/schools/johnston.svg", "city": "Johnston, IA"},
+]
+
+# Deduplicated list of every community these 12 districts actually serve.
+# Drives the "Communities We Serve" section and the Organization schema's areaServed.
+COMMUNITIES = [
+    "Ankeny", "Alleman", "Polk City", "Woodward", "Granger", "Des Moines",
+    "Huxley", "Cambridge", "Slater", "Bondurant", "Perry",
+    "Dallas Center", "Grimes", "Johnston",
 ]
 
 FAQS = [
@@ -70,6 +80,8 @@ FAQS = [
      "Nothing. There's no setup fee for a partnered school. We build and manage the store; you share the link."),
     ("My school isn't listed. How do we get started?",
      "Tell us. Adding a school is quick, and there's no cost to get set up."),
+    ("What areas of Iowa does Iowa On Demand serve?",
+     "We partner with schools across the Des Moines metro and central Iowa, including Ankeny, Alleman, Polk City, Woodward, Granger, Des Moines, Huxley, Bondurant, Perry, Dallas Center, Grimes, and Johnston. If your community isn't on the list yet, reach out."),
 ]
 
 # ---------------------------------------------------------------------------
@@ -82,22 +94,24 @@ def ext(url, text, cls=""):
 # ---------------------------------------------------------------------------
 # DESIGN SYSTEM (distinct from pmapparel.com / flyovercon.ink)
 # Bright varsity look built around the real Iowa On Demand mark: gold
-# #fcb426 and teal #008ea9, pulled directly from the logo file. Paper-white
-# background, dark ink text. Mobile-first: base rules target small screens,
-# min-width media queries layer on the wider layout.
+# #fcb426 and teal #008ea9, pulled directly from the logo file. Two neutral
+# background tones only (white + a single warm-gray surface) so gold reads
+# as a deliberate accent, never as a background wash. Mobile-first: base
+# rules target small screens, min-width media queries layer on desktop.
 # Display face Oswald (condensed, athletic), body Inter, roster numbers and
 # labels in IBM Plex Mono.
 # ---------------------------------------------------------------------------
 CSS = """
 :root{
-  --paper:#faf6ec;
+  --paper:#ffffff;
+  --surface:#f2f0ea;
   --card:#ffffff;
   --ink:#181a1f;
   --gold:#fcb426;
   --gold-dark:#c9860a;
   --teal:#008ea9;
   --teal-dark:#00697d;
-  --line:#e6dfcd;
+  --line:#e2ddd0;
   --gray:#666a71;
 }
 *{box-sizing:border-box}
@@ -127,7 +141,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--teal-dark);outline-
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 /* header */
-header.site{position:sticky;top:0;z-index:50;background:rgba(250,246,236,.94);
+header.site{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);
   backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
 .nav{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:12px 0}
 .wordmark{display:flex;align-items:center;gap:10px;text-decoration:none}
@@ -160,7 +174,7 @@ nav.links a:hover{color:var(--teal-dark)}
 
 /* hero */
 .hero{padding:40px 0 32px;border-bottom:1px solid var(--line);
-  background:radial-gradient(ellipse at top right, #fff2cf 0%, var(--paper) 62%)}
+  background:radial-gradient(ellipse at top right, #e8f6f9 0%, var(--paper) 62%)}
 .hero p.lead{font-size:1.05rem;max-width:640px}
 .hero .ctas{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
 .hero .ctas .btn{flex:1 1 100%}
@@ -169,7 +183,7 @@ nav.links a:hover{color:var(--teal-dark)}
 
 /* feature grid */
 .section{padding:40px 0}
-.section.alt{background:#f2ecdc}
+.section.alt{background:var(--surface)}
 .grid4{display:grid;grid-template-columns:1fr;gap:14px;margin-top:24px}
 @media (min-width:640px){.grid4{grid-template-columns:repeat(2,1fr)}}
 @media (min-width:980px){.grid4{grid-template-columns:repeat(4,1fr);gap:20px}}
@@ -194,6 +208,8 @@ nav.links a:hover{color:var(--teal-dark)}
 .jersey h3{margin:0;font-size:1.02rem}
 .jersey .mascot{color:var(--gray);font-family:'IBM Plex Mono',monospace;font-size:.72rem;
   text-transform:uppercase;letter-spacing:.07em}
+.jersey .city{color:var(--teal-dark);font-family:'IBM Plex Mono',monospace;font-size:.68rem;
+  text-transform:uppercase;letter-spacing:.05em;margin-top:-4px}
 .jersey a.store{color:var(--teal-dark);text-decoration:none;font-family:'Oswald',sans-serif;
   text-transform:uppercase;font-size:.8rem;letter-spacing:.04em;border-top:1px solid var(--line);
   padding-top:10px;margin-top:auto;display:block}
@@ -202,6 +218,11 @@ nav.links a:hover{color:var(--teal-dark)}
   text-transform:uppercase;letter-spacing:.07em;border-top:1px solid var(--line);padding-top:10px;
   margin-top:auto;display:block}
 
+/* communities */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.chip{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:7px 14px;
+  font-family:'IBM Plex Mono',monospace;font-size:.76rem;color:var(--ink)}
+
 /* faq */
 .faq-item{border-bottom:1px solid var(--line);padding:18px 0}
 .faq-item h3{margin:0 0 8px;font-size:1.02rem;font-family:'Inter',sans-serif;
@@ -209,8 +230,8 @@ nav.links a:hover{color:var(--teal-dark)}
 .faq-item p{margin:0;color:#3a3d44}
 
 /* cta band */
-.cta-band{border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-  background:linear-gradient(120deg,#fff3d6,#fbf6e6);padding:34px 0}
+.cta-band{border-top:3px solid var(--gold);border-bottom:1px solid var(--line);
+  background:var(--surface);padding:34px 0}
 .cta-band .wrap{display:flex;flex-direction:column;gap:16px}
 .cta-band h2{margin:0 0 6px}
 .cta-band p{margin:0;color:var(--gray);max-width:520px}
@@ -219,7 +240,7 @@ nav.links a:hover{color:var(--teal-dark)}
 @media (min-width:700px){.cta-band{padding:48px 0}.cta-band .wrap{flex-direction:row;justify-content:space-between;align-items:center}}
 
 /* footer */
-footer{border-top:1px solid var(--line);padding:34px 0 24px;background:#f2ecdc}
+footer{border-top:1px solid var(--line);padding:34px 0 24px;background:var(--surface)}
 footer .wrap{display:flex;flex-direction:column;gap:26px}
 footer .cols{display:flex;flex-direction:column;gap:22px}
 footer h4{font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.12em;
@@ -271,7 +292,7 @@ ORG_SCHEMA = {
     "email": EMAIL,
     "parentOrganization": {"@type": "Organization", "name": "P&M Apparel", "url": PM_URL},
     "sameAs": [FB_URL, IG_URL],
-    "areaServed": "Iowa",
+    "areaServed": [{"@type": "City", "name": f"{c}, Iowa"} for c in COMMUNITIES],
     "description": "Print-on-demand spirit wear stores for Iowa schools, produced in Polk City, Iowa."
 }
 
@@ -297,7 +318,7 @@ def page(path, label, meta_title, meta_desc, body_html, extra_schema=None):
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png">
 <link rel="apple-touch-icon" href="/assets/favicon-180.png">
-<meta name="theme-color" content="#faf6ec">
+<meta name="theme-color" content="#ffffff">
 <meta property="og:image" content="{BASE}/assets/logo.png">
 <meta property="og:title" content="{meta_title}">
 <meta property="og:description" content="{meta_desc}">
@@ -380,7 +401,7 @@ def jersey_card(i, s):
     else:
         action = '<span class="soon">Store opening soon</span>'
     return f'''<div class="jersey"><span class="no">{i:02d}</span>{visual}<h3>{s["name"]}</h3>
-    <span class="mascot">{s["mascot"]}</span>{action}</div>'''
+    <span class="mascot">{s["mascot"]}</span><span class="city">{s["city"]}</span>{action}</div>'''
 
 
 # ---------------------------------------------------------------------------
@@ -401,6 +422,7 @@ def home_body():
     preview_html = "\n".join(
         jersey_card(i, s) for i, s in enumerate(live_schools, 1)
     )
+    chips_html = "\n".join(f'<span class="chip">{c}</span>' for c in COMMUNITIES)
     return f"""
 <section class="hero">
   <div class="wrap">
@@ -435,6 +457,17 @@ def home_body():
   </div>
 </section>
 
+<section class="section">
+  <div class="wrap">
+    <span class="eyebrow">Where We Show Up</span>
+    <h2>Communities we serve.</h2>
+    <p style="max-width:640px">Iowa On Demand partners with schools across the Des Moines metro and central Iowa. If your town's on this list, there's a good chance a store isn't far behind.</p>
+    <div class="chips">
+      {chips_html}
+    </div>
+  </div>
+</section>
+
 <section class="cta-band">
   <div class="wrap">
     <div>
@@ -453,7 +486,7 @@ def schools_body():
   <div class="wrap">
     <span class="eyebrow">Our Partnered Schools</span>
     <h1>Shop your school.</h1>
-    <p class="lead">Twelve Iowa schools, twelve dedicated stores. Pick yours below to shop spirit wear, team gear, and fundraiser apparel, printed on demand.</p>
+    <p class="lead">Twelve Iowa schools, twelve dedicated stores, serving families from Ankeny and Johnston to Grimes, Bondurant, Perry, and the Des Moines metro. Pick yours below to shop spirit wear, team gear, and fundraiser apparel, printed on demand.</p>
   </div>
 </section>
 <section class="section">
@@ -545,15 +578,15 @@ FAQ_SCHEMA = {
 PAGES = {
     "/": {
         "label": "Home",
-        "title": "Iowa On Demand | Print-on-Demand Spirit Wear for Iowa Schools",
-        "desc": "Iowa On Demand builds print-on-demand spirit wear stores for Iowa schools. No minimums, no setup cost, printed locally in Polk City, Iowa. A division of P&M Apparel.",
+        "title": "Iowa On Demand | School Spirit Wear for Ankeny, Johnston, Grimes & More",
+        "desc": "Iowa On Demand builds print-on-demand spirit wear stores for schools across Ankeny, Johnston, Grimes, Bondurant, Perry, and the Des Moines metro. No minimums, no setup cost, printed locally in Polk City, Iowa.",
         "body": home_body(),
         "schema": None,
     },
     "/schools/": {
         "label": "Schools",
-        "title": "Partnered Schools | Iowa On Demand",
-        "desc": "Shop spirit wear for all 12 Iowa On Demand partnered schools, from North Polk to Johnston. Dedicated print-on-demand stores for every school.",
+        "title": "Partnered Schools in Ankeny, Johnston, Grimes & Central Iowa | Iowa On Demand",
+        "desc": "Shop spirit wear for all 12 Iowa On Demand partnered schools, serving Ankeny, Alleman, Polk City, Woodward, Bondurant, Johnston, Grimes, Perry, and Des Moines.",
         "body": schools_body(),
         "schema": None,
     },

@@ -9,7 +9,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png">
 <link rel="apple-touch-icon" href="/assets/favicon-180.png">
-<meta name="theme-color" content="#faf6ec">
+<meta name="theme-color" content="#ffffff">
 <meta property="og:image" content="https://www.iowaondemand.com/assets/logo.png">
 <meta property="og:title" content="Contact | Iowa On Demand">
 <meta property="og:description" content="Get in touch with Iowa On Demand to set up a print-on-demand spirit wear store for your Iowa school, or ask a question about an existing order.">
@@ -19,14 +19,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:#faf6ec;
+  --paper:#ffffff;
+  --surface:#f2f0ea;
   --card:#ffffff;
   --ink:#181a1f;
   --gold:#fcb426;
   --gold-dark:#c9860a;
   --teal:#008ea9;
   --teal-dark:#00697d;
-  --line:#e6dfcd;
+  --line:#e2ddd0;
   --gray:#666a71;
 }
 *{box-sizing:border-box}
@@ -56,7 +57,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--teal-dark);outline-
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 /* header */
-header.site{position:sticky;top:0;z-index:50;background:rgba(250,246,236,.94);
+header.site{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);
   backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
 .nav{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:12px 0}
 .wordmark{display:flex;align-items:center;gap:10px;text-decoration:none}
@@ -89,7 +90,7 @@ nav.links a:hover{color:var(--teal-dark)}
 
 /* hero */
 .hero{padding:40px 0 32px;border-bottom:1px solid var(--line);
-  background:radial-gradient(ellipse at top right, #fff2cf 0%, var(--paper) 62%)}
+  background:radial-gradient(ellipse at top right, #e8f6f9 0%, var(--paper) 62%)}
 .hero p.lead{font-size:1.05rem;max-width:640px}
 .hero .ctas{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
 .hero .ctas .btn{flex:1 1 100%}
@@ -98,7 +99,7 @@ nav.links a:hover{color:var(--teal-dark)}
 
 /* feature grid */
 .section{padding:40px 0}
-.section.alt{background:#f2ecdc}
+.section.alt{background:var(--surface)}
 .grid4{display:grid;grid-template-columns:1fr;gap:14px;margin-top:24px}
 @media (min-width:640px){.grid4{grid-template-columns:repeat(2,1fr)}}
 @media (min-width:980px){.grid4{grid-template-columns:repeat(4,1fr);gap:20px}}
@@ -123,6 +124,8 @@ nav.links a:hover{color:var(--teal-dark)}
 .jersey h3{margin:0;font-size:1.02rem}
 .jersey .mascot{color:var(--gray);font-family:'IBM Plex Mono',monospace;font-size:.72rem;
   text-transform:uppercase;letter-spacing:.07em}
+.jersey .city{color:var(--teal-dark);font-family:'IBM Plex Mono',monospace;font-size:.68rem;
+  text-transform:uppercase;letter-spacing:.05em;margin-top:-4px}
 .jersey a.store{color:var(--teal-dark);text-decoration:none;font-family:'Oswald',sans-serif;
   text-transform:uppercase;font-size:.8rem;letter-spacing:.04em;border-top:1px solid var(--line);
   padding-top:10px;margin-top:auto;display:block}
@@ -131,6 +134,11 @@ nav.links a:hover{color:var(--teal-dark)}
   text-transform:uppercase;letter-spacing:.07em;border-top:1px solid var(--line);padding-top:10px;
   margin-top:auto;display:block}
 
+/* communities */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.chip{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:7px 14px;
+  font-family:'IBM Plex Mono',monospace;font-size:.76rem;color:var(--ink)}
+
 /* faq */
 .faq-item{border-bottom:1px solid var(--line);padding:18px 0}
 .faq-item h3{margin:0 0 8px;font-size:1.02rem;font-family:'Inter',sans-serif;
@@ -138,8 +146,8 @@ nav.links a:hover{color:var(--teal-dark)}
 .faq-item p{margin:0;color:#3a3d44}
 
 /* cta band */
-.cta-band{border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-  background:linear-gradient(120deg,#fff3d6,#fbf6e6);padding:34px 0}
+.cta-band{border-top:3px solid var(--gold);border-bottom:1px solid var(--line);
+  background:var(--surface);padding:34px 0}
 .cta-band .wrap{display:flex;flex-direction:column;gap:16px}
 .cta-band h2{margin:0 0 6px}
 .cta-band p{margin:0;color:var(--gray);max-width:520px}
@@ -148,7 +156,7 @@ nav.links a:hover{color:var(--teal-dark)}
 @media (min-width:700px){.cta-band{padding:48px 0}.cta-band .wrap{flex-direction:row;justify-content:space-between;align-items:center}}
 
 /* footer */
-footer{border-top:1px solid var(--line);padding:34px 0 24px;background:#f2ecdc}
+footer{border-top:1px solid var(--line);padding:34px 0 24px;background:var(--surface)}
 footer .wrap{display:flex;flex-direction:column;gap:26px}
 footer .cols{display:flex;flex-direction:column;gap:22px}
 footer h4{font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.12em;
@@ -170,7 +178,7 @@ footer a:hover{color:var(--teal-dark)}
 .contact-card li{margin-bottom:8px}
 @media (min-width:700px){.contact-card{padding:34px}}
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "Iowa On Demand", "url": "https://www.iowaondemand.com/", "email": "info@iowaondemand.com", "parentOrganization": {"@type": "Organization", "name": "P&M Apparel", "url": "https://www.pmapparel.com/"}, "sameAs": ["https://www.facebook.com/profile.php?id=61568774887639", "https://www.instagram.com/iowaondemand/"], "areaServed": "Iowa", "description": "Print-on-demand spirit wear stores for Iowa schools, produced in Polk City, Iowa."}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "Iowa On Demand", "url": "https://www.iowaondemand.com/", "email": "info@iowaondemand.com", "parentOrganization": {"@type": "Organization", "name": "P&M Apparel", "url": "https://www.pmapparel.com/"}, "sameAs": ["https://www.facebook.com/profile.php?id=61568774887639", "https://www.instagram.com/iowaondemand/"], "areaServed": [{"@type": "City", "name": "Ankeny, Iowa"}, {"@type": "City", "name": "Alleman, Iowa"}, {"@type": "City", "name": "Polk City, Iowa"}, {"@type": "City", "name": "Woodward, Iowa"}, {"@type": "City", "name": "Granger, Iowa"}, {"@type": "City", "name": "Des Moines, Iowa"}, {"@type": "City", "name": "Huxley, Iowa"}, {"@type": "City", "name": "Cambridge, Iowa"}, {"@type": "City", "name": "Slater, Iowa"}, {"@type": "City", "name": "Bondurant, Iowa"}, {"@type": "City", "name": "Perry, Iowa"}, {"@type": "City", "name": "Dallas Center, Iowa"}, {"@type": "City", "name": "Grimes, Iowa"}, {"@type": "City", "name": "Johnston, Iowa"}], "description": "Print-on-demand spirit wear stores for Iowa schools, produced in Polk City, Iowa."}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.iowaondemand.com/"}, {"@type": "ListItem", "position": 2, "name": "Contact", "item": "https://www.iowaondemand.com/contact/"}]}</script>
 </head>
 <body>

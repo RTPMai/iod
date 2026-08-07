@@ -3,30 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Iowa On Demand | Print-on-Demand Spirit Wear for Iowa Schools</title>
-<meta name="description" content="Iowa On Demand builds print-on-demand spirit wear stores for Iowa schools. No minimums, no setup cost, printed locally in Polk City, Iowa. A division of P&M Apparel.">
+<title>Iowa On Demand | School Spirit Wear for Ankeny, Johnston, Grimes & More</title>
+<meta name="description" content="Iowa On Demand builds print-on-demand spirit wear stores for schools across Ankeny, Johnston, Grimes, Bondurant, Perry, and the Des Moines metro. No minimums, no setup cost, printed locally in Polk City, Iowa.">
 <link rel="canonical" href="https://www.iowaondemand.com/">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png">
 <link rel="apple-touch-icon" href="/assets/favicon-180.png">
-<meta name="theme-color" content="#faf6ec">
+<meta name="theme-color" content="#ffffff">
 <meta property="og:image" content="https://www.iowaondemand.com/assets/logo.png">
-<meta property="og:title" content="Iowa On Demand | Print-on-Demand Spirit Wear for Iowa Schools">
-<meta property="og:description" content="Iowa On Demand builds print-on-demand spirit wear stores for Iowa schools. No minimums, no setup cost, printed locally in Polk City, Iowa. A division of P&M Apparel.">
+<meta property="og:title" content="Iowa On Demand | School Spirit Wear for Ankeny, Johnston, Grimes & More">
+<meta property="og:description" content="Iowa On Demand builds print-on-demand spirit wear stores for schools across Ankeny, Johnston, Grimes, Bondurant, Perry, and the Des Moines metro. No minimums, no setup cost, printed locally in Polk City, Iowa.">
 <meta property="og:url" content="https://www.iowaondemand.com/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Iowa On Demand">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:#faf6ec;
+  --paper:#ffffff;
+  --surface:#f2f0ea;
   --card:#ffffff;
   --ink:#181a1f;
   --gold:#fcb426;
   --gold-dark:#c9860a;
   --teal:#008ea9;
   --teal-dark:#00697d;
-  --line:#e6dfcd;
+  --line:#e2ddd0;
   --gray:#666a71;
 }
 *{box-sizing:border-box}
@@ -56,7 +57,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--teal-dark);outline-
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 /* header */
-header.site{position:sticky;top:0;z-index:50;background:rgba(250,246,236,.94);
+header.site{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);
   backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
 .nav{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:12px 0}
 .wordmark{display:flex;align-items:center;gap:10px;text-decoration:none}
@@ -89,7 +90,7 @@ nav.links a:hover{color:var(--teal-dark)}
 
 /* hero */
 .hero{padding:40px 0 32px;border-bottom:1px solid var(--line);
-  background:radial-gradient(ellipse at top right, #fff2cf 0%, var(--paper) 62%)}
+  background:radial-gradient(ellipse at top right, #e8f6f9 0%, var(--paper) 62%)}
 .hero p.lead{font-size:1.05rem;max-width:640px}
 .hero .ctas{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
 .hero .ctas .btn{flex:1 1 100%}
@@ -98,7 +99,7 @@ nav.links a:hover{color:var(--teal-dark)}
 
 /* feature grid */
 .section{padding:40px 0}
-.section.alt{background:#f2ecdc}
+.section.alt{background:var(--surface)}
 .grid4{display:grid;grid-template-columns:1fr;gap:14px;margin-top:24px}
 @media (min-width:640px){.grid4{grid-template-columns:repeat(2,1fr)}}
 @media (min-width:980px){.grid4{grid-template-columns:repeat(4,1fr);gap:20px}}
@@ -123,6 +124,8 @@ nav.links a:hover{color:var(--teal-dark)}
 .jersey h3{margin:0;font-size:1.02rem}
 .jersey .mascot{color:var(--gray);font-family:'IBM Plex Mono',monospace;font-size:.72rem;
   text-transform:uppercase;letter-spacing:.07em}
+.jersey .city{color:var(--teal-dark);font-family:'IBM Plex Mono',monospace;font-size:.68rem;
+  text-transform:uppercase;letter-spacing:.05em;margin-top:-4px}
 .jersey a.store{color:var(--teal-dark);text-decoration:none;font-family:'Oswald',sans-serif;
   text-transform:uppercase;font-size:.8rem;letter-spacing:.04em;border-top:1px solid var(--line);
   padding-top:10px;margin-top:auto;display:block}
@@ -131,6 +134,11 @@ nav.links a:hover{color:var(--teal-dark)}
   text-transform:uppercase;letter-spacing:.07em;border-top:1px solid var(--line);padding-top:10px;
   margin-top:auto;display:block}
 
+/* communities */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.chip{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:7px 14px;
+  font-family:'IBM Plex Mono',monospace;font-size:.76rem;color:var(--ink)}
+
 /* faq */
 .faq-item{border-bottom:1px solid var(--line);padding:18px 0}
 .faq-item h3{margin:0 0 8px;font-size:1.02rem;font-family:'Inter',sans-serif;
@@ -138,8 +146,8 @@ nav.links a:hover{color:var(--teal-dark)}
 .faq-item p{margin:0;color:#3a3d44}
 
 /* cta band */
-.cta-band{border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-  background:linear-gradient(120deg,#fff3d6,#fbf6e6);padding:34px 0}
+.cta-band{border-top:3px solid var(--gold);border-bottom:1px solid var(--line);
+  background:var(--surface);padding:34px 0}
 .cta-band .wrap{display:flex;flex-direction:column;gap:16px}
 .cta-band h2{margin:0 0 6px}
 .cta-band p{margin:0;color:var(--gray);max-width:520px}
@@ -148,7 +156,7 @@ nav.links a:hover{color:var(--teal-dark)}
 @media (min-width:700px){.cta-band{padding:48px 0}.cta-band .wrap{flex-direction:row;justify-content:space-between;align-items:center}}
 
 /* footer */
-footer{border-top:1px solid var(--line);padding:34px 0 24px;background:#f2ecdc}
+footer{border-top:1px solid var(--line);padding:34px 0 24px;background:var(--surface)}
 footer .wrap{display:flex;flex-direction:column;gap:26px}
 footer .cols{display:flex;flex-direction:column;gap:22px}
 footer h4{font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.12em;
@@ -170,7 +178,7 @@ footer a:hover{color:var(--teal-dark)}
 .contact-card li{margin-bottom:8px}
 @media (min-width:700px){.contact-card{padding:34px}}
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "Iowa On Demand", "url": "https://www.iowaondemand.com/", "email": "info@iowaondemand.com", "parentOrganization": {"@type": "Organization", "name": "P&M Apparel", "url": "https://www.pmapparel.com/"}, "sameAs": ["https://www.facebook.com/profile.php?id=61568774887639", "https://www.instagram.com/iowaondemand/"], "areaServed": "Iowa", "description": "Print-on-demand spirit wear stores for Iowa schools, produced in Polk City, Iowa."}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "Iowa On Demand", "url": "https://www.iowaondemand.com/", "email": "info@iowaondemand.com", "parentOrganization": {"@type": "Organization", "name": "P&M Apparel", "url": "https://www.pmapparel.com/"}, "sameAs": ["https://www.facebook.com/profile.php?id=61568774887639", "https://www.instagram.com/iowaondemand/"], "areaServed": [{"@type": "City", "name": "Ankeny, Iowa"}, {"@type": "City", "name": "Alleman, Iowa"}, {"@type": "City", "name": "Polk City, Iowa"}, {"@type": "City", "name": "Woodward, Iowa"}, {"@type": "City", "name": "Granger, Iowa"}, {"@type": "City", "name": "Des Moines, Iowa"}, {"@type": "City", "name": "Huxley, Iowa"}, {"@type": "City", "name": "Cambridge, Iowa"}, {"@type": "City", "name": "Slater, Iowa"}, {"@type": "City", "name": "Bondurant, Iowa"}, {"@type": "City", "name": "Perry, Iowa"}, {"@type": "City", "name": "Dallas Center, Iowa"}, {"@type": "City", "name": "Grimes, Iowa"}, {"@type": "City", "name": "Johnston, Iowa"}], "description": "Print-on-demand spirit wear stores for Iowa schools, produced in Polk City, Iowa."}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.iowaondemand.com/"}]}</script>
 </head>
 <body>
@@ -230,19 +238,43 @@ footer a:hover{color:var(--teal-dark)}
     <h2>Shop a partnered school.</h2>
     <div class="roster">
       <div class="jersey"><span class="no">01</span><div class="logo-wrap"><img src="/assets/schools/northpolk.png" alt="North Polk Comets logo" loading="lazy"></div><h3>North Polk</h3>
-    <span class="mascot">Comets</span><a href="https://pmapparel.chipply.com/npiod/" target="_blank" rel="noopener noreferrer" class="store">Shop the store &rarr;</a></div>
+    <span class="mascot">Comets</span><span class="city">Alleman & Polk City, IA</span><a href="https://pmapparel.chipply.com/npiod/" target="_blank" rel="noopener noreferrer" class="store">Shop the store &rarr;</a></div>
 <div class="jersey"><span class="no">02</span><div class="logo-wrap"><img src="/assets/schools/woodward-granger.png" alt="Woodward-Granger Hawks logo" loading="lazy"></div><h3>Woodward-Granger</h3>
-    <span class="mascot">Hawks</span><a href="https://pmapparel.chipply.com/iodwg/" target="_blank" rel="noopener noreferrer" class="store">Shop the store &rarr;</a></div>
+    <span class="mascot">Hawks</span><span class="city">Woodward & Granger, IA</span><a href="https://pmapparel.chipply.com/iodwg/" target="_blank" rel="noopener noreferrer" class="store">Shop the store &rarr;</a></div>
 <div class="jersey"><span class="no">03</span><div class="logo-wrap"><img src="/assets/schools/ankeny-christian-academy.png" alt="Ankeny Christian Academy Eagles logo" loading="lazy"></div><h3>Ankeny Christian Academy</h3>
-    <span class="mascot">Eagles</span><a href="https://pmapparel.chipply.com/iodaca" target="_blank" rel="noopener noreferrer" class="store">Shop the store &rarr;</a></div>
+    <span class="mascot">Eagles</span><span class="city">Ankeny, IA</span><a href="https://pmapparel.chipply.com/iodaca" target="_blank" rel="noopener noreferrer" class="store">Shop the store &rarr;</a></div>
 <div class="jersey"><span class="no">04</span><div class="logo-wrap"><img src="/assets/schools/ankeny-centennial.png" alt="Ankeny Centennial Jaguars logo" loading="lazy"></div><h3>Ankeny Centennial</h3>
-    <span class="mascot">Jaguars</span><a href="https://pmapparel.chipply.com/centiod/?action=viewall" target="_blank" rel="noopener noreferrer" class="store">Shop the store &rarr;</a></div>
+    <span class="mascot">Jaguars</span><span class="city">Ankeny, IA</span><a href="https://pmapparel.chipply.com/centiod/?action=viewall" target="_blank" rel="noopener noreferrer" class="store">Shop the store &rarr;</a></div>
 <div class="jersey"><span class="no">05</span><div class="logo-wrap"><img src="/assets/schools/ankeny.png" alt="Ankeny Hawks logo" loading="lazy"></div><h3>Ankeny</h3>
-    <span class="mascot">Hawks</span><a href="https://pmapparel.chipply.com/ioda/?action=viewall" target="_blank" rel="noopener noreferrer" class="store">Shop the store &rarr;</a></div>
+    <span class="mascot">Hawks</span><span class="city">Ankeny, IA</span><a href="https://pmapparel.chipply.com/ioda/?action=viewall" target="_blank" rel="noopener noreferrer" class="store">Shop the store &rarr;</a></div>
 <div class="jersey"><span class="no">06</span><div class="logo-wrap"><img src="/assets/schools/saydel.png" alt="Saydel Eagles logo" loading="lazy"></div><h3>Saydel</h3>
-    <span class="mascot">Eagles</span><a href="https://pmapparel.chipply.com/siod/?action=viewall" target="_blank" rel="noopener noreferrer" class="store">Shop the store &rarr;</a></div>
+    <span class="mascot">Eagles</span><span class="city">Des Moines (Saylorville), IA</span><a href="https://pmapparel.chipply.com/siod/?action=viewall" target="_blank" rel="noopener noreferrer" class="store">Shop the store &rarr;</a></div>
     </div>
     <p style="margin-top:26px"><a href="/schools/">See all 12 partnered schools &rarr;</a></p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <span class="eyebrow">Where We Show Up</span>
+    <h2>Communities we serve.</h2>
+    <p style="max-width:640px">Iowa On Demand partners with schools across the Des Moines metro and central Iowa. If your town's on this list, there's a good chance a store isn't far behind.</p>
+    <div class="chips">
+      <span class="chip">Ankeny</span>
+<span class="chip">Alleman</span>
+<span class="chip">Polk City</span>
+<span class="chip">Woodward</span>
+<span class="chip">Granger</span>
+<span class="chip">Des Moines</span>
+<span class="chip">Huxley</span>
+<span class="chip">Cambridge</span>
+<span class="chip">Slater</span>
+<span class="chip">Bondurant</span>
+<span class="chip">Perry</span>
+<span class="chip">Dallas Center</span>
+<span class="chip">Grimes</span>
+<span class="chip">Johnston</span>
+    </div>
   </div>
 </section>
 
