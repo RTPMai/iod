@@ -22,48 +22,70 @@ UPDATED_HUMAN = datetime.date.today().strftime("%B %-d, %Y")
 
 # Twelve partnered schools. chipply=None means the store link isn't live yet.
 # logo=None means we don't have real mascot art yet -- shows an initial badge.
+# "cities" lists EVERY community the district officially serves (verified
+# against each district's own site / NCES / Wikipedia, not just its mailing
+# address) -- this drives both the on-card city line and the "Communities We
+# Serve" directory, so keep it complete when adding a school.
 # OWNER: fill in chipply URLs + logo paths for the six new schools as they go
 # live (drop the file in assets/schools/ and re-run).
 SCHOOLS = [
     {"name": "North Polk",               "mascot": "Comets",  "chipply": "https://pmapparel.chipply.com/npiod/",
-     "logo": "/assets/schools/northpolk.png", "city": "Alleman & Polk City, IA"},
+     "logo": "/assets/schools/northpolk.png",
+     "cities": ["Alleman", "Elkhart", "Polk City", "Sheldahl"]},
     {"name": "Woodward-Granger",         "mascot": "Hawks",   "chipply": "https://pmapparel.chipply.com/iodwg/",
-     "logo": "/assets/schools/woodward-granger.png", "city": "Woodward & Granger, IA"},
+     "logo": "/assets/schools/woodward-granger.png",
+     "cities": ["Woodward", "Granger"]},
     {"name": "Ankeny Christian Academy", "mascot": "Eagles",  "chipply": "https://pmapparel.chipply.com/iodaca",
-     "logo": "/assets/schools/ankeny-christian-academy.png", "city": "Ankeny, IA"},
+     "logo": "/assets/schools/ankeny-christian-academy.png",
+     "cities": ["Ankeny"]},
     {"name": "Ankeny Centennial",        "mascot": "Jaguars", "chipply": "https://pmapparel.chipply.com/centiod/?action=viewall",
-     "logo": "/assets/schools/ankeny-centennial.png", "city": "Ankeny, IA"},
+     "logo": "/assets/schools/ankeny-centennial.png",
+     "cities": ["Ankeny"]},
     {"name": "Ankeny",                   "mascot": "Hawks",   "chipply": "https://pmapparel.chipply.com/ioda/?action=viewall",
-     "logo": "/assets/schools/ankeny.png", "city": "Ankeny, IA"},
+     "logo": "/assets/schools/ankeny.png",
+     "cities": ["Ankeny"]},
     {"name": "Saydel",                   "mascot": "Eagles",  "chipply": "https://pmapparel.chipply.com/siod/?action=viewall",
-     "logo": "/assets/schools/saydel.png", "city": "Des Moines (Saylorville), IA"},
+     "logo": "/assets/schools/saydel.png",
+     "cities": ["Des Moines", "Saylorville"]},
     {"name": "Ballard",                  "mascot": "Bombers",     "chipply": None,
-     "logo": "/assets/schools/ballard.svg", "city": "Huxley, Cambridge & Slater, IA"},
+     "logo": "/assets/schools/ballard.svg",
+     "cities": ["Huxley", "Cambridge", "Kelley", "Slater"]},
     {"name": "Bondurant-Farrar",         "mascot": "Bluejays",    "chipply": None,
-     "logo": "/assets/schools/bondurant-farrar.svg", "city": "Bondurant, IA"},
+     "logo": "/assets/schools/bondurant-farrar.svg",
+     "cities": ["Bondurant", "Farrar"]},
     {"name": "Perry",                    "mascot": "Bluejays",    "chipply": None,
-     "logo": "/assets/schools/perry.svg", "city": "Perry, IA"},
+     "logo": "/assets/schools/perry.svg",
+     "cities": ["Perry"]},
     {"name": "Roosevelt",                "mascot": "Roughriders", "chipply": None,
-     "logo": "/assets/schools/roosevelt.svg", "city": "Des Moines, IA"},
+     "logo": "/assets/schools/roosevelt.svg",
+     "cities": ["Des Moines"]},
     {"name": "Dallas Center-Grimes",     "mascot": "Mustangs",    "chipply": None,
-     "logo": "/assets/schools/dallas-center-grimes.svg", "city": "Dallas Center & Grimes, IA"},
+     "logo": "/assets/schools/dallas-center-grimes.svg",
+     "cities": ["Dallas Center", "Grimes"]},
     {"name": "Johnston",                 "mascot": "Dragons",     "chipply": None,
-     "logo": "/assets/schools/johnston.svg", "city": "Johnston, IA"},
+     "logo": "/assets/schools/johnston.svg",
+     "cities": ["Johnston"]},
 ]
 
-# Deduplicated list of every community these 12 districts actually serve.
-# Drives the "Communities We Serve" section and the Organization schema's areaServed.
-COMMUNITIES = [
-    "Ankeny", "Alleman", "Polk City", "Woodward", "Granger", "Des Moines",
-    "Huxley", "Cambridge", "Slater", "Bondurant", "Perry",
-    "Dallas Center", "Grimes", "Johnston",
-]
+def slugify(text):
+    return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
 
-# Real embedded map (Google's no-key iframe embed) -- shows actual roads,
-# highways, and place labels for the service area, centered on Polk City
-# (P&M Apparel's home base). Zoom 9 keeps Perry (west) and Cambridge (north)
-# in frame; the person can pan/zoom the embed itself for more detail.
-MAP_EMBED_SRC = "https://maps.google.com/maps?q=Polk+City,+Iowa&z=9&output=embed"
+def city_display(cities):
+    """'Alleman, Elkhart, Polk City & Sheldahl, IA' -- joins a school's city list."""
+    if len(cities) == 1:
+        return f"{cities[0]}, IA"
+    return f"{', '.join(cities[:-1])} & {cities[-1]}, IA"
+
+# Every community any partnered district serves, derived from SCHOOLS itself
+# so this list can't drift out of sync -- alphabetical for the directory.
+COMMUNITIES = sorted({c for s in SCHOOLS for c in s["cities"]})
+
+# community -> schools that serve it, preserving SCHOOLS' master order so a
+# school's numbered badge (01-12) stays consistent everywhere it appears.
+SCHOOLS_BY_COMMUNITY = {
+    c: [s for s in SCHOOLS if c in s["cities"]] for c in COMMUNITIES
+}
+SCHOOL_INDEX = {s["name"]: i for i, s in enumerate(SCHOOLS, 1)}
 
 FAQS = [
     ("How does Iowa On Demand work?",
@@ -87,7 +109,7 @@ FAQS = [
     ("My school isn't listed. How do we get started?",
      "Tell us. Adding a school is quick, and there's no cost to get set up."),
     ("What areas of Iowa does Iowa On Demand serve?",
-     "We partner with schools across the Des Moines metro and central Iowa, including Ankeny, Alleman, Polk City, Woodward, Granger, Des Moines, Huxley, Bondurant, Perry, Dallas Center, Grimes, and Johnston. If your community isn't on the list yet, reach out."),
+     f"We partner with schools across the Des Moines metro and central Iowa, including {', '.join(COMMUNITIES[:-1])}, and {COMMUNITIES[-1]}. If your community isn't on the list yet, reach out."),
 ]
 
 # ---------------------------------------------------------------------------
@@ -225,18 +247,21 @@ nav.links a:hover{color:var(--teal-dark)}
   margin-top:auto;display:block}
 
 /* communities */
-.map-card{border:1px solid var(--line);border-radius:8px;overflow:hidden;
-  box-shadow:0 1px 3px rgba(20,20,10,.05)}
-.map-card iframe{width:100%;height:340px;border:0;display:block}
-.community-list{columns:2;column-gap:10px;margin:22px 0 0;padding:0;list-style:none}
-.community-list li{break-inside:avoid;margin-bottom:8px;background:var(--card);
-  border:1px solid var(--line);border-radius:20px;padding:7px 14px;text-align:center;
-  font-family:'IBM Plex Mono',monospace;font-size:.76rem;color:var(--ink)}
+.community-list{columns:2;column-gap:10px;margin:22px 0 0;padding:0;list-style:none;max-width:640px}
+.community-list li{break-inside:avoid;margin-bottom:8px}
+.community-list a{display:block;text-align:center;background:var(--gold);color:var(--ink);
+  font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.05em;font-weight:600;
+  font-size:.78rem;padding:9px 14px;border-radius:3px;text-decoration:none;border:2px solid var(--gold)}
+.community-list a:hover{background:var(--gold-dark);border-color:var(--gold-dark)}
 @media (min-width:480px){.community-list{columns:3}}
-@media (min-width:860px){.community-list{columns:2}.map-card iframe{height:300px}}
-@media (min-width:1000px){.map-card iframe{height:380px}}
-.communities-grid{display:grid;grid-template-columns:1fr;gap:24px;margin-top:24px}
-@media (min-width:860px){.communities-grid{grid-template-columns:1.15fr 1fr;align-items:start}}
+@media (min-width:700px){.community-list{columns:4}}
+
+/* community anchor sections on the schools page */
+.community-section{padding-top:8px;margin-top:36px;scroll-margin-top:88px}
+.community-section:first-child{margin-top:0}
+.community-section h2{font-size:1.3rem;display:flex;align-items:baseline;gap:10px}
+.community-section h2 .count{font-family:'IBM Plex Mono',monospace;text-transform:none;
+  letter-spacing:0;font-size:.72rem;color:var(--gray);font-weight:500}
 
 /* faq */
 .faq-item{border-bottom:1px solid var(--line);padding:18px 0}
@@ -410,7 +435,8 @@ def page(path, label, meta_title, meta_desc, body_html, extra_schema=None):
 # ---------------------------------------------------------------------------
 # SHARED: roster / jersey card
 # ---------------------------------------------------------------------------
-def jersey_card(i, s):
+def jersey_card(s):
+    i = SCHOOL_INDEX[s["name"]]
     if s.get("logo"):
         visual = f'<div class="logo-wrap"><img src="{s["logo"]}" alt="{s["name"]} {s["mascot"]} logo" loading="lazy"></div>'
     else:
@@ -420,7 +446,7 @@ def jersey_card(i, s):
     else:
         action = '<span class="soon">Store opening soon</span>'
     return f'''<div class="jersey"><span class="no">{i:02d}</span>{visual}<h3>{s["name"]}</h3>
-    <span class="mascot">{s["mascot"]}</span><span class="city">{s["city"]}</span>{action}</div>'''
+    <span class="mascot">{s["mascot"]}</span><span class="city">{city_display(s["cities"])}</span>{action}</div>'''
 
 
 # ---------------------------------------------------------------------------
@@ -438,10 +464,10 @@ def home_body():
         for n, t, d in features
     )
     live_schools = [s for s in SCHOOLS if s["chipply"]][:6]
-    preview_html = "\n".join(
-        jersey_card(i, s) for i, s in enumerate(live_schools, 1)
+    preview_html = "\n".join(jersey_card(s) for s in live_schools)
+    chips_html = "\n".join(
+        f'<li><a href="/schools/#{slugify(c)}">{c}</a></li>' for c in COMMUNITIES
     )
-    chips_html = "\n".join(f'<li>{c}</li>' for c in COMMUNITIES)
     return f"""
 <section class="hero">
   <div class="wrap">
@@ -480,15 +506,10 @@ def home_body():
   <div class="wrap">
     <span class="eyebrow">Where We Show Up</span>
     <h2>Communities we serve.</h2>
-    <p style="max-width:640px">Iowa On Demand partners with schools across the Des Moines metro and central Iowa. If your town's on this list, there's a good chance a store isn't far behind.</p>
-    <div class="communities-grid">
-      <div class="map-card">
-        <iframe src="{MAP_EMBED_SRC}" title="Map of Iowa On Demand's service area in central Iowa" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-      </div>
-      <ul class="community-list">
-        {chips_html}
-      </ul>
-    </div>
+    <p style="max-width:640px">Iowa On Demand partners with schools across the Des Moines metro and central Iowa. Tap a city to see the schools we serve there.</p>
+    <ul class="community-list">
+      {chips_html}
+    </ul>
   </div>
 </section>
 
@@ -514,20 +535,37 @@ def home_body():
 """
 
 def schools_body():
-    cards_html = "\n".join(jersey_card(i, s) for i, s in enumerate(SCHOOLS, 1))
+    quicknav_html = "\n".join(
+        f'<li><a href="#{slugify(c)}">{c}</a></li>' for c in COMMUNITIES
+    )
+    sections = []
+    for c in COMMUNITIES:
+        schools_here = SCHOOLS_BY_COMMUNITY[c]
+        cards = "\n".join(jersey_card(s) for s in schools_here)
+        count = len(schools_here)
+        label = "school" if count == 1 else "schools"
+        sections.append(f'''
+<section class="community-section" id="{slugify(c)}">
+  <h2>{c}, IA <span class="count">{count} {label}</span></h2>
+  <div class="roster">
+    {cards}
+  </div>
+</section>''')
+    sections_html = "\n".join(sections)
     return f"""
 <section class="hero" style="padding-bottom:24px">
   <div class="wrap">
     <span class="eyebrow">Our Partnered Schools</span>
     <h1>Shop your school.</h1>
-    <p class="lead">Twelve Iowa schools, twelve dedicated stores, serving families from Ankeny and Johnston to Grimes, Bondurant, Perry, and the Des Moines metro. Pick yours below to shop spirit wear, team gear, and fundraiser apparel, printed on demand.</p>
+    <p class="lead">Twelve Iowa schools, twelve dedicated stores, serving families from Ankeny and Johnston to Grimes, Bondurant, Perry, and the Des Moines metro. Jump to your city, or browse everyone below.</p>
+    <ul class="community-list" style="margin-top:22px">
+      {quicknav_html}
+    </ul>
   </div>
 </section>
 <section class="section">
   <div class="wrap">
-    <div class="roster">
-      {cards_html}
-    </div>
+    {sections_html}
   </div>
 </section>
 <section class="cta-band">
@@ -704,13 +742,31 @@ def build():
 def verify(root):
     errors = []
     titles = set()
+    page_html = {}
+    page_ids = {}
+
     for path in PAGES:
         fp = os.path.join(root, path.strip("/"), "index.html") if path != "/" else os.path.join(root, "index.html")
         if not os.path.exists(fp):
             errors.append(f"MISSING FILE: {fp}")
             continue
         html = open(fp, encoding="utf-8").read()
+        page_html[path] = html
+        page_ids[path] = set(re.findall(r'\bid="([a-z0-9-]+)"', html))
 
+    # every community must resolve to a school somewhere, and every school's
+    # city list must point to a real community -- catches typos/dropped towns
+    for c in COMMUNITIES:
+        if not SCHOOLS_BY_COMMUNITY.get(c):
+            errors.append(f"COMMUNITIES: '{c}' has no school serving it")
+    for s in SCHOOLS:
+        if not s["cities"]:
+            errors.append(f"SCHOOLS: '{s['name']}' has no cities listed")
+        for c in s["cities"]:
+            if c not in COMMUNITIES:
+                errors.append(f"SCHOOLS: '{s['name']}' lists unknown community '{c}'")
+
+    for path, html in page_html.items():
         m = re.search(r"<title>(.*?)</title>", html)
         title = m.group(1) if m else None
         if not title:
@@ -742,12 +798,24 @@ def verify(root):
         if "\u2014" in html:
             errors.append(f"{path}: em dash found")
 
-        for href in re.findall(r'<a [^>]*href="(/[a-z0-9/_.-]*)"', html):
-            if "." in href.rsplit("/", 1)[-1]:
+        for href in re.findall(r'<a [^>]*href="(/[a-z0-9/_.#-]*)"', html):
+            base, _, fragment = href.partition("#")
+            if base and "." in base.rsplit("/", 1)[-1]:
                 continue  # asset link (favicon, image, etc.), not a page
-            clean = href if href.endswith("/") or href == "/" else href + "/"
-            if clean not in PAGES and href not in ("/", ""):
+            clean = base if base.endswith("/") or base == "/" else base + "/"
+            if clean not in PAGES and base not in ("/", ""):
                 errors.append(f"{path}: internal link to unknown page {href}")
+                continue
+            if fragment:
+                target_page = clean if base else path  # bare "#frag" points at own page
+                target_ids = page_ids.get(target_page, set())
+                if fragment not in target_ids:
+                    errors.append(f"{path}: link to {href} but no id=\"{fragment}\" found on {target_page}")
+
+        # bare same-page fragment links, e.g. href="#ankeny" (no leading slash)
+        for fragment in re.findall(r'<a [^>]*href="#([a-z0-9-]+)"', html):
+            if fragment not in page_ids.get(path, set()):
+                errors.append(f"{path}: link to #{fragment} but no matching id on this page")
 
         # every external (target=_blank) link must carry rel=noopener for security
         for m in re.finditer(r'<a\s+[^>]*href="(https?://[^"]+)"[^>]*>', html):
@@ -760,7 +828,7 @@ def verify(root):
         for e in errors:
             print(" -", e)
         raise SystemExit(1)
-    print(f"Verification passed. {len(PAGES)} pages built cleanly.")
+    print(f"Verification passed. {len(PAGES)} pages built cleanly, {len(COMMUNITIES)} communities all linked correctly.")
 
 
 if __name__ == "__main__":
