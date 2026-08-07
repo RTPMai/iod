@@ -86,6 +86,7 @@ SCHOOLS_BY_COMMUNITY = {
     c: [s for s in SCHOOLS if c in s["cities"]] for c in COMMUNITIES
 }
 SCHOOL_INDEX = {s["name"]: i for i, s in enumerate(SCHOOLS, 1)}
+SCHOOL_SLUGS = {s["name"]: slugify(s["name"]) for s in SCHOOLS}
 
 FAQS = [
     ("How does Iowa On Demand work?",
@@ -115,9 +116,11 @@ FAQS = [
 # ---------------------------------------------------------------------------
 # LINK HELPER -- external destinations open in a new tab
 # ---------------------------------------------------------------------------
-def ext(url, text, cls=""):
+def ext(url, text, cls="", aria_label=None):
     cls_attr = f' class="{cls}"' if cls else ""
-    return f'<a href="{url}" target="_blank" rel="noopener noreferrer"{cls_attr}>{text}</a>'
+    aria_attr = f' aria-label="{aria_label}"' if aria_label else ""
+    return (f'<a href="{url}" target="_blank" rel="noopener noreferrer"{cls_attr}{aria_attr}>'
+            f'{text}<span class="sr-only"> (opens in new tab)</span></a>')
 
 # ---------------------------------------------------------------------------
 # DESIGN SYSTEM (distinct from pmapparel.com / flyovercon.ink)
@@ -167,6 +170,22 @@ a{color:var(--teal-dark)}
 }
 a:focus-visible,button:focus-visible{outline:3px solid var(--teal-dark);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip-link{position:absolute;left:-999px;top:auto;background:var(--ink);color:#fff;
+  padding:12px 20px;z-index:100;text-decoration:none;font-family:'Oswald',sans-serif;
+  text-transform:uppercase;letter-spacing:.05em;font-size:.85rem}
+.skip-link:focus{left:12px;top:12px}
+
+/* breadcrumb */
+.breadcrumb{padding:12px 0}
+.breadcrumb ol{list-style:none;display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:0;
+  font-family:'IBM Plex Mono',monospace;font-size:.74rem;color:var(--gray)}
+.breadcrumb a{color:var(--gray);text-decoration:none}
+.breadcrumb a:hover{color:var(--teal-dark)}
+.breadcrumb li:not(:last-child)::after{content:"/";margin-left:6px;color:var(--line)}
+.breadcrumb li[aria-current]{color:var(--ink)}
 
 /* header */
 header.site{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);
@@ -221,6 +240,8 @@ nav.links a:hover{color:var(--teal-dark)}
 .feature h3{margin-top:.5em}
 .feature p{margin:0;font-size:.92rem;color:var(--gray)}
 @media (min-width:700px){.section{padding:56px 0}}
+.facts3{display:grid;grid-template-columns:1fr;gap:14px;margin-top:10px}
+@media (min-width:700px){.facts3{grid-template-columns:repeat(3,1fr)}}
 
 /* roster grid */
 .roster{display:grid;grid-template-columns:1fr;gap:14px;margin-top:24px}
@@ -234,6 +255,8 @@ nav.links a:hover{color:var(--teal-dark)}
 .logo-wrap.placeholder{background:var(--paper);border:1px dashed var(--line);border-radius:50%;
   color:var(--gray);font-weight:700;font-size:1.3rem;font-family:'Oswald',sans-serif}
 .jersey h3{margin:0;font-size:1.02rem}
+.jersey h3 a{color:var(--ink);text-decoration:none}
+.jersey h3 a:hover{color:var(--teal-dark)}
 .jersey .mascot{color:var(--gray);font-family:'IBM Plex Mono',monospace;font-size:.72rem;
   text-transform:uppercase;letter-spacing:.07em}
 .jersey .city{color:var(--teal-dark);font-family:'IBM Plex Mono',monospace;font-size:.68rem;
@@ -258,7 +281,7 @@ nav.links a:hover{color:var(--teal-dark)}
 
 /* faq */
 .faq-item{border-bottom:1px solid var(--line);padding:18px 0}
-.faq-item h3{margin:0 0 8px;font-size:1.02rem;font-family:'Inter',sans-serif;
+.faq-item h2{margin:0 0 8px;font-size:1.02rem;font-family:'Inter',sans-serif;
   text-transform:none;letter-spacing:0;font-weight:700;color:var(--teal-dark)}
 .faq-item p{margin:0;color:#3a3d44}
 
@@ -315,26 +338,48 @@ NAV_ITEMS = [("/", "Home"), ("/schools/", "Schools"), ("/faq/", "FAQ"), ("/conta
 # ---------------------------------------------------------------------------
 # PAGE SHELL
 # ---------------------------------------------------------------------------
-def breadcrumb_schema(path, label):
+def breadcrumb_schema(crumbs):
+    """crumbs: list of (label, path) tuples after Home, e.g.
+    [("Schools", "/schools/"), ("North Polk", "/schools/north-polk/")]"""
     items = [{"@type": "ListItem", "position": 1, "name": "Home", "item": BASE + "/"}]
-    if path != "/":
-        items.append({"@type": "ListItem", "position": 2, "name": label, "item": BASE + path})
+    for i, (label, path) in enumerate(crumbs, start=2):
+        items.append({"@type": "ListItem", "position": i, "name": label, "item": BASE + path})
     return {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": items}
+
+PM_ADDRESS = {
+    "@type": "PostalAddress",
+    "streetAddress": "1100 South 5th St",
+    "addressLocality": "Polk City",
+    "addressRegion": "IA",
+    "postalCode": "50226",
+    "addressCountry": "US",
+}
 
 ORG_SCHEMA = {
     "@context": "https://schema.org",
-    "@type": "Organization",
+    "@type": ["Organization", "LocalBusiness"],
     "name": "Iowa On Demand",
     "url": BASE + "/",
     "email": EMAIL,
+    "logo": BASE + "/assets/logo.png",
+    "dateModified": TODAY,
+    "address": PM_ADDRESS,
     "parentOrganization": {"@type": "Organization", "name": "P&M Apparel", "url": PM_URL},
     "sameAs": [FB_URL, IG_URL],
     "areaServed": [{"@type": "City", "name": f"{c}, Iowa"} for c in COMMUNITIES],
-    "description": "Print-on-demand spirit wear stores for Iowa schools, produced in Polk City, Iowa."
+    "description": "Print-on-demand spirit wear stores for Iowa schools, produced in Polk City, Iowa.",
+    "member": [
+        {
+            "@type": "EducationalOrganization",
+            "name": s["name"],
+            "url": s["chipply"] if s["chipply"] else BASE + "/schools/",
+            "areaServed": [{"@type": "City", "name": f"{c}, Iowa"} for c in s["cities"]],
+        } for s in SCHOOLS
+    ],
 }
 
-def page(path, label, meta_title, meta_desc, body_html, extra_schema=None):
-    schemas = [ORG_SCHEMA, breadcrumb_schema(path, label)]
+def page(path, crumbs, meta_title, meta_desc, body_html, extra_schema=None):
+    schemas = [ORG_SCHEMA, breadcrumb_schema(crumbs)]
     if extra_schema:
         schemas.append(extra_schema)
     schema_tags = "\n".join(
@@ -344,6 +389,19 @@ def page(path, label, meta_title, meta_desc, body_html, extra_schema=None):
         f'<a href="{href}">{text}</a>' for href, text in NAV_ITEMS
     )
     canonical = BASE + path
+    if not crumbs:
+        breadcrumb_html = ""
+    else:
+        crumb_items = "\n".join(
+            f'<li><a href="{p}">{l}</a></li>' if i < len(crumbs) else f'<li aria-current="page">{l}</li>'
+            for i, (l, p) in enumerate(crumbs, start=1)
+        )
+        breadcrumb_html = f'''<div class="wrap breadcrumb">
+    <nav aria-label="Breadcrumb"><ol>
+      <li><a href="/">Home</a></li>
+      {crumb_items}
+    </ol></nav>
+  </div>'''
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -357,29 +415,37 @@ def page(path, label, meta_title, meta_desc, body_html, extra_schema=None):
 <link rel="apple-touch-icon" href="/assets/favicon-180.png">
 <meta name="theme-color" content="#ffffff">
 <meta property="og:image" content="{BASE}/assets/logo.png">
+<meta property="og:image:width" content="817">
+<meta property="og:image:height" content="817">
 <meta property="og:title" content="{meta_title}">
 <meta property="og:description" content="{meta_desc}">
 <meta property="og:url" content="{canonical}">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Iowa On Demand">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{meta_title}">
+<meta name="twitter:description" content="{meta_desc}">
+<meta name="twitter:image" content="{BASE}/assets/logo.png">
 {FONT_LINKS}
 <style>{CSS}</style>
 {schema_tags}
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 <header class="site">
   <div class="wrap nav">
     <a class="wordmark" href="/">
       {BADGE_IMG}
       <span class="wordmark-text">Iowa On Demand<span>a division of P&amp;M Apparel</span></span>
     </a>
-    <nav class="links">
+    <nav class="links" aria-label="Primary">
       {nav_html}
       <a class="btn" href="/schools/">Shop Your School</a>
     </nav>
   </div>
 </header>
-<div class="stat-bar" aria-hidden="true">
+<div class="stat-bar">
   <div class="stat-grid">
     <div>12 Schools Partnered</div>
     <div>3&ndash;5 Day Turnaround</div>
@@ -387,7 +453,8 @@ def page(path, label, meta_title, meta_desc, body_html, extra_schema=None):
     <div>Printed in Polk City, Iowa</div>
   </div>
 </div>
-<main>
+{breadcrumb_html}
+<main id="main">
 {body_html}
 </main>
 <footer>
@@ -399,8 +466,8 @@ def page(path, label, meta_title, meta_desc, body_html, extra_schema=None):
       </a>
       <p style="max-width:280px;color:var(--gray);font-size:.9rem">Print-on-demand spirit wear for Iowa schools. A division of {ext(PM_URL, "P&amp;M Apparel")}, Polk City, Iowa.</p>
       <div class="social">
-        {ext(FB_URL, "f", cls="")}
-        {ext(IG_URL, "ig", cls="")}
+        {ext(FB_URL, "f", aria_label="Iowa On Demand on Facebook")}
+        {ext(IG_URL, "ig", aria_label="Iowa On Demand on Instagram")}
       </div>
     </div>
     <div class="cols">
@@ -430,15 +497,16 @@ def page(path, label, meta_title, meta_desc, body_html, extra_schema=None):
 # ---------------------------------------------------------------------------
 def jersey_card(s):
     i = SCHOOL_INDEX[s["name"]]
+    slug = SCHOOL_SLUGS[s["name"]]
     if s.get("logo"):
-        visual = f'<div class="logo-wrap"><img src="{s["logo"]}" alt="{s["name"]} {s["mascot"]} logo" loading="lazy"></div>'
+        visual = f'<div class="logo-wrap"><img src="{s["logo"]}" alt="{s["name"]} {s["mascot"]} logo" width="56" height="56" loading="lazy"></div>'
     else:
         visual = f'<div class="logo-wrap placeholder" aria-hidden="true">{s["name"][0]}</div>'
     if s["chipply"]:
         action = ext(s["chipply"], "Shop the store &rarr;", cls="store")
     else:
         action = '<span class="soon">Store opening soon</span>'
-    return f'''<div class="jersey"><span class="no">{i:02d}</span>{visual}<h3>{s["name"]}</h3>
+    return f'''<div class="jersey"><span class="no">{i:02d}</span>{visual}<h3><a href="/schools/{slug}/">{s["name"]}</a></h3>
     <span class="mascot">{s["mascot"]}</span><span class="city">{city_display(s["cities"])}</span>{action}</div>'''
 
 
@@ -557,7 +625,7 @@ def schools_body():
 
 def faq_body():
     items = "\n".join(
-        f'<div class="faq-item"><h3>{q}</h3><p>{a}</p></div>' for q, a in FAQS
+        f'<div class="faq-item"><h2>{q}</h2><p>{a}</p></div>' for q, a in FAQS
     )
     return f"""
 <section class="hero" style="padding-bottom:16px">
@@ -609,6 +677,100 @@ def contact_body():
 </section>
 """
 
+def school_page_body(s):
+    cities = city_display(s["cities"])
+    if s["chipply"]:
+        cta = ext(s["chipply"], f"Shop {s['name']} Gear", cls="btn")
+    else:
+        cta = ext(JOTFORM_URL, "Get Notified When It's Live", cls="btn")
+
+    if s.get("logo"):
+        logo_html = f'<img src="{s["logo"]}" alt="{s["name"]} {s["mascot"]} logo" width="120" height="120" style="width:120px;height:120px;object-fit:contain;flex:none">'
+    else:
+        logo_html = f'<div class="logo-wrap placeholder" aria-hidden="true" style="width:120px;height:120px;font-size:2.4rem;flex:none">{s["name"][0]}</div>'
+
+    facts = [
+        ("No Minimums", "Order one shirt or a hundred. Every piece prints on demand, so there's no bulk requirement."),
+        ("3&ndash;5 Day Turnaround", "Produced locally in Polk City, Iowa, so orders move fast."),
+        ("Zero Setup Cost", "Free to launch and free to run. We build and manage the store."),
+    ]
+    facts_html = "\n".join(f'<div class="feature"><h3>{t}</h3><p>{d}</p></div>' for t, d in facts)
+
+    others = [o for o in SCHOOLS if o["name"] != s["name"]]
+    shared = [o for o in others if set(o["cities"]) & set(s["cities"])]
+    rest = [o for o in others if o not in shared]
+    picks = (shared + rest)[:3]
+    other_links = "\n".join(
+        f'<li><a href="/schools/{SCHOOL_SLUGS[o["name"]]}/">{o["name"]}</a> '
+        f'<span class="mascot">{o["mascot"]}</span></li>'
+        for o in picks
+    )
+
+    return f"""
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">{cities}</span>
+    <h1>{s['name']} {s['mascot']}</h1>
+    <p class="lead">Shop print-on-demand spirit wear for {s['name']}, serving {cities}. Order anytime, no bulk minimums, printed locally right here in Iowa.</p>
+    <div class="ctas">
+      {cta}
+      <a class="btn ghost" href="/schools/">All Schools</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap" style="display:flex;gap:24px;align-items:center;flex-wrap:wrap">
+    {logo_html}
+    <div>
+      <h2 style="margin-bottom:.2em">Why order through Iowa On Demand</h2>
+      <p style="max-width:520px;margin:0">A dedicated {s['name']} store means students, parents, and staff can order {s['mascot'].lower()} gear whenever they want it, not just during a seasonal fundraiser window.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="wrap">
+    <div class="facts3">
+      {facts_html}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <span class="eyebrow">Nearby Schools</span>
+    <h2>Other schools we serve.</h2>
+    <ul style="list-style:none;padding:0;margin:22px 0 0;display:flex;flex-direction:column;gap:10px;max-width:420px">
+      {other_links}
+    </ul>
+    <p style="margin-top:18px"><a href="/schools/">See all 12 partnered schools &rarr;</a></p>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap">
+    <div>
+      <h2>Questions about the {s['name']} store?</h2>
+      <p>Check our FAQ or reach out directly, we're happy to help.</p>
+    </div>
+    <a class="btn" href="/faq/">View FAQ</a>
+  </div>
+</section>
+"""
+
+def school_schema(s):
+    slug = SCHOOL_SLUGS[s["name"]]
+    return {
+        "@context": "https://schema.org",
+        "@type": "EducationalOrganization",
+        "name": s["name"],
+        "url": BASE + f"/schools/{slug}/",
+        "sameAs": [s["chipply"]] if s["chipply"] else [],
+        "areaServed": [{"@type": "City", "name": f"{c}, Iowa"} for c in s["cities"]],
+        "memberOf": {"@type": "Organization", "name": "Iowa On Demand", "url": BASE + "/"},
+    }
+
 def _strip_tags(s):
     return re.sub(r"<[^>]+>", "", s)
 
@@ -625,34 +787,48 @@ FAQ_SCHEMA = {
 
 PAGES = {
     "/": {
-        "label": "Home",
+        "crumbs": [],
         "title": "Iowa On Demand | School Spirit Wear for Ankeny, Johnston, Grimes & More",
         "desc": "Iowa On Demand builds print-on-demand spirit wear stores for schools across Ankeny, Johnston, Grimes, Bondurant, Perry, and the Des Moines metro. No minimums, no setup cost, printed locally in Polk City, Iowa.",
         "body": home_body(),
         "schema": None,
     },
     "/schools/": {
-        "label": "Schools",
+        "crumbs": [("Schools", "/schools/")],
         "title": "Partnered Schools in Ankeny, Johnston, Grimes & Central Iowa | Iowa On Demand",
         "desc": "Shop spirit wear for all 12 Iowa On Demand partnered schools, serving Ankeny, Alleman, Polk City, Woodward, Bondurant, Johnston, Grimes, Perry, and Des Moines.",
         "body": schools_body(),
         "schema": None,
     },
     "/faq/": {
-        "label": "FAQ",
+        "crumbs": [("FAQ", "/faq/")],
         "title": "FAQ | Iowa On Demand",
         "desc": "Answers to common questions about Iowa On Demand's print-on-demand school apparel program: turnaround times, ordering, custom designs, and more.",
         "body": faq_body(),
         "schema": FAQ_SCHEMA,
     },
     "/contact/": {
-        "label": "Contact",
+        "crumbs": [("Contact", "/contact/")],
         "title": "Contact | Iowa On Demand",
         "desc": "Get in touch with Iowa On Demand to set up a print-on-demand spirit wear store for your Iowa school, or ask a question about an existing order.",
         "body": contact_body(),
         "schema": None,
     },
 }
+
+# One dedicated page per school -- /schools/{slug}/ -- so each school can
+# rank on its own for "<school> spirit wear" searches instead of competing
+# with 11 others on a single shared page.
+for _s in SCHOOLS:
+    _slug = SCHOOL_SLUGS[_s["name"]]
+    _path = f"/schools/{_slug}/"
+    PAGES[_path] = {
+        "crumbs": [("Schools", "/schools/"), (_s["name"], _path)],
+        "title": f"{_s['name']} {_s['mascot']} Spirit Wear | {_s['cities'][0]}, IA | Iowa On Demand",
+        "desc": f"Shop {_s['name']} {_s['mascot']} spirit wear from Iowa On Demand, serving {city_display(_s['cities'])}. Order anytime, no bulk minimums, printed locally in Polk City, Iowa.",
+        "body": school_page_body(_s),
+        "schema": school_schema(_s),
+    }
 
 # ---------------------------------------------------------------------------
 # BUILD
@@ -670,7 +846,7 @@ def build():
         shutil.copytree(src_assets, dst_assets)
 
     for path, p in PAGES.items():
-        html = page(path, p["label"], p["title"], p["desc"], p["body"], p["schema"])
+        html = page(path, p["crumbs"], p["title"], p["desc"], p["body"], p["schema"])
         if path == "/":
             out_dir = root
         else:

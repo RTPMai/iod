@@ -11,11 +11,18 @@
 <link rel="apple-touch-icon" href="/assets/favicon-180.png">
 <meta name="theme-color" content="#ffffff">
 <meta property="og:image" content="https://www.iowaondemand.com/assets/logo.png">
+<meta property="og:image:width" content="817">
+<meta property="og:image:height" content="817">
 <meta property="og:title" content="Contact | Iowa On Demand">
 <meta property="og:description" content="Get in touch with Iowa On Demand to set up a print-on-demand spirit wear store for your Iowa school, or ask a question about an existing order.">
 <meta property="og:url" content="https://www.iowaondemand.com/contact/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Iowa On Demand">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Contact | Iowa On Demand">
+<meta name="twitter:description" content="Get in touch with Iowa On Demand to set up a print-on-demand spirit wear store for your Iowa school, or ask a question about an existing order.">
+<meta name="twitter:image" content="https://www.iowaondemand.com/assets/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -55,6 +62,22 @@ a{color:var(--teal-dark)}
 }
 a:focus-visible,button:focus-visible{outline:3px solid var(--teal-dark);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip-link{position:absolute;left:-999px;top:auto;background:var(--ink);color:#fff;
+  padding:12px 20px;z-index:100;text-decoration:none;font-family:'Oswald',sans-serif;
+  text-transform:uppercase;letter-spacing:.05em;font-size:.85rem}
+.skip-link:focus{left:12px;top:12px}
+
+/* breadcrumb */
+.breadcrumb{padding:12px 0}
+.breadcrumb ol{list-style:none;display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:0;
+  font-family:'IBM Plex Mono',monospace;font-size:.74rem;color:var(--gray)}
+.breadcrumb a{color:var(--gray);text-decoration:none}
+.breadcrumb a:hover{color:var(--teal-dark)}
+.breadcrumb li:not(:last-child)::after{content:"/";margin-left:6px;color:var(--line)}
+.breadcrumb li[aria-current]{color:var(--ink)}
 
 /* header */
 header.site{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);
@@ -109,6 +132,8 @@ nav.links a:hover{color:var(--teal-dark)}
 .feature h3{margin-top:.5em}
 .feature p{margin:0;font-size:.92rem;color:var(--gray)}
 @media (min-width:700px){.section{padding:56px 0}}
+.facts3{display:grid;grid-template-columns:1fr;gap:14px;margin-top:10px}
+@media (min-width:700px){.facts3{grid-template-columns:repeat(3,1fr)}}
 
 /* roster grid */
 .roster{display:grid;grid-template-columns:1fr;gap:14px;margin-top:24px}
@@ -122,6 +147,8 @@ nav.links a:hover{color:var(--teal-dark)}
 .logo-wrap.placeholder{background:var(--paper);border:1px dashed var(--line);border-radius:50%;
   color:var(--gray);font-weight:700;font-size:1.3rem;font-family:'Oswald',sans-serif}
 .jersey h3{margin:0;font-size:1.02rem}
+.jersey h3 a{color:var(--ink);text-decoration:none}
+.jersey h3 a:hover{color:var(--teal-dark)}
 .jersey .mascot{color:var(--gray);font-family:'IBM Plex Mono',monospace;font-size:.72rem;
   text-transform:uppercase;letter-spacing:.07em}
 .jersey .city{color:var(--teal-dark);font-family:'IBM Plex Mono',monospace;font-size:.68rem;
@@ -146,7 +173,7 @@ nav.links a:hover{color:var(--teal-dark)}
 
 /* faq */
 .faq-item{border-bottom:1px solid var(--line);padding:18px 0}
-.faq-item h3{margin:0 0 8px;font-size:1.02rem;font-family:'Inter',sans-serif;
+.faq-item h2{margin:0 0 8px;font-size:1.02rem;font-family:'Inter',sans-serif;
   text-transform:none;letter-spacing:0;font-weight:700;color:var(--teal-dark)}
 .faq-item p{margin:0;color:#3a3d44}
 
@@ -187,17 +214,18 @@ footer a:hover{color:var(--teal-dark)}
 .contact-card li{margin-bottom:8px}
 @media (min-width:700px){.contact-card{padding:34px}}
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "Iowa On Demand", "url": "https://www.iowaondemand.com/", "email": "info@iowaondemand.com", "parentOrganization": {"@type": "Organization", "name": "P&M Apparel", "url": "https://www.pmapparel.com/"}, "sameAs": ["https://www.facebook.com/profile.php?id=61568774887639", "https://www.instagram.com/iowaondemand/"], "areaServed": [{"@type": "City", "name": "Alleman, Iowa"}, {"@type": "City", "name": "Ankeny, Iowa"}, {"@type": "City", "name": "Bondurant, Iowa"}, {"@type": "City", "name": "Cambridge, Iowa"}, {"@type": "City", "name": "Dallas Center, Iowa"}, {"@type": "City", "name": "Des Moines, Iowa"}, {"@type": "City", "name": "Elkhart, Iowa"}, {"@type": "City", "name": "Farrar, Iowa"}, {"@type": "City", "name": "Granger, Iowa"}, {"@type": "City", "name": "Grimes, Iowa"}, {"@type": "City", "name": "Huxley, Iowa"}, {"@type": "City", "name": "Johnston, Iowa"}, {"@type": "City", "name": "Kelley, Iowa"}, {"@type": "City", "name": "Perry, Iowa"}, {"@type": "City", "name": "Polk City, Iowa"}, {"@type": "City", "name": "Saylorville, Iowa"}, {"@type": "City", "name": "Sheldahl, Iowa"}, {"@type": "City", "name": "Slater, Iowa"}, {"@type": "City", "name": "Woodward, Iowa"}], "description": "Print-on-demand spirit wear stores for Iowa schools, produced in Polk City, Iowa."}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": ["Organization", "LocalBusiness"], "name": "Iowa On Demand", "url": "https://www.iowaondemand.com/", "email": "info@iowaondemand.com", "logo": "https://www.iowaondemand.com/assets/logo.png", "dateModified": "2026-08-07", "address": {"@type": "PostalAddress", "streetAddress": "1100 South 5th St", "addressLocality": "Polk City", "addressRegion": "IA", "postalCode": "50226", "addressCountry": "US"}, "parentOrganization": {"@type": "Organization", "name": "P&M Apparel", "url": "https://www.pmapparel.com/"}, "sameAs": ["https://www.facebook.com/profile.php?id=61568774887639", "https://www.instagram.com/iowaondemand/"], "areaServed": [{"@type": "City", "name": "Alleman, Iowa"}, {"@type": "City", "name": "Ankeny, Iowa"}, {"@type": "City", "name": "Bondurant, Iowa"}, {"@type": "City", "name": "Cambridge, Iowa"}, {"@type": "City", "name": "Dallas Center, Iowa"}, {"@type": "City", "name": "Des Moines, Iowa"}, {"@type": "City", "name": "Elkhart, Iowa"}, {"@type": "City", "name": "Farrar, Iowa"}, {"@type": "City", "name": "Granger, Iowa"}, {"@type": "City", "name": "Grimes, Iowa"}, {"@type": "City", "name": "Huxley, Iowa"}, {"@type": "City", "name": "Johnston, Iowa"}, {"@type": "City", "name": "Kelley, Iowa"}, {"@type": "City", "name": "Perry, Iowa"}, {"@type": "City", "name": "Polk City, Iowa"}, {"@type": "City", "name": "Saylorville, Iowa"}, {"@type": "City", "name": "Sheldahl, Iowa"}, {"@type": "City", "name": "Slater, Iowa"}, {"@type": "City", "name": "Woodward, Iowa"}], "description": "Print-on-demand spirit wear stores for Iowa schools, produced in Polk City, Iowa.", "member": [{"@type": "EducationalOrganization", "name": "North Polk", "url": "https://pmapparel.chipply.com/npiod/", "areaServed": [{"@type": "City", "name": "Alleman, Iowa"}, {"@type": "City", "name": "Elkhart, Iowa"}, {"@type": "City", "name": "Polk City, Iowa"}, {"@type": "City", "name": "Sheldahl, Iowa"}]}, {"@type": "EducationalOrganization", "name": "Woodward-Granger", "url": "https://pmapparel.chipply.com/iodwg/", "areaServed": [{"@type": "City", "name": "Woodward, Iowa"}, {"@type": "City", "name": "Granger, Iowa"}]}, {"@type": "EducationalOrganization", "name": "Ankeny Christian Academy", "url": "https://pmapparel.chipply.com/iodaca", "areaServed": [{"@type": "City", "name": "Ankeny, Iowa"}]}, {"@type": "EducationalOrganization", "name": "Ankeny Centennial", "url": "https://pmapparel.chipply.com/centiod/?action=viewall", "areaServed": [{"@type": "City", "name": "Ankeny, Iowa"}]}, {"@type": "EducationalOrganization", "name": "Ankeny", "url": "https://pmapparel.chipply.com/ioda/?action=viewall", "areaServed": [{"@type": "City", "name": "Ankeny, Iowa"}]}, {"@type": "EducationalOrganization", "name": "Saydel", "url": "https://pmapparel.chipply.com/siod/?action=viewall", "areaServed": [{"@type": "City", "name": "Des Moines, Iowa"}, {"@type": "City", "name": "Saylorville, Iowa"}]}, {"@type": "EducationalOrganization", "name": "Ballard", "url": "https://www.iowaondemand.com/schools/", "areaServed": [{"@type": "City", "name": "Huxley, Iowa"}, {"@type": "City", "name": "Cambridge, Iowa"}, {"@type": "City", "name": "Kelley, Iowa"}, {"@type": "City", "name": "Slater, Iowa"}]}, {"@type": "EducationalOrganization", "name": "Bondurant-Farrar", "url": "https://www.iowaondemand.com/schools/", "areaServed": [{"@type": "City", "name": "Bondurant, Iowa"}, {"@type": "City", "name": "Farrar, Iowa"}]}, {"@type": "EducationalOrganization", "name": "Perry", "url": "https://www.iowaondemand.com/schools/", "areaServed": [{"@type": "City", "name": "Perry, Iowa"}]}, {"@type": "EducationalOrganization", "name": "Roosevelt", "url": "https://www.iowaondemand.com/schools/", "areaServed": [{"@type": "City", "name": "Des Moines, Iowa"}]}, {"@type": "EducationalOrganization", "name": "Dallas Center-Grimes", "url": "https://www.iowaondemand.com/schools/", "areaServed": [{"@type": "City", "name": "Dallas Center, Iowa"}, {"@type": "City", "name": "Grimes, Iowa"}]}, {"@type": "EducationalOrganization", "name": "Johnston", "url": "https://www.iowaondemand.com/schools/", "areaServed": [{"@type": "City", "name": "Johnston, Iowa"}]}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.iowaondemand.com/"}, {"@type": "ListItem", "position": 2, "name": "Contact", "item": "https://www.iowaondemand.com/contact/"}]}</script>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 <header class="site">
   <div class="wrap nav">
     <a class="wordmark" href="/">
       <img class="badge" src="/assets/logo.png" alt="Iowa On Demand logo" width="40" height="40" loading="eager">
       <span class="wordmark-text">Iowa On Demand<span>a division of P&amp;M Apparel</span></span>
     </a>
-    <nav class="links">
+    <nav class="links" aria-label="Primary">
       <a href="/">Home</a>
 <a href="/schools/">Schools</a>
 <a href="/faq/">FAQ</a>
@@ -206,7 +234,7 @@ footer a:hover{color:var(--teal-dark)}
     </nav>
   </div>
 </header>
-<div class="stat-bar" aria-hidden="true">
+<div class="stat-bar">
   <div class="stat-grid">
     <div>12 Schools Partnered</div>
     <div>3&ndash;5 Day Turnaround</div>
@@ -214,7 +242,13 @@ footer a:hover{color:var(--teal-dark)}
     <div>Printed in Polk City, Iowa</div>
   </div>
 </div>
-<main>
+<div class="wrap breadcrumb">
+    <nav aria-label="Breadcrumb"><ol>
+      <li><a href="/">Home</a></li>
+      <li aria-current="page">Contact</li>
+    </ol></nav>
+  </div>
+<main id="main">
 
 <section class="hero">
   <div class="wrap">
@@ -233,7 +267,7 @@ footer a:hover{color:var(--teal-dark)}
         <li>Ask about our process, products, or anything else.</li>
       </ul>
       <p style="color:var(--gray);font-size:.92rem">We're here to help your school shine with custom, on-demand gear made in Iowa.</p>
-      <a href="https://form.jotform.com/243246726056054" target="_blank" rel="noopener noreferrer" class="btn">Get In Touch</a>
+      <a href="https://form.jotform.com/243246726056054" target="_blank" rel="noopener noreferrer" class="btn">Get In Touch<span class="sr-only"> (opens in new tab)</span></a>
       <p style="margin-top:18px;font-size:.9rem">Or email us directly at <a href="mailto:info@iowaondemand.com">info@iowaondemand.com</a></p>
     </div>
   </div>
@@ -247,10 +281,10 @@ footer a:hover{color:var(--teal-dark)}
         <img class="badge" src="/assets/logo.png" alt="Iowa On Demand logo" width="40" height="40" loading="eager">
         <span class="wordmark-text">Iowa On Demand</span>
       </a>
-      <p style="max-width:280px;color:var(--gray);font-size:.9rem">Print-on-demand spirit wear for Iowa schools. A division of <a href="https://www.pmapparel.com/" target="_blank" rel="noopener noreferrer">P&amp;M Apparel</a>, Polk City, Iowa.</p>
+      <p style="max-width:280px;color:var(--gray);font-size:.9rem">Print-on-demand spirit wear for Iowa schools. A division of <a href="https://www.pmapparel.com/" target="_blank" rel="noopener noreferrer">P&amp;M Apparel<span class="sr-only"> (opens in new tab)</span></a>, Polk City, Iowa.</p>
       <div class="social">
-        <a href="https://www.facebook.com/profile.php?id=61568774887639" target="_blank" rel="noopener noreferrer">f</a>
-        <a href="https://www.instagram.com/iowaondemand/" target="_blank" rel="noopener noreferrer">ig</a>
+        <a href="https://www.facebook.com/profile.php?id=61568774887639" target="_blank" rel="noopener noreferrer" aria-label="Iowa On Demand on Facebook">f<span class="sr-only"> (opens in new tab)</span></a>
+        <a href="https://www.instagram.com/iowaondemand/" target="_blank" rel="noopener noreferrer" aria-label="Iowa On Demand on Instagram">ig<span class="sr-only"> (opens in new tab)</span></a>
       </div>
     </div>
     <div class="cols">
@@ -264,8 +298,8 @@ footer a:hover{color:var(--teal-dark)}
       <div>
         <h4>Get in touch</h4>
         <a href="mailto:info@iowaondemand.com">info@iowaondemand.com</a>
-        <a href="https://form.jotform.com/243246726056054" target="_blank" rel="noopener noreferrer">Add your school</a>
-        <a href="https://www.pmapparel.com/" target="_blank" rel="noopener noreferrer">pmapparel.com</a>
+        <a href="https://form.jotform.com/243246726056054" target="_blank" rel="noopener noreferrer">Add your school<span class="sr-only"> (opens in new tab)</span></a>
+        <a href="https://www.pmapparel.com/" target="_blank" rel="noopener noreferrer">pmapparel.com<span class="sr-only"> (opens in new tab)</span></a>
       </div>
     </div>
   </div>
