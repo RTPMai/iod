@@ -21,48 +21,53 @@ TODAY = datetime.date.today().isoformat()
 UPDATED_HUMAN = datetime.date.today().strftime("%B %-d, %Y")
 
 # Twelve partnered schools. chipply=None means the store link isn't live yet.
+# All twelve are live on the 2026-27 (IOD*26) store slugs as of Aug 31, 2026.
 # logo=None means we don't have real mascot art yet -- shows an initial badge.
 # "cities" lists EVERY community the district officially serves (verified
 # against each district's own site / NCES / Wikipedia, not just its mailing
 # address) -- this drives both the on-card city line and the "Communities We
 # Serve" directory, so keep it complete when adding a school.
-# OWNER: fill in chipply URLs + logo paths for the six new schools as they go
-# live (drop the file in assets/schools/ and re-run).
+# OWNER: adding a school means a chipply URL, a logo in assets/schools/ (SVG
+# preferred -- it scales; the PNGs here are lower-res rasters of the same art),
+# and a complete "cities" list. Then re-run.
+# NOTE: build() wipes site/ and re-copies assets from the ROOT ./assets dir.
+# On a fresh clone that dir does not exist -- run `cp -r site/assets ./assets`
+# BEFORE the first build or the images and site/api/contact.js are lost.
 SCHOOLS = [
-    {"name": "North Polk",               "mascot": "Comets",  "chipply": "https://pmapparel.chipply.com/npiod/",
+    {"name": "North Polk",               "mascot": "Comets",  "chipply": "https://pmapparel.chipply.com/IODNP26",
      "logo": "/assets/schools/northpolk.png",
      "cities": ["Alleman", "Elkhart", "Polk City", "Sheldahl"]},
-    {"name": "Woodward-Granger",         "mascot": "Hawks",   "chipply": "https://pmapparel.chipply.com/iodwg/",
+    {"name": "Woodward-Granger",         "mascot": "Hawks",   "chipply": "https://pmapparel.chipply.com/IODWG26",
      "logo": "/assets/schools/woodward-granger.png",
      "cities": ["Woodward", "Granger"]},
-    {"name": "Ankeny Christian Academy", "mascot": "Eagles",  "chipply": "https://pmapparel.chipply.com/iodaca",
+    {"name": "Ankeny Christian Academy", "mascot": "Eagles",  "chipply": "https://pmapparel.chipply.com/IODACA26",
      "logo": "/assets/schools/ankeny-christian-academy.png",
      "cities": ["Ankeny"]},
-    {"name": "Ankeny Centennial",        "mascot": "Jaguars", "chipply": "https://pmapparel.chipply.com/centiod/?action=viewall",
+    {"name": "Ankeny Centennial",        "mascot": "Jaguars", "chipply": "https://pmapparel.chipply.com/IODCENT26",
      "logo": "/assets/schools/ankeny-centennial.png",
      "cities": ["Ankeny"]},
-    {"name": "Ankeny",                   "mascot": "Hawks",   "chipply": "https://pmapparel.chipply.com/ioda/?action=viewall",
+    {"name": "Ankeny",                   "mascot": "Hawks",   "chipply": "https://pmapparel.chipply.com/IODAH26",
      "logo": "/assets/schools/ankeny.png",
      "cities": ["Ankeny"]},
-    {"name": "Saydel",                   "mascot": "Eagles",  "chipply": "https://pmapparel.chipply.com/siod/?action=viewall",
+    {"name": "Saydel",                   "mascot": "Eagles",  "chipply": "https://pmapparel.chipply.com/IODSE26",
      "logo": "/assets/schools/saydel.png",
      "cities": ["Des Moines", "Saylorville"]},
-    {"name": "Ballard",                  "mascot": "Bombers",     "chipply": None,
+    {"name": "Ballard",                  "mascot": "Bombers",     "chipply": "https://pmapparel.chipply.com/IODBALLARD26",
      "logo": "/assets/schools/ballard.svg",
      "cities": ["Huxley", "Cambridge", "Kelley", "Slater"]},
-    {"name": "Bondurant-Farrar",         "mascot": "Bluejays",    "chipply": None,
+    {"name": "Bondurant-Farrar",         "mascot": "Bluejays",    "chipply": "https://pmapparel.chipply.com/IODBF26",
      "logo": "/assets/schools/bondurant-farrar.svg",
      "cities": ["Bondurant", "Farrar"]},
-    {"name": "Perry",                    "mascot": "Bluejays",    "chipply": None,
+    {"name": "Perry",                    "mascot": "Bluejays",    "chipply": "https://pmapparel.chipply.com/IODPB26",
      "logo": "/assets/schools/perry.svg",
      "cities": ["Perry"]},
-    {"name": "Roosevelt",                "mascot": "Roughriders", "chipply": None,
+    {"name": "Roosevelt",                "mascot": "Roughriders", "chipply": "https://pmapparel.chipply.com/IODRR26",
      "logo": "/assets/schools/roosevelt.svg",
      "cities": ["Des Moines"]},
-    {"name": "Dallas Center-Grimes",     "mascot": "Mustangs",    "chipply": None,
+    {"name": "Dallas Center-Grimes",     "mascot": "Mustangs",    "chipply": "https://pmapparel.chipply.com/IODDCG26",
      "logo": "/assets/schools/dallas-center-grimes.svg",
      "cities": ["Dallas Center", "Grimes"]},
-    {"name": "Johnston",                 "mascot": "Dragons",     "chipply": None,
+    {"name": "Johnston",                 "mascot": "Dragons",     "chipply": "https://pmapparel.chipply.com/IODJD26",
      "logo": "/assets/schools/johnston.svg",
      "cities": ["Johnston"]},
 ]
@@ -316,11 +321,31 @@ footer a:hover{color:var(--teal-dark)}
   footer .cols{flex-direction:row;gap:48px}}
 
 /* contact */
-.contact-card{border:1px solid var(--line);background:var(--card);padding:22px;max-width:560px;
+.contact-card{border:1px solid var(--line);background:var(--card);padding:22px;
   border-radius:6px;box-shadow:0 1px 3px rgba(20,20,10,.05)}
 .contact-card ul{margin:0 0 20px;padding-left:20px;color:#3a3d44}
 .contact-card li{margin-bottom:8px}
 @media (min-width:700px){.contact-card{padding:34px}}
+.contact-grid{display:grid;grid-template-columns:1fr;gap:20px;align-items:start}
+@media (min-width:900px){.contact-grid{grid-template-columns:5fr 7fr;gap:28px}}
+.contact-form-card{border:1px solid var(--line);background:var(--card);border-radius:6px;
+  box-shadow:0 1px 3px rgba(20,20,10,.05);padding:22px}
+@media (min-width:700px){.contact-form-card{padding:34px}}
+.form-row{margin-bottom:16px}
+.form-row label{display:block;font-family:'IBM Plex Mono',monospace;font-size:.72rem;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--gray);margin-bottom:6px}
+.form-row input,.form-row textarea{width:100%;box-sizing:border-box;border:1px solid var(--line);
+  border-radius:3px;padding:11px 12px;font-family:'Inter',sans-serif;font-size:.95rem;
+  color:var(--ink);background:var(--paper)}
+.form-row input:focus,.form-row textarea:focus{outline:none;border-color:var(--teal-dark);
+  box-shadow:0 0 0 3px rgba(0,142,169,.15)}
+.form-row textarea{resize:vertical;min-height:120px}
+.hp-field{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.form-status{margin:14px 0 0;font-size:.9rem;min-height:1.2em}
+.form-status.success{color:var(--teal-dark);font-weight:600}
+.form-status.error{color:#b3261e;font-weight:600}
+#cf-submit{border:none;cursor:pointer}
+#cf-submit:disabled{opacity:.6;cursor:not-allowed}
 """
 
 BADGE_IMG = '<img class="badge" src="/assets/logo.png" alt="Iowa On Demand logo" width="40" height="40" loading="eager">'
@@ -405,6 +430,14 @@ def page(path, crumbs, meta_title, meta_desc, body_html, extra_schema=None):
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZJZ325GQXS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){{dataLayer.push(arguments);}}
+  gtag('js', new Date());
+  gtag('config', 'G-ZJZ325GQXS');
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{meta_title}</title>
@@ -668,19 +701,90 @@ def contact_body():
 </section>
 <section class="section" style="padding-top:0">
   <div class="wrap">
-    <div class="contact-card">
-      <h3 style="text-transform:none;font-family:'Inter',sans-serif;font-size:1.15rem;color:var(--ink)">Why reach out?</h3>
-      <ul>
-        <li>Partner with us for your school's custom apparel.</li>
-        <li>Set up a dedicated online store for students, parents, and staff.</li>
-        <li>Ask about our process, products, or anything else.</li>
-      </ul>
-      <p style="color:var(--gray);font-size:.92rem">We're here to help your school shine with custom, on-demand gear made in Iowa.</p>
-      {ext(JOTFORM_URL, "Get In Touch", cls="btn")}
-      <p style="margin-top:18px;font-size:.9rem">Or email us directly at <a href="mailto:{EMAIL}">{EMAIL}</a></p>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <h3 style="text-transform:none;font-family:'Inter',sans-serif;font-size:1.15rem;color:var(--ink)">Why reach out?</h3>
+        <ul>
+          <li>Partner with us for your school's custom apparel.</li>
+          <li>Set up a dedicated online store for students, parents, and staff.</li>
+          <li>Ask about our process, products, or anything else.</li>
+        </ul>
+        <p style="color:var(--gray);font-size:.92rem">We're here to help your school shine with custom, on-demand gear made in Iowa.</p>
+        <p style="margin-top:18px;font-size:.9rem">Prefer email? Reach us directly at <a href="mailto:{EMAIL}">{EMAIL}</a></p>
+      </div>
+      <div class="contact-form-card">
+        <form id="contact-form" novalidate>
+          <div class="form-row">
+            <label for="cf-name">Name</label>
+            <input type="text" id="cf-name" name="name" autocomplete="name" required>
+          </div>
+          <div class="form-row">
+            <label for="cf-email">Email</label>
+            <input type="email" id="cf-email" name="email" autocomplete="email" required>
+          </div>
+          <div class="form-row">
+            <label for="cf-school">School <span style="text-transform:none">(optional)</span></label>
+            <input type="text" id="cf-school" name="school" autocomplete="organization">
+          </div>
+          <div class="form-row">
+            <label for="cf-message">Message</label>
+            <textarea id="cf-message" name="message" rows="5" required></textarea>
+          </div>
+          <div class="hp-field" aria-hidden="true">
+            <label for="cf-company">Leave this field blank</label>
+            <input type="text" id="cf-company" name="company" tabindex="-1" autocomplete="off">
+          </div>
+          <button type="submit" class="btn" id="cf-submit">Send Message</button>
+          <p class="form-status" id="cf-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
     </div>
   </div>
 </section>
+<script>
+(function(){{
+  var form = document.getElementById('contact-form');
+  if (!form) return;
+  var status = document.getElementById('cf-status');
+  var btn = document.getElementById('cf-submit');
+  form.addEventListener('submit', function(e){{
+    e.preventDefault();
+    status.textContent = '';
+    status.className = 'form-status';
+    var payload = {{
+      name: form.name.value.trim(),
+      email: form.email.value.trim(),
+      school: form.school.value.trim(),
+      message: form.message.value.trim(),
+      company: form.company.value
+    }};
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    fetch('/api/contact', {{
+      method: 'POST',
+      headers: {{'Content-Type': 'application/json'}},
+      body: JSON.stringify(payload)
+    }}).then(function(r){{
+      return r.json().catch(function(){{ return {{}}; }}).then(function(j){{ return {{ok: r.ok, body: j}}; }});
+    }}).then(function(res){{
+      if (res.ok) {{
+        form.reset();
+        status.textContent = "Thanks \u2013 we'll be in touch shortly.";
+        status.className = 'form-status success';
+      }} else {{
+        status.textContent = (res.body && res.body.error) || 'Something went wrong. Please try again or email us directly at {EMAIL}.';
+        status.className = 'form-status error';
+      }}
+    }}).catch(function(){{
+      status.textContent = 'Something went wrong. Please try again or email us directly at {EMAIL}.';
+      status.className = 'form-status error';
+    }}).finally(function(){{
+      btn.disabled = false;
+      btn.textContent = 'Send Message';
+    }});
+  }});
+}})();
+</script>
 """
 
 def school_page_body(s):
