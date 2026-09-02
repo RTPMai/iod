@@ -21,7 +21,8 @@ TODAY = datetime.date.today().isoformat()
 UPDATED_HUMAN = datetime.date.today().strftime("%B %-d, %Y")
 
 # Twelve partnered schools. chipply=None means the store link isn't live yet.
-# All twelve are live on the 2026-27 (IOD*26) store slugs as of Aug 31, 2026.
+# All twelve are live as of Sep 2, 2026. Eleven use the 2026-27 IOD*26 slugs;
+# North Polk was moved to the custom slug /npiod.
 # logo=None means we don't have real mascot art yet -- shows an initial badge.
 # "cities" lists EVERY community the district officially serves (verified
 # against each district's own site / NCES / Wikipedia, not just its mailing
@@ -34,7 +35,7 @@ UPDATED_HUMAN = datetime.date.today().strftime("%B %-d, %Y")
 # On a fresh clone that dir does not exist -- run `cp -r site/assets ./assets`
 # BEFORE the first build or the images and site/api/contact.js are lost.
 SCHOOLS = [
-    {"name": "North Polk",               "mascot": "Comets",  "chipply": "https://pmapparel.chipply.com/IODNP26",
+    {"name": "North Polk",               "mascot": "Comets",  "chipply": "https://pmapparel.chipply.com/npiod",
      "logo": "/assets/schools/northpolk.png",
      "cities": ["Alleman", "Elkhart", "Polk City", "Sheldahl"]},
     {"name": "Woodward-Granger",         "mascot": "Hawks",   "chipply": "https://pmapparel.chipply.com/IODWG26",
