@@ -1,4 +1,16 @@
 {
+  "redirects": [
+    {
+      "source": "/schools/bondurant-farrar",
+      "destination": "/schools/",
+      "permanent": true
+    },
+    {
+      "source": "/schools/bondurant-farrar/",
+      "destination": "/schools/",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",

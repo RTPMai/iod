@@ -20,8 +20,8 @@ EMAIL = "info@iowaondemand.com"
 TODAY = datetime.date.today().isoformat()
 UPDATED_HUMAN = datetime.date.today().strftime("%B %-d, %Y")
 
-# Twelve partnered schools. chipply=None means the store link isn't live yet.
-# All twelve are live as of Sep 2, 2026. Eleven use the 2026-27 IOD*26 slugs;
+# Partnered schools. chipply=None means the store link isn't live yet.
+# All live as of Sep 2, 2026 (Bondurant-Farrar removed Sep 17, 2026). All but North Polk use the 2026-27 IOD*26 slugs;
 # North Polk was moved to the custom slug /npiod.
 # logo=None means we don't have real mascot art yet -- shows an initial badge.
 # "cities" lists EVERY community the district officially serves (verified
@@ -56,9 +56,6 @@ SCHOOLS = [
     {"name": "Ballard",                  "mascot": "Bombers",     "chipply": "https://pmapparel.chipply.com/IODBALLARD26",
      "logo": "/assets/schools/ballard.svg",
      "cities": ["Huxley", "Cambridge", "Kelley", "Slater"]},
-    {"name": "Bondurant-Farrar",         "mascot": "Bluejays",    "chipply": "https://pmapparel.chipply.com/IODBF26",
-     "logo": "/assets/schools/bondurant-farrar.svg",
-     "cities": ["Bondurant", "Farrar"]},
     {"name": "Perry",                    "mascot": "Bluejays",    "chipply": "https://pmapparel.chipply.com/IODPB26",
      "logo": "/assets/schools/perry.svg",
      "cities": ["Perry"]},
@@ -72,6 +69,12 @@ SCHOOLS = [
      "logo": "/assets/schools/johnston.svg",
      "cities": ["Johnston"]},
 ]
+
+NUM_WORDS = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven",
+             8: "eight", 9: "nine", 10: "ten", 11: "eleven", 12: "twelve", 13: "thirteen",
+             14: "fourteen", 15: "fifteen", 16: "sixteen", 17: "seventeen", 18: "eighteen"}
+N = len(SCHOOLS)
+N_WORD = NUM_WORDS[N]
 
 def slugify(text):
     return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
@@ -87,7 +90,7 @@ def city_display(cities):
 COMMUNITIES = sorted({c for s in SCHOOLS for c in s["cities"]})
 
 # community -> schools that serve it, preserving SCHOOLS' master order so a
-# school's numbered badge (01-12) stays consistent everywhere it appears.
+# school's numbered badge (01, 02, ...) stays consistent everywhere it appears.
 SCHOOLS_BY_COMMUNITY = {
     c: [s for s in SCHOOLS if c in s["cities"]] for c in COMMUNITIES
 }
@@ -481,7 +484,7 @@ def page(path, crumbs, meta_title, meta_desc, body_html, extra_schema=None):
 </header>
 <div class="stat-bar">
   <div class="stat-grid">
-    <div>12 Schools Partnered</div>
+    <div>{N} Schools Partnered</div>
     <div>3&ndash;5 Day Turnaround</div>
     <div>Zero Setup Cost</div>
     <div>Printed in Polk City, Iowa</div>
@@ -573,7 +576,7 @@ def home_body():
 <section class="hero">
   <div class="wrap">
     <span class="eyebrow">A Division of P&amp;M Apparel &middot; Polk City, Iowa</span>
-    <h1>Twelve schools.<br>One place to shop.</h1>
+    <h1>{N_WORD.capitalize()} schools.<br>One place to shop.</h1>
     <p class="lead">Iowa On Demand builds a dedicated online store for your school's spirit wear. Students, parents, and staff order anytime. Every piece prints on demand, right here in Iowa.</p>
     <div class="ctas">
       <a class="btn" href="/schools/">Shop Your School</a>
@@ -599,7 +602,7 @@ def home_body():
     <div class="roster">
       {preview_html}
     </div>
-    <p style="margin-top:26px"><a href="/schools/">See all 12 partnered schools &rarr;</a></p>
+    <p style="margin-top:26px"><a href="/schools/">See all {N} partnered schools &rarr;</a></p>
   </div>
 </section>
 
@@ -642,7 +645,7 @@ def schools_body():
   <div class="wrap">
     <span class="eyebrow">Our Partnered Schools</span>
     <h1>Shop your school.</h1>
-    <p class="lead">Twelve Iowa schools, twelve dedicated stores, serving families from Ankeny and Johnston to Grimes, Bondurant, Perry, and the Des Moines metro. Pick yours below to shop spirit wear, team gear, and fundraiser apparel, printed on demand.</p>
+    <p class="lead">{N_WORD.capitalize()} Iowa schools, {N_WORD} dedicated stores, serving families from Ankeny and Johnston to Grimes, Perry, and the Des Moines metro. Pick yours below to shop spirit wear, team gear, and fundraiser apparel, printed on demand.</p>
   </div>
 </section>
 <section class="section">
@@ -855,7 +858,7 @@ def school_page_body(s):
     <ul style="list-style:none;padding:0;margin:22px 0 0;display:flex;flex-direction:column;gap:10px;max-width:420px">
       {other_links}
     </ul>
-    <p style="margin-top:18px"><a href="/schools/">See all 12 partnered schools &rarr;</a></p>
+    <p style="margin-top:18px"><a href="/schools/">See all {N} partnered schools &rarr;</a></p>
   </div>
 </section>
 
@@ -900,14 +903,14 @@ PAGES = {
     "/": {
         "crumbs": [],
         "title": "Iowa On Demand | School Spirit Wear for Ankeny, Johnston, Grimes & More",
-        "desc": "Iowa On Demand builds print-on-demand spirit wear stores for schools across Ankeny, Johnston, Grimes, Bondurant, Perry, and the Des Moines metro. No minimums, no setup cost, printed locally in Polk City, Iowa.",
+        "desc": "Iowa On Demand builds print-on-demand spirit wear stores for schools across Ankeny, Johnston, Grimes, Perry, and the Des Moines metro. No minimums, no setup cost, printed locally in Polk City, Iowa.",
         "body": home_body(),
         "schema": None,
     },
     "/schools/": {
         "crumbs": [("Schools", "/schools/")],
         "title": "Partnered Schools in Ankeny, Johnston, Grimes & Central Iowa | Iowa On Demand",
-        "desc": "Shop spirit wear for all 12 Iowa On Demand partnered schools, serving Ankeny, Alleman, Polk City, Woodward, Bondurant, Johnston, Grimes, Perry, and Des Moines.",
+        "desc": f"Shop spirit wear for all {N} Iowa On Demand partnered schools, serving Ankeny, Alleman, Polk City, Woodward, Johnston, Grimes, Perry, and Des Moines.",
         "body": schools_body(),
         "schema": None,
     },
@@ -929,7 +932,7 @@ PAGES = {
 
 # One dedicated page per school -- /schools/{slug}/ -- so each school can
 # rank on its own for "<school> spirit wear" searches instead of competing
-# with 11 others on a single shared page.
+# with every other school on a single shared page.
 for _s in SCHOOLS:
     _slug = SCHOOL_SLUGS[_s["name"]]
     _path = f"/schools/{_slug}/"
@@ -990,6 +993,10 @@ def build():
     # vercel.json -- noindex the preview deployment until DNS cutover
     with open(os.path.join(root, "vercel.json"), "w", encoding="utf-8") as f:
         json.dump({
+            "redirects": [
+                {"source": "/schools/bondurant-farrar", "destination": "/schools/", "permanent": True},
+                {"source": "/schools/bondurant-farrar/", "destination": "/schools/", "permanent": True},
+            ],
             "headers": [{
                 "source": "/(.*)",
                 "headers": [{"key": "X-Robots-Tag", "value": "noindex"}]
