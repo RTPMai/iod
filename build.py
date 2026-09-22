@@ -117,7 +117,7 @@ FAQS = [
     ("What does it cost a school to set up a store?",
      "Nothing. There's no setup fee for a partnered school. We build and manage the store; you share the link."),
     ("My school isn't listed. How do we get started?",
-     "Tell us. Adding a school is quick, and there's no cost to get set up."),
+     f'Fill out the <a href="{JOTFORM_URL}" target="_blank" rel="noopener noreferrer">add your school form</a>. Adding a school is quick, and there\'s no cost to get set up.'),
     ("What areas of Iowa does Iowa On Demand serve?",
      f"We partner with schools across the Des Moines metro and central Iowa, including {', '.join(COMMUNITIES[:-1])}, and {COMMUNITIES[-1]}. If your community isn't on the list yet, reach out."),
 ]
@@ -279,6 +279,7 @@ nav.links a:hover{color:var(--teal-dark)}
   margin-top:auto;display:block}
 
 /* communities */
+.community-group{margin:0 0 6px;scroll-margin-top:90px}
 .community-list{columns:2;column-gap:10px;margin:22px 0 0;padding:0;list-style:none;max-width:640px}
 .community-list li{break-inside:avoid;margin-bottom:8px}
 .community-list a{display:block;text-align:center;background:var(--gold);color:var(--ink);
@@ -451,9 +452,9 @@ def page(path, crumbs, meta_title, meta_desc, body_html, extra_schema=None):
 <link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png">
 <link rel="apple-touch-icon" href="/assets/favicon-180.png">
 <meta name="theme-color" content="#ffffff">
-<meta property="og:image" content="{BASE}/assets/logo.png">
-<meta property="og:image:width" content="817">
-<meta property="og:image:height" content="817">
+<meta property="og:image" content="{BASE}/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:title" content="{meta_title}">
 <meta property="og:description" content="{meta_desc}">
 <meta property="og:url" content="{canonical}">
@@ -463,7 +464,7 @@ def page(path, crumbs, meta_title, meta_desc, body_html, extra_schema=None):
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{meta_title}">
 <meta name="twitter:description" content="{meta_desc}">
-<meta name="twitter:image" content="{BASE}/assets/logo.png">
+<meta name="twitter:image" content="{BASE}/assets/og.png">
 {FONT_LINKS}
 <style>{CSS}</style>
 {schema_tags}
@@ -561,13 +562,13 @@ def home_body():
         f'<div class="feature"><span class="num">{n}</span><h3>{t}</h3><p>{d}</p></div>'
         for n, t, d in features
     )
-    live_schools = [s for s in SCHOOLS if s["chipply"]][:6]
+    live_schools = [s for s in SCHOOLS if s["chipply"]]
     preview_html = "\n".join(jersey_card(s) for s in live_schools)
     def community_href(c):
         schools_here = SCHOOLS_BY_COMMUNITY[c]
         if len(schools_here) == 1:
             return f'/schools/{SCHOOL_SLUGS[schools_here[0]["name"]]}/'
-        return "/schools/"  # multiple schools serve this city -- send to the full roster
+        return f"/schools/#in-{slugify(c)}"  # several schools here: jump to that community's group
 
     chips_html = "\n".join(
         f'<li><a href="{community_href(c)}">{c}</a></li>' for c in COMMUNITIES
@@ -580,7 +581,7 @@ def home_body():
     <p class="lead">Iowa On Demand builds a dedicated online store for your school's spirit wear. Students, parents, and staff order anytime. Every piece prints on demand, right here in Iowa.</p>
     <div class="ctas">
       <a class="btn" href="/schools/">Shop Your School</a>
-      <a class="btn ghost" href="/contact/">Bring It To My School</a>
+      {ext(JOTFORM_URL, "Add Your School", cls="btn ghost")}
     </div>
   </div>
 </section>
@@ -602,7 +603,6 @@ def home_body():
     <div class="roster">
       {preview_html}
     </div>
-    <p style="margin-top:26px"><a href="/schools/">See all {N} partnered schools &rarr;</a></p>
   </div>
 </section>
 
@@ -640,6 +640,14 @@ def home_body():
 
 def schools_body():
     cards_html = "\n".join(jersey_card(s) for s in SCHOOLS)
+    # Communities served by more than one school get a short group line with an
+    # anchor, so the homepage city chips can land somewhere specific.
+    multi = [(c, v) for c, v in SCHOOLS_BY_COMMUNITY.items() if len(v) > 1]
+    groups_html = "".join(
+        f'<p id="in-{slugify(c)}" class="community-group"><strong>{c}:</strong> '
+        + ", ".join(f'<a href="/schools/{SCHOOL_SLUGS[s["name"]]}/">{s["name"]}</a>' for s in v)
+        + '</p>'
+        for c, v in multi)
     return f"""
 <section class="hero" style="padding-bottom:24px">
   <div class="wrap">
@@ -650,7 +658,8 @@ def schools_body():
 </section>
 <section class="section">
   <div class="wrap">
-    <div class="roster">
+    {groups_html}
+    <div class="roster" style="margin-top:20px">
       {cards_html}
     </div>
   </div>
@@ -959,6 +968,14 @@ def build():
     if os.path.isdir(src_assets):
         shutil.copytree(src_assets, dst_assets)
 
+    # serverless functions (api/contact.js) live at the repo root too, same
+    # reason: site/ is wiped every build.
+    src_api = os.path.join(os.path.dirname(os.path.abspath(__file__)), "api")
+    if os.path.isdir(src_api):
+        shutil.copytree(src_api, os.path.join(root, "api"))
+    else:
+        raise SystemExit("api/ missing at repo root: contact form would be lost. Restore api/contact.js first.")
+
     for path, p in PAGES.items():
         html = page(path, p["crumbs"], p["title"], p["desc"], p["body"], p["schema"])
         if path == "/":
@@ -980,7 +997,7 @@ def build():
     # robots.txt -- explicitly welcome AI crawlers, matching pmapparel.com pattern
     with open(os.path.join(root, "robots.txt"), "w", encoding="utf-8") as f:
         f.write(
-            "User-agent: *\nAllow: /\n\n"
+            "User-agent: *\nAllow: /\nDisallow: /api/\n\n"
             "User-agent: GPTBot\nAllow: /\n\n"
             "User-agent: OAI-SearchBot\nAllow: /\n\n"
             "User-agent: ClaudeBot\nAllow: /\n\n"
@@ -990,15 +1007,19 @@ def build():
             f"Sitemap: {BASE}/sitemap.xml\n"
         )
 
-    # vercel.json -- noindex the preview deployment until DNS cutover
+    # vercel.json -- the live domain is indexable; only *.vercel.app preview
+    # deployments get noindex. /home is the old Google Sites homepage URL.
     with open(os.path.join(root, "vercel.json"), "w", encoding="utf-8") as f:
         json.dump({
             "redirects": [
+                {"source": "/home", "destination": "/", "permanent": True},
+                {"source": "/home/", "destination": "/", "permanent": True},
                 {"source": "/schools/bondurant-farrar", "destination": "/schools/", "permanent": True},
                 {"source": "/schools/bondurant-farrar/", "destination": "/schools/", "permanent": True},
             ],
             "headers": [{
                 "source": "/(.*)",
+                "has": [{"type": "host", "value": "(.*)\\.vercel\\.app"}],
                 "headers": [{"key": "X-Robots-Tag", "value": "noindex"}]
             }]
         }, f, indent=2)
